@@ -39,7 +39,7 @@
 
     <modules>
         <module>fitting-core</module>
-        <module>proxy</module>
+        <module>proxy-factory</module>
     </modules>
 
     <properties>
