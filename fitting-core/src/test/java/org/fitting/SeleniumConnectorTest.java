@@ -14,7 +14,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.net.URL;
 
-import static org.fitting.ReflectionUtility.extract;
+import static org.fitting.util.ReflectionUtility.extract;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

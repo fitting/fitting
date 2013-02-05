@@ -40,6 +40,7 @@
     <modules>
         <module>fitting-core</module>
         <module>proxy-factory</module>
+        <module>util</module>
     </modules>
 
     <properties>
@@ -88,6 +89,13 @@
             <dependency>
                 <groupId>org.fitting.proxy</groupId>
                 <artifactId>server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fitting</groupId>
+                <artifactId>fitting-util</artifactId>
+                <classifier>tests</classifier>
+                <scope>test</scope>
                 <version>${project.version}</version>
             </dependency>
 

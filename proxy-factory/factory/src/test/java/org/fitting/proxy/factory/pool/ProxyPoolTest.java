@@ -20,8 +20,8 @@ import javax.inject.Inject;
 import java.util.Map;
 
 import static com.google.inject.Guice.*;
-import static org.fitting.proxy.factory.DIUtility.extract;
-import static org.fitting.proxy.factory.DIUtility.inject;
+import static org.fitting.util.ReflectionUtility.extract;
+import static org.fitting.util.ReflectionUtility.inject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;

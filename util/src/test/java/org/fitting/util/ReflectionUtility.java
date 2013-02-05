@@ -1,4 +1,4 @@
-package org.fitting;
+package org.fitting.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;

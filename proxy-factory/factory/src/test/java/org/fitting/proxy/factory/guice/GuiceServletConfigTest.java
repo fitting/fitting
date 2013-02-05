@@ -13,7 +13,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import javax.inject.Inject;
 
-import static org.fitting.proxy.factory.DIUtility.*;
+import static org.fitting.util.ReflectionUtility.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.powermock.api.mockito.PowerMockito.*;

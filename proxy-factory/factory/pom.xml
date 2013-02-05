@@ -87,6 +87,13 @@
             <groupId>org.fitting.proxy</groupId>
             <artifactId>server</artifactId>
         </dependency>
+        <!-- Modules -->
+        <dependency>
+            <groupId>org.fitting</groupId>
+            <artifactId>fitting-util</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Rest -->
         <dependency>
