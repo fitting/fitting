@@ -115,6 +115,7 @@ public final class SeleniumConnector {
      * Builder for constructing a connector.
      */
     public static final class Builder {
+        private static final String URL_MASK = "http://%s:%d/wd/hub";
         private static final String URL_PROTOCOL = "http://";
         private static final String HOST_PORT_SEPERATOR = ":";
         private static final String URL_BASE_PATH = "/wd/hub";

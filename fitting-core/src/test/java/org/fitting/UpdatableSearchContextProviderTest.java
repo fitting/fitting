@@ -20,6 +20,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 /** Test class for UpdatableSearchContextProvider. */
 @RunWith(PowerMockRunner.class)
@@ -62,5 +63,22 @@ public class UpdatableSearchContextProviderTest {
         final SearchContext searchContext = provider.getSearchContext();
         verify(context, times(1)).getDriver();
         assertEquals(searchContext, provider.getSearchContext());
+    }
+
+    @Test
+    public void shouldUpdateByClause() {
+        By byXpath = By.xpath("xpath");
+        By byId = By.id("id");
+        UpdatableSearchContextProvider searchContext = new UpdatableSearchContextProvider(byXpath) {
+            @Override
+            public String getId() {
+                return "contextId";
+            }
+        };
+
+        searchContext.updateBy(byId);
+        searchContext.getSearchContext();
+        verifyStatic();
+        WebDriverUtil.getElement(driver, byId);
     }
 }

@@ -302,7 +302,7 @@ public class ClientStream extends BufferedInputStream {
             HTTPversionRaw = f.substring(versionp + 5); // Detect the HTTP version
             if (HTTPversionRaw.equals("1.1")) {
                 HTTPversion = 1;
-            } else if (HTTPversionRaw.equals("0.00.01-SNAPSHOT")) {
+            } else if (HTTPversionRaw.equals("1.0")) {
                 HTTPversion = 0;
             }
 

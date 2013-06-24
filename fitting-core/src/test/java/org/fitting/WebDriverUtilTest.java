@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -140,6 +142,39 @@ public class WebDriverUtilTest {
         verify(element).findElement(by);
     }
 
+    @Test
+    public void shouldHaveElementDisplayed() {
+        when(driver.findElement(by)).thenReturn(element);
+        when(element.isDisplayed()).thenReturn(true);
+
+        assertTrue(isElementDisplayed(driver, by));
+        verify(driver, times(1)).findElement(by);
+        verify(element, times(1)).isDisplayed();
+    }
+
+    @Test
+    public void shouldNotHaveElementDisplayedForUndisplayedElement() {
+        when(driver.findElement(by)).thenReturn(element);
+        when(element.isDisplayed()).thenReturn(false);
+
+        assertFalse(isElementDisplayed(driver, by));
+        verify(driver, times(1)).findElement(by);
+        verify(element, times(1)).isDisplayed();
+    }
+
+    @Test
+    public void shouldNotHaveElementDisplayedForNonExistingElement() {
+        when(driver.findElement(by)).thenThrow(NoSuchElementException.class);
+
+        assertFalse(isElementDisplayed(driver, by));
+    }
+
+    @Test(expected = org.fitting.WebDriverException.class)
+    public void shouldThrowWebDriverExceptionForElementDisplayedWithoutContext() {
+        isElementDisplayed(null, by);
+        fail("Exception expected for element displayed call without a search context.");
+    }
+
     @SuppressWarnings("unchecked")
     @Test(expected = WebDriverException.class)
     public void shouldThrowWebDriverExceptionWhenGetElement() throws Exception {
@@ -220,6 +255,24 @@ public class WebDriverUtilTest {
         verify(driver, times(5)).findElement(any(By.class));
         long secondsPassed = (System.currentTimeMillis() - start) / 1000;
         assertEquals(1, secondsPassed);
+    }
+
+    @Test
+    public void shouldWaitForElementPresent() {
+        when(driver.findElement(by)).then(new Answer<WebElement>() {
+            @Override
+            public WebElement answer(final InvocationOnMock invocationOnMock) throws Throwable {
+                Thread.currentThread().sleep(2500);
+                return element;
+            }
+        });
+        long start = System.currentTimeMillis();
+        boolean present = waitForElementPresent(driver, by, 5);
+        long secondsPassed = (System.currentTimeMillis() - start) / 1000;
+
+        assertTrue(present);
+        verify(driver, times(1)).findElement(by);
+        assertEquals(2, secondsPassed);
     }
 
     @Test
@@ -588,7 +641,7 @@ public class WebDriverUtilTest {
 
     @Test
     public void shouldSelectRadioButtonValue() throws Exception {
-        when(driver.findElements(any(By.class))).thenReturn(asList(new WebElement[] {element, element}));
+        when(driver.findElements(any(By.class))).thenReturn(asList(new WebElement[] { element, element }));
         when(element.getAttribute("value")).thenReturn("not-the-value").thenReturn("value");
 
         selectRadioButtonValue(driver, by, "value");

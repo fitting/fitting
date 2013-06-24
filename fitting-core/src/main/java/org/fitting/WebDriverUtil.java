@@ -179,7 +179,6 @@ public final class WebDriverUtil {
      * @param driver   The webdriver.
      * @param by       The by.
      * @param seconds  The seconds to wait.
-     * @param callback The NotSuchElementCallback, may be null.
      * @return element True if the element was found within in time.
      */
     public static boolean waitForElementPresent(final WebDriver driver, final By by, final int seconds) {
@@ -188,26 +187,26 @@ public final class WebDriverUtil {
 
     /**
      * Waits for element present for the given seconds.
-     * @param driver   The webdriver.
-     * @param by       The by.
-     * @param seconds  The seconds to wait.
-     * @param callback The NotSuchElementCallback, may be null.
-     * @return element True if the element was found within in time.
+     * @param driver  The webdriver.
+     * @param by      The by.
+     * @param content The content of the element.
+     * @param seconds The seconds to wait.
+     * @return True if the element was found within in time.
      */
-    public static boolean waitForElementPresent(final WebDriver driver, final By by, final String content, 
-    		final int seconds) {
+    public static boolean waitForElementWithContentPresent(final WebDriver driver, final By by, final String content,
+            final int seconds) {
         return waitForElementPresent(driver,
                 new ExpectedCondition<WebElement>() {
-		            public WebElement apply(final WebDriver webDriver) {
-		                boolean found = false;
-		                WebElement e = driver.findElement(by);
-		                if (e != null) {
-		                        final String text = e.getText();
-		                        found = text != null && text.contains(content);
-		                }
-		                return found ? e : null;
-		            }
-		        }, seconds, null);
+                    public WebElement apply(final WebDriver webDriver) {
+                        boolean found = false;
+                        WebElement e = driver.findElement(by);
+                        if (e != null) {
+                            final String text = e.getText();
+                            found = text != null && text.contains(content);
+                        }
+                        return found ? e : null;
+                    }
+                }, seconds, null);
     }
 
     /**
@@ -220,8 +219,8 @@ public final class WebDriverUtil {
      */
     public static boolean waitForElementPresent(final WebDriver driver, final By by, final int seconds,
             final NotSuchElementCallback callback) {
-        return waitForElementPresent(driver, 
-        		new ExpectedCondition<WebElement>() {
+        return waitForElementPresent(driver,
+                new ExpectedCondition<WebElement>() {
                     public WebElement apply(final WebDriver webDriver) {
                         return driver.findElement(by);
                     }
@@ -230,28 +229,27 @@ public final class WebDriverUtil {
 
     /**
      * Waits for element present for the given seconds.
-     * @param driver   The webdriver.
+     * @param driver            The webdriver.
      * @param expectedCondition The content that should be present.
-     * @param seconds  The seconds to wait.
-     * @param callback The NotSuchElementCallback, may be null.
+     * @param seconds           The seconds to wait.
+     * @param callback          The NotSuchElementCallback, may be null.
      * @return element True if the element was found within in time.
      */
     public static <E> boolean waitForElementPresent(final WebDriver driver,
-    		final ExpectedCondition<E> expectedCondition,
-    		final int seconds, final NotSuchElementCallback callback) {
+            final ExpectedCondition<E> expectedCondition,
+            final int seconds, final NotSuchElementCallback callback) {
         boolean present = false;
         try {
             new WebDriverWait(driver, seconds, DEFAULT_SEARCH_INTERVAL).until(
                     expectedCondition);
             present = true;
         } catch (TimeoutException e) {
-        	if (callback != null) {
-        		callback.onNoSuchElementFound();
-        	}
+            if (callback != null) {
+                callback.onNoSuchElementFound();
+            }
         }
         return present;
     }
-
 
     /**
      * Gets the attribute value of the given attribute name of the selected element.
@@ -304,8 +302,8 @@ public final class WebDriverUtil {
 
     /**
      * Indicates if the text value of an element contains the given value.
-     * @param context The context to search the WebElement from.
-     * @param by The By clause to search the element with.
+     * @param context  The context to search the WebElement from.
+     * @param by       The By clause to search the element with.
      * @param contains The value to contain.
      * @return <code>true</code> if the text value contains the given value, else <code>false</code>.
      */
@@ -740,7 +738,7 @@ public final class WebDriverUtil {
      */
     public static boolean isCookieWithNamePresentOnDomain(final FitnesseContext context, final WebDriver driver,
             final String cookieName, final String domain) {
-        final boolean[] exists = {false};
+        final boolean[] exists = { false };
         handleCookie(context, domain, new CookieCallback() {
             @Override
             public void doWithCookie() {

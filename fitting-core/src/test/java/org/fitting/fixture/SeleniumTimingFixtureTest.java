@@ -47,43 +47,43 @@ public class SeleniumTimingFixtureTest {
     }
 
     @Test
-    public void shouldWaitForElementWithIdPresentForSeconds() throws Exception {
-        fixture.waitForElementWithIdPresentForSeconds("by", 1);
+    public void shouldWaitForElementWithIdPresentWithinSeconds() throws Exception {
+        fixture.waitForElementWithIdPresentWithinSeconds("by", 1);
         verifyStatic();
         WebDriverUtil.waitForElementPresent(isA(WebDriver.class), isA(By.class), eq(1));
     }
 
     @Test
-    public void shouldWaitForElementWithNamePresentForSeconds() throws Exception {
-        fixture.waitForElementWithNamePresentForSeconds("by", 1);
+    public void shouldWaitForElementWithNamePresentWithinSeconds() throws Exception {
+        fixture.waitForElementWithNamePresentWithinSeconds("by", 1);
         verifyStatic();
         WebDriverUtil.waitForElementPresent(isA(WebDriver.class), isA(By.class), eq(1));
     }
 
     @Test
-    public void shouldWaitForElementWithClassNamePresentForSeconds() throws Exception {
-        fixture.waitForElementWithClassNamePresentForSeconds("by", 1);
+    public void shouldWaitForElementWithClassNamePresentWithinSeconds() throws Exception {
+        fixture.waitForElementWithClassNamePresentWithinSeconds("by", 1);
         verifyStatic();
         WebDriverUtil.waitForElementPresent(isA(WebDriver.class), isA(By.class), eq(1));
     }
 
     @Test
-    public void shouldWaitForElementWithTagNamePresentForSeconds() throws Exception {
-        fixture.waitForElementWithTagNamePresentForSeconds("by", 1);
+    public void shouldWaitForElementWithTagNamePresentWithinSeconds() throws Exception {
+        fixture.waitForElementWithTagNamePresentWithinSeconds("by", 1);
         verifyStatic();
         WebDriverUtil.waitForElementPresent(isA(WebDriver.class), isA(By.class), eq(1));
     }
 
     @Test
-    public void shouldWaitForElementWithXpathPresentForSeconds() throws Exception {
-        fixture.waitForElementWithXpathPresentForSeconds("by", 1);
+    public void shouldWaitForElementWithXpathPresentWithinSeconds() throws Exception {
+        fixture.waitForElementWithXpathPresentWithinSeconds("by", 1);
         verifyStatic();
         WebDriverUtil.waitForElementPresent(isA(WebDriver.class), isA(By.class), eq(1));
     }
 
     @Test
-    public void shouldWaitForElementWithLinkTextPresentForSeconds() throws Exception {
-        fixture.waitForElementWithLinkTextPresentForSeconds("by", 1);
+    public void shouldWaitForElementWithLinkTextPresentWithinSeconds() throws Exception {
+        fixture.waitForElementWithLinkTextPresentWithinSeconds("by", 1);
         verifyStatic();
         WebDriverUtil.waitForElementPresent(isA(WebDriver.class), isA(By.class), eq(1));
     }
