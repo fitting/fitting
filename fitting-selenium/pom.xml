@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -9,11 +10,15 @@
         <version>0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>fitting-core</artifactId>
+    <artifactId>fitting-selenium</artifactId>
     <packaging>jar</packaging>
 
-    <name>Fitting Core</name>
-    <description>Fitting Core implementation</description>
+    <name>Fitting Selenium connector</name>
+    <description>Fitting Selenium connector implementation</description>
+
+    <properties>
+        <dependency.selenium.version>2.32.0</dependency.selenium.version>
+    </properties>
 
     <build>
         <plugins>
@@ -26,12 +31,17 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.fitting</groupId>
+            <artifactId>fitting-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${dependency.selenium.version}</version>
         </dependency>
     </dependencies>
 </project>
