@@ -11,9 +11,20 @@ import org.openqa.selenium.WebElement;
 
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
+/**
+ * {@link Element} Selenium implementation for HTML elements.
+ */
 public class SeleniumElement implements Element, SeleniumSearchContext {
+    /**
+     * The actual implementing web element.
+     */
     private final WebElement element;
 
+    /**
+     * Create a new SeleniumElement.
+     *
+     * @param element The implementing Selenium WebElement.
+     */
     public SeleniumElement(WebElement element) {
         this.element = element;
     }

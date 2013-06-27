@@ -7,11 +7,26 @@ import org.fitting.fixture.FittingFixture;
 import org.fitting.selenium.FittingSeleniumConnector;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * Base class for selenium fitting fixtures, providing all functionality of the {@link FittingFixture} as well.
+ */
 public abstract class FittingSeleniumFixture extends FittingFixture {
+    /**
+     * Get the active WebDriver instance.
+     *
+     * @return The WebDriver instance.
+     */
     protected final WebDriver getWebDriver() {
         return getSeleniumConnector().getWebDriver();
     }
 
+    /**
+     * Get the active {@link FittingSeleniumFixture} instance.
+     *
+     * @return The instance.
+     *
+     * @throws FittingException When the current {@link FittingConnector} is not available or not a {@link FittingSeleniumConnector}.
+     */
     protected final FittingSeleniumConnector getSeleniumConnector() {
         FittingSeleniumConnector seleniumConnector;
         FittingConnector connector = FittingContainer.get();

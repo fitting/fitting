@@ -2,8 +2,10 @@ package org.fitting.fixture;
 
 import org.fitting.*;
 
+import static java.lang.String.format;
+
 /**
- * SeleniumFixture.
+ * Base fixture for all fitting fixtures, allowing access to the managed resources.
  */
 public abstract class FittingFixture {
     /**
@@ -28,19 +30,48 @@ public abstract class FittingFixture {
         providers.set(new SearchContextProviders(searchContextProviders));
     }
 
+    /**
+     * Get the currently active {@link FittingConnector}.
+     *
+     * @return The {@link FittingConnector} instance.
+     */
     protected final FittingConnector getConnector() {
         return FittingContainer.get();
     }
 
-    protected final By getByClause(String byTag, String query) {
+    /**
+     * Create a {@link By}-clause based on the tag and query.
+     *
+     * @param byTag The tag of the By-clause.
+     * @param query The query.
+     *
+     * @return The {@link By} instance.
+     *
+     * @throws FittingAction When the By-clause could not be created.
+     */
+    protected final By getByClause(String byTag, String query) throws FittingException {
         ByProvider provider = getConnector().getByProvider();
-        return provider.getBy(byTag, query);
+        By byClause = provider.getBy(byTag, query);
+        if (byClause == null) {
+            throw new FormattedFittingException(format("No By-clause was available for tag [%s] with query [%s].", byTag, query));
+        }
+        return byClause;
     }
 
+    /**
+     * Get the currently active {@link FittingAction} implementation.
+     *
+     * @return The {@link FittingAction}.
+     */
     protected final FittingAction getFittingAction() {
         return getConnector().getFittingAction();
     }
 
+    /**
+     * Get the currently active {@link ElementContainer}.
+     *
+     * @return The active {@link ElementContainer}.
+     */
     protected final ElementContainer getActiveContainer() {
         return getConnector().getElementContainerProvider().getActiveElementContainer();
     }

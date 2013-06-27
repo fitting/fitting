@@ -8,6 +8,9 @@ import org.fitting.Element;
 import org.fitting.ElementContainer;
 import org.openqa.selenium.SearchContext;
 
+/**
+ * {@link ElementContainer} implementation for Selenium based HTML (i)frames.
+ */
 public class SeleniumFrame implements ElementContainer, SeleniumSearchContext {
     @Override
     public String getId() {

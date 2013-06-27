@@ -230,8 +230,9 @@ public class FittingSeleniumAction implements FittingAction {
     }
 
     @Override
-    public void isElementValueSelectable(SearchContext searchContext, By byClause, String value) throws NoSuchElementException {
+    public boolean isElementValueSelectable(SearchContext searchContext, By byClause, String value) throws NoSuchElementException {
         // TODO Implement me!
+        return false;
     }
 
     @Override
@@ -245,8 +246,9 @@ public class FittingSeleniumAction implements FittingAction {
     }
 
     @Override
-    public void isElementCheckbox(SearchContext searchContext, By byClause) throws NoSuchElementException {
+    public boolean isElementCheckbox(SearchContext searchContext, By byClause) throws NoSuchElementException {
         // TODO Implement me!
+        return false;
     }
 
     @Override

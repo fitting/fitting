@@ -2,7 +2,6 @@ package org.fitting;
 
 /**
  * Singleton container that holds the FittingConnector in a ThreadLocal so each running test or suite contains its own context.
- * @since 1.0
  */
 public final class FittingContainer {
     /** ThreadLocal containing the FittingConnector. */

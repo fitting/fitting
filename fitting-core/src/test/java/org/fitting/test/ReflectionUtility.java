@@ -1,7 +1,11 @@
 package org.fitting.test;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import static java.lang.String.format;
 import static org.apache.commons.lang.StringUtils.isEmpty;
@@ -9,20 +13,26 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
-/** Reflection and dependency injection utility. */
+/**
+ * Reflection and dependency injection utility for testing support.
+ */
 public final class ReflectionUtility {
 
-    /** Constructor. */
+    /**
+     * Constructor.
+     */
     private ReflectionUtility() {
     }
 
     /**
      * Create a new instance for a singleton class and set the new instance to the singleton field.
      * This method can handle private constructors and static final singleton methods. Creation of the new instance and setting of the field is double checked.
+     *
      * @param clazz                The class to update the instance for.
      * @param singletonFieldName   The name of the singleton field.
      * @param constructorArguments The constructor arguments (optional).
      * @param <K>                  The type of the singleton.
+     *
      * @return The new singleton instance.
      */
     public static <K> K createNewInstanceAndUpdateSingleton(final Class<K> clazz, final String singletonFieldName, final Object... constructorArguments) {
@@ -68,9 +78,11 @@ public final class ReflectionUtility {
 
     /**
      * Get a method from a class, failing a unit test if the method was not found or if the extraction failed.
+     *
      * @param clazz      The class.
      * @param method     The name of the method.
      * @param parameters The method parameter types.
+     *
      * @return The method.
      */
     public static Method getMethod(final Class<?> clazz, final String method, final Class<?>... parameters) {
@@ -86,10 +98,12 @@ public final class ReflectionUtility {
 
     /**
      * Get a specific annotation from a method parameter. Fails the unit tests if the annotation could not be retrieved.
+     *
      * @param method          The method to get the parameter from.
      * @param index           The index of the parameter on the method.
      * @param annotationClass The class of the annotation.
      * @param <K>             The annotation.
+     *
      * @return The annotation instance.
      */
     public static <K> K getParameterAnnotation(final Method method, final int index, final Class<K> annotationClass) {
@@ -115,8 +129,10 @@ public final class ReflectionUtility {
 
     /**
      * Get the parameter type for a method parameter. Fails the unit tests if the parameter type could not be retrieved.
+     *
      * @param method The method.
      * @param index  The index of the parameter on the method.
+     *
      * @return The parameter type.
      */
     public static Class<?> getParameterType(final Method method, final int index) {
@@ -128,11 +144,11 @@ public final class ReflectionUtility {
             fail("Parameter index [" + index + "] on method [" + method + "] is not a valid parameter, while trying to get the parameter type.");
         }
         return null;
-
     }
 
     /**
      * Injects the given value on the given object for the given field.
+     *
      * @param object    The object to inject the field value on.
      * @param fieldName The field to inject the value for.
      * @param value     The value to inject.
@@ -149,6 +165,7 @@ public final class ReflectionUtility {
 
     /**
      * Injects the given value on the given object for the given field.
+     *
      * @param clazz     The class to inject the field value on.
      * @param fieldName The field to inject the value for.
      * @param value     The value to inject.
@@ -166,6 +183,7 @@ public final class ReflectionUtility {
 
     /**
      * Gets the field from the object.
+     *
      * @param object    The object to extract the field from.
      * @param fieldName The field to extract.
      */
@@ -182,6 +200,7 @@ public final class ReflectionUtility {
 
     /**
      * Gets the field from the object.
+     *
      * @param clazz     The class to extract the field from.
      * @param fieldName The field to extract.
      */
@@ -199,8 +218,10 @@ public final class ReflectionUtility {
     /**
      * Gets the field with the given name from the given class or its super class.
      * If the field is not found on the class or any of its super classes, the result is failure.
+     *
      * @param clazz     The class to find the field on.
      * @param fieldName The field name.
+     *
      * @return field The field.
      */
     private static Field getField(final Class clazz, final String fieldName) {
@@ -215,10 +236,11 @@ public final class ReflectionUtility {
         return null;
     }
 
-
     /**
      * Calls the private default constructor.
+     *
      * @param clazz The class to construct.
+     *
      * @return instance The instance.
      */
     public static Object callDefaultPrivateConstructor(final Class clazz) {
@@ -240,13 +262,16 @@ public final class ReflectionUtility {
 
     /**
      * Calls the private method.
+     *
      * @param object         The object to call the method on.
      * @param name           The name of the method.
      * @param parameterTypes The parameter types.
      * @param objects        The parameters.
+     *
      * @return
      */
-    public static <T> T callPrivateMethod(final Object object, final String name, final Class[] parameterTypes, final Object[] objects, final Class<T> returnType) throws Throwable {
+    public static <T> T callPrivateMethod(final Object object, final String name, final Class[] parameterTypes, final Object[] objects, final Class<T> returnType)
+            throws Throwable {
         try {
             final Method method = object.getClass().getDeclaredMethod(name, parameterTypes);
             method.setAccessible(true);
@@ -271,7 +296,9 @@ public final class ReflectionUtility {
 
     /**
      * Get the exception message for the given exception, retrieving it from the cause exception whn needed.
+     *
      * @param throwable The exception to get the message for.
+     *
      * @return The message or <code>null</code> if no message could be retrieved.
      */
     private static String getExceptionMessage(final Throwable throwable) {

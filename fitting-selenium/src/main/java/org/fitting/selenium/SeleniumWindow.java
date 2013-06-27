@@ -18,16 +18,32 @@ import org.openqa.selenium.WebElement;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
+/**
+ * {@link ElementContainer} for Selenium based browser windows.
+ */
 public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
+    /**
+     * The id of the window.
+     */
     private final String id;
+    /**
+     * The parent id of the window.
+     */
     private final String parentId;
+    /**
+     * The By-clause used to select the current frame.
+     */
     private org.openqa.selenium.By currentFrameSelector;
+    /**
+     * The underlying web driver.
+     */
     private WebDriver driver;
 
     /**
-     * Default constructor.
+     * Create a new SeleniumWindow.
      *
-     * @param id The window id.
+     * @param id     The window id.
+     * @param driver The underlying web driver for the window.
      */
     public SeleniumWindow(String id, String parentId, WebDriver driver) {
         this.driver = driver;
@@ -131,6 +147,14 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
         return new SeleniumWindow(newWindowHandle, currentWindowHandle, webDriver);
     }
 
+    /**
+     * Switch to another window.
+     *
+     * @param handle    The id of the window.
+     * @param webDriver The webdriver to use.
+     *
+     * @return The window.
+     */
     public static SeleniumWindow switchToWindow(final String handle, final WebDriver webDriver) {
         // TODO Revisit this code and probably rewrite. Let window creation/destruction be handled by the ElementContainerProvider.
         final String currentWindowHandle = webDriver.getWindowHandle();

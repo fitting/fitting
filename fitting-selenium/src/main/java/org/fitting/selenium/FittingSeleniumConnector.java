@@ -11,9 +11,20 @@ import org.openqa.selenium.WebDriver;
  * Selenium implementation for the {@link FittingConnector}, providing access for Fitting to test using the Selenium framework.
  */
 public class FittingSeleniumConnector implements FittingConnector {
+    /**
+     * The implementation name.
+     */
     private static final String CONNECTOR_NAME = "Fitting-Selenium";
+    /**
+     * The browser to use.
+     */
     private Browser browser;
 
+    /**
+     * Create a new FittingSeleniumConnect.
+     *
+     * @param browser The browser to use.
+     */
     public FittingSeleniumConnector(Browser browser) {
         if (browser == null) {
             throw new FittingException("The given selenium connector is null.");
@@ -28,8 +39,7 @@ public class FittingSeleniumConnector implements FittingConnector {
 
     @Override
     public ByProvider getByProvider() {
-        // TODO Implement me!
-        return null;
+        return new SeleniumByProvider();
     }
 
     @Override

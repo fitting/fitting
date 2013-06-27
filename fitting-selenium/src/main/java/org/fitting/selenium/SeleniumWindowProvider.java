@@ -10,10 +10,20 @@ import org.fitting.FittingException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * {@link ElementContainerProvider} Selenium implementation for browser windows.
+ */
 public class SeleniumWindowProvider extends ElementContainerProvider {
-
+    /**
+     * The web driver.
+     */
     private WebDriver driver;
 
+    /**
+     * Create a new provider.
+     *
+     * @param driver The web driver to use.
+     */
     public SeleniumWindowProvider(WebDriver driver) {
         this.driver = driver;
     }
