@@ -12,8 +12,10 @@ public interface SearchContext {
      * @param byClause The By-clause.
      *
      * @return The matching elements.
+     *
+     * @throws FittingException When the query failed to execute.
      */
-    List<Element> findElementsBy(By byClause);
+    List<Element> findElementsBy(By byClause) throws FittingException;
 
     /**
      * Find a single element on the context matching the given By-clause.
@@ -21,6 +23,9 @@ public interface SearchContext {
      * @param byClause The By-clause.
      *
      * @return The matching element.
+     *
+     * @throws NoSuchElementException When the element could not be found.
+     * @throws FittingException       When the query failed to execute.
      */
-    Element findElementBy(By byClause);
+    Element findElementBy(By byClause) throws NoSuchElementException, FittingException;
 }
