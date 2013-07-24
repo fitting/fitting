@@ -1,0 +1,11 @@
+!*****> '''Classpath'''
+!pomFile pom.xml
+
+*!
+
+!*> '''Variables Defined'''
+
+!define TEST_SYSTEM {slim}
+!define COLLAPSE_SETUP {true}
+!define COLLAPSE_TEARDOWN {true}
+*!

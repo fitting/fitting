@@ -5,9 +5,11 @@
 
     <groupId>org.fitting</groupId>
     <artifactId>fitting</artifactId>
-    <packaging>pom</packaging>
     <version>0.1-SNAPSHOT</version>
-    <name>fitting-parent</name>
+    <packaging>pom</packaging>
+
+    <name>Fitting Parent</name>
+    <description>Fitting Core implementation</description>
 
     <organization>
         <name>Fitting</name>
@@ -40,6 +42,7 @@
     <modules>
         <module>fitting-core</module>
         <module>fitting-selenium</module>
+        <module>fitting-archetype</module>
     </modules>
 
     <properties>

@@ -1,0 +1,12 @@
+!contents -R3 -g -h
+
+!1 Fitting
+Description of fitting goes here.
+
+!2 Documentation
+| [[StartGuide][.Fitting.StartGuide]]                 | Getting started with Fitting       |
+| [[FixtureDocumentation][.Fitting.Fixtures]]         | Fitting fixture documentation      |
+| [[StartGuide][.Fitting.StartGuide]]                 | Getting started with Fitting       |
+
+!2 Tests
+| [[AcceptanceTests][.Fitting.AcceptanceTests]]       | Fitting acceptance tests           |

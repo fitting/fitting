@@ -4,6 +4,8 @@
 target/
 classes/
 out/
+bin/
+dist/
 .checkstyle
 .pmd
 
@@ -22,3 +24,10 @@ out/
 *.iwl
 *.ips
 *.iml
+
+#####
+# FitNesse and fitting local and default files.
+#####
+conf/
+files/
+*.log

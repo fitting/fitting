@@ -1,0 +1,7 @@
+!1 Project ${rootArtifactId}
+|[[Acceptance Tests][AcceptanceTests]]|${rootArtifactId} acceptance tests|
+
+!1 Documentation
+|[[!-Fixtures-!][Fitting.Fixtures]]    |Fitting fixture documentation|
+|[[!-StartGuide-!][Fitting.StartGuide]]|Getting started with Fitting |
+|[[!-UserGuide-!][FitNesse.UserGuide]] |FitNesse user guide          |

@@ -1,0 +1,2 @@
+[[Fitting Documentation][.Fitting]] | [[FitNesse User Guide][.FitNesse.UserGuide]]
+[[root][root]] (for global settings, etc.)

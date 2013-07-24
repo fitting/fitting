@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${version}</version>
+    <packaging>jar</packaging>
+
+    <name>${artifactId}</name>
+    <description>${artifactId} acceptance tests</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.version>1.6</project.build.version>
+
+        <dependency.fitting.version>0.1-SNAPSHOT</dependency.fitting.version>
+        <dependency.fitnesse.version>20130531</dependency.fitnesse.version>
+        <dependency.junit.version>4.11</dependency.junit.version>
+        <dependency.mockito.version>1.9.5</dependency.mockito.version>
+        <dependency.powermock.version>1.5</dependency.powermock.version>
+        <dependency.fitnesse.maven-classpath.version>1.7</dependency.fitnesse.maven-classpath.version>
+
+        <plugin.build.version>3.1</plugin.build.version>
+        <plugin.antrun.version>1.7</plugin.antrun.version>
+
+        <run.fitnesse.port>8005</run.fitnesse.port>
+        <run.fitnesse.expiration>0</run.fitnesse.expiration>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${plugin.build.version}</version>
+                <configuration>
+                    <source>${project.build.version}</source>
+                    <target>${project.build.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>fitting</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>${plugin.antrun.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copy-mvn-settings</id>
+                                <phase>test</phase>
+                                <configuration>
+                                    <target name="copy-mvn-settings">
+                                        <echo taskname="copy-mvn-settings" message="Copying maven settings to conf/settings.xml"/>
+                                        <copy file="${env.M2_HOME}/conf/settings.xml" tofile="${project.basedir}/conf/settings.xml"/>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>start-fitnesse</id>
+                                <phase>test</phase>
+                                <configuration>
+                                    <target name="start-fitnesse">
+                                        <echo taskname="start-fitnesse" message="Starting fitnesse v${dependency.fitnesse.version} on port ${run.fitnesse.port}"/>
+                                        <java classname="fitnesseMain.FitNesseMain" classpathref="maven.test.classpath" fork="true">
+                                            <arg line="-p ${run.fitnesse.port}" />
+                                            <arg line="-d ./src/main/fitnesse" />
+                                            <arg line="-e ${run.fitnesse.expiration}" />
+                                        </java>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <!-- Fitting -->
+        <dependency>
+            <groupId>org.fitting</groupId>
+            <artifactId>fitting-core</artifactId>
+            <version>${dependency.fitting.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fitting</groupId>
+            <artifactId>fitting-selenium</artifactId>
+            <version>${dependency.fitting.version}</version>
+        </dependency>
+
+        <!-- FitNesse -->
+        <dependency>
+            <groupId>org.fitnesse</groupId>
+            <artifactId>fitnesse</artifactId>
+            <version>${dependency.fitnesse.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fitnesse.plugins</groupId>
+            <artifactId>maven-classpath-plugin</artifactId>
+            <version>${dependency.fitnesse.maven-classpath.version}</version>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${dependency.junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${dependency.mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${dependency.powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${dependency.powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
