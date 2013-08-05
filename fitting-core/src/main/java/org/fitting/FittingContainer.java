@@ -19,9 +19,7 @@
 
 package org.fitting;
 
-/**
- * Singleton container that holds the FittingConnector in a ThreadLocal so each running test or suite contains its own context.
- */
+/** Singleton container that holds the FittingConnector in a ThreadLocal so each running test or suite contains its own context. */
 public final class FittingContainer {
     /** ThreadLocal containing the FittingConnector. */
     private static final ThreadLocal<FittingConnector> LOCAL = new ThreadLocal<FittingConnector>();
@@ -32,6 +30,7 @@ public final class FittingContainer {
 
     /**
      * Set the FittingConnector to use for the current thread.
+     *
      * @param context The FittingConnector to use..
      */
     public static void set(final FittingConnector context) {
@@ -45,9 +44,19 @@ public final class FittingContainer {
 
     /**
      * Get the FittingConnector for the current thread.
+     *
      * @return context The FitnesseContext.
      */
     public static FittingConnector get() {
         return LOCAL.get();
+    }
+
+    /**
+     * Check if the connector has been initialised.
+     *
+     * @return <code>true</code> if the connector has been initialised.
+     */
+    public static boolean isInitialised() {
+        return LOCAL.get() != null;
     }
 }

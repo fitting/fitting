@@ -19,29 +19,49 @@
 
 package org.fitting.selenium;
 
-import java.net.URL;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.URL;
+
+/** Selenium browser object. */
 public class Browser {
+    /** The underlying WebDriver implementation. */
     private WebDriver webDriver;
+    /** Flag indicating if javascript is enabled. */
     private boolean javascriptEnabled;
 
+    /**
+     * Create a new Browser instance.
+     *
+     * @param capabilities The desired browser capabilities.
+     * @param url          The URL to connect to.
+     */
     public Browser(DesiredCapabilities capabilities, URL url) {
         webDriver = new RemoteWebDriver(url, capabilities);
         javascriptEnabled = capabilities.isJavascriptEnabled();
     }
 
+    /**
+     * Get the underlying WebDriver implementation.
+     *
+     * @return The WebDriver.
+     */
     public WebDriver getWebDriver() {
         return webDriver;
     }
 
+    /**
+     * Check if JavaScript is enabled.
+     *
+     * @return <code>true</code> if javascript is enabled.
+     */
     public boolean isJavascriptEnabled() {
         return javascriptEnabled;
     }
 
+    /** Destroy the Browser object. */
     public void destroy() {
         this.webDriver.close();
         this.webDriver = null;

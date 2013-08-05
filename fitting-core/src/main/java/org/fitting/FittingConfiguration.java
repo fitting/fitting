@@ -25,8 +25,6 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.apache.commons.lang.StringUtils.isEmpty;
-
 /**
  * General fitting configuration.
  *
@@ -58,6 +56,7 @@ public class FittingConfiguration {
      */
     private FittingConfiguration() {
         configuration = new CompositeConfiguration();
+        loadProperties();
         loadDefaults();
     }
 
@@ -82,15 +81,17 @@ public class FittingConfiguration {
     private void loadDefaults() throws FittingException {
         try {
             configuration.addConfiguration(new PropertiesConfiguration(DEFAULT_CONFIGURATION_PROPERTIES));
+            LOGGER.debug("Added default configuration from {}.", DEFAULT_CONFIGURATION_PROPERTIES);
         } catch (ConfigurationException e) {
             throw new FittingException("Unable to load default configuration properties file [" + DEFAULT_CONFIGURATION_PROPERTIES + "]", e);
         }
     }
 
-    /** Load the configuration from the default properties. */
+    /** Load the configuration from the default properties file. */
     private void loadProperties() {
         try {
             configuration.addConfiguration(new PropertiesConfiguration(CONFIGURATION_PROPERTIES));
+            LOGGER.debug("Added configuration from {}.", CONFIGURATION_PROPERTIES);
         } catch (ConfigurationException e) {
             LOGGER.warn("No properties found with the name " + CONFIGURATION_PROPERTIES + " or properties file could not be loaded", e);
         }
@@ -104,21 +105,48 @@ public class FittingConfiguration {
      * @throws FittingException When the connector could not be loaded.
      */
     public Class<? extends FittingConnector> getSystemConnector() throws FittingException {
-        // TODO Determine if it's worth loading to class every time to allow injection of more configuration or that we need to lazy load it.
-        String className = configuration.getString(KEY_SYSTEM, configuration.getString(KEY_SYSTEM_DEFAULT, null));
-        if (isEmpty(className)) {
-            throw new FittingException("No system connector configured with the " + KEY_SYSTEM + " property.");
+        // TODO Determine if it's worth loading to class every time to allow injection/alteration of configurations or that we need to lazy load it.
+        Class<? extends FittingConnector> cls;
+        if (configuration.containsKey(KEY_SYSTEM)) {
+            String className = configuration.getString(KEY_SYSTEM);
+            try {
+                cls = FittingConfiguration.class.getClassLoader().loadClass(className).asSubclass(FittingConnector.class);
+            } catch (ClassCastException e) {
+                throw new FittingException("Configured system connector " + className + " is not a valid FittingConnector", e);
+            } catch (ClassNotFoundException e) {
+                throw new FittingException("Could not load configured system connector" + className, e);
+            }
+        } else {
+            cls = getDefaultSystemConnector();
+            LOGGER.debug("No system connector specified, loading default connector");
         }
-        Class<?> cls;
+        LOGGER.debug("Loaded system connector {}", cls.getName());
+        return cls;
+    }
+
+    /**
+     * Get the default system connector class.
+     *
+     * @return The system connector.
+     *
+     * @throws FittingException When the connector could not be loaded.
+     */
+    public Class<? extends FittingConnector> getDefaultSystemConnector() throws FittingException {
+        if (!configuration.containsKey(KEY_SYSTEM_DEFAULT)) {
+            throw new FittingException("No default system connector configured.");
+        }
+
+        // TODO Determine if it's worth loading to class every time to allow injection/alteration of configurations or that we need to lazy load it.
+        String className = configuration.getString(KEY_SYSTEM_DEFAULT);
+        Class<? extends FittingConnector> cls;
         try {
-            cls = FittingConfiguration.class.getClassLoader().loadClass(className);
+            cls = FittingConfiguration.class.getClassLoader().loadClass(className).asSubclass(FittingConnector.class);
+            LOGGER.debug("Loaded default system connector {}", cls.getName());
+        } catch (ClassCastException e) {
+            throw new FittingException("Configured default system connector " + className + " is not a valid FittingConnector", e);
         } catch (ClassNotFoundException e) {
-            throw new FittingException("Could not load configured system connector" + className, e);
+            throw new FittingException("Could not load configured default system connector" + className, e);
         }
-        if (!FittingConnector.class.isAssignableFrom(cls)) {
-            throw new FittingException("Configured system connector " + className + " does not implement FittingConnector.");
-        }
-        LOGGER.debug("Loaded system connector {}", className);
-        return (Class<? extends FittingConnector>) cls;
+        return cls;
     }
 }

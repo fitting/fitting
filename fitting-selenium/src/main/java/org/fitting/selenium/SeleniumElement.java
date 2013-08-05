@@ -19,8 +19,6 @@
 
 package org.fitting.selenium;
 
-import java.util.List;
-
 import org.fitting.By;
 import org.fitting.Dimension;
 import org.fitting.Element;
@@ -28,15 +26,18 @@ import org.fitting.Point;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
 /**
- * {@link Element} Selenium implementation for HTML elements.
+ * {@link Element} Selenium implementation for Selenium HTML elements.
+ *
+ * @author Barre Dijkstra
+ * @since 1.0
  */
 public class SeleniumElement implements Element, SeleniumSearchContext {
-    /**
-     * The actual implementing web element.
-     */
+    /** The underlying implementing Selenium WebElement. */
     private final WebElement element;
 
     /**
@@ -48,66 +49,79 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
         this.element = element;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getName() {
         return element.getTagName();
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getValue() {
         return element.getText();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void click() {
         element.click();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void sendKeys(final CharSequence... characters) {
         element.sendKeys(characters);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void clear() {
         element.clear();
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getAttributeValue(String attributeName) {
         return element.getAttribute(attributeName);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isActive() {
         return element.isSelected();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isDisplayed() {
         return element.isDisplayed();
     }
 
+    /** {@inheritDoc} */
     @Override
     public Point getLocation() {
         return convert(element.getLocation());
     }
 
+    /** {@inheritDoc} */
     @Override
     public Dimension getSize() {
         return convert(element.getSize());
     }
 
+    /** {@inheritDoc} */
     @Override
     public List<Element> findElementsBy(final By byClause) {
         return convert(element.findElements(convert(byClause)));
     }
 
+    /** {@inheritDoc} */
     @Override
     public Element findElementBy(final By byClause) {
         return convert(element.findElement(convert(byClause)));
     }
 
+    /** {@inheritDoc} */
     @Override
     public SearchContext getImplementation() {
         return element;

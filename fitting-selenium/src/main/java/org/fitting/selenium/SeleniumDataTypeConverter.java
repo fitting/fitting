@@ -19,9 +19,6 @@
 
 package org.fitting.selenium;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.fitting.By;
 import org.fitting.Dimension;
 import org.fitting.Element;
@@ -29,15 +26,14 @@ import org.fitting.Point;
 import org.fitting.SearchContext;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.String.format;
 
-/**
- * Converter for converting Selenium data types to Fitting data types.
- */
+/** Converter for converting Selenium data types to Fitting data types. */
 public class SeleniumDataTypeConverter {
-    /**
-     * Private constructor to prevent instantiation.
-     */
+    /** Private constructor to prevent instantiation. */
     private SeleniumDataTypeConverter() {
     }
 
@@ -120,34 +116,16 @@ public class SeleniumDataTypeConverter {
     }
 
     /**
-     * Convert a Selenium By to a Fitting {@link By}.
+     * Convert a Fitting {@link By} to a Selenium by-clause.
      *
-     * <p>
-     * TODO This might be removed due to {@link SeleniumByProvider}.
-     * </p>
+     * @param byClause The Fitting {@link By} to convert.
      *
-     * @param byClause The By.
-     *
-     * @return The {@link By}.
+     * @return The Selenium by-clause.
      */
-    public static By convert(org.openqa.selenium.By byClause) {
-        // TODO Implement me!
-        return null;
-    }
-
-    /**
-     * Convert a Fitting {@link By} to a Selenium By.
-     *
-     * <p>
-     * TODO This might be removed due to {@link SeleniumByProvider}.
-     * </p>
-     *
-     * @param byClause The {@link By}.
-     *
-     * @return The By.
-     */
-    public static org.openqa.selenium.By convert(By byClause) {
-        // TODO Implement me!
-        return null;
+    public static org.openqa.selenium.By convert(By byClause) throws IllegalArgumentException {
+        if (!SeleniumBy.class.isAssignableFrom(byClause.getClass())) {
+            throw new IllegalArgumentException(format("By-clause %s is not a valid Selenium by-clause.", byClause.getClass().getName()));
+        }
+        return SeleniumBy.class.cast(byClause).getSeleniumBy();
     }
 }

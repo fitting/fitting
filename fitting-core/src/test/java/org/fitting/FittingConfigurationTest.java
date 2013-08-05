@@ -19,6 +19,14 @@
 package org.fitting;
 
 import org.junit.Before;
+import org.junit.Test;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for {@link FittingConfiguration}.
@@ -27,45 +35,92 @@ import org.junit.Before;
  * @since 1.0
  */
 public class FittingConfigurationTest {
+    /** The class under test. */
+    private FittingConfiguration configuration;
+
     @Before
     public void setUp() {
-
+        configuration = FittingConfiguration.getInstance();
     }
 
-    public static class TestConnector implements FittingConnector {
-        public static final String NAME = "test";
-        private final ByProvider byProvider;
-        private final FittingAction fittingAction;
-        private final ElementContainerProvider elementContainerProvider;
-
-        public TestConnector() {
-            this(null, null, null);
+    /** Ensure the configuration is a singleton. */
+    @Test
+    public void shouldBeSingleton() {
+        // Make sure the constructors are either private or protected.
+        for (Constructor<?> c : configuration.getClass().getConstructors()) {
+            assertTrue(Modifier.isPrivate(c.getModifiers()) || Modifier.isProtected(c.getModifiers()));
         }
+        // Make sure the getInstance() returns the same instance.
+        assertSame(configuration, FittingConfiguration.getInstance());
+    }
 
-        public TestConnector(ByProvider byProvider, FittingAction fittingAction, ElementContainerProvider elementContainerProvider) {
-            this.byProvider = byProvider;
-            this.fittingAction = fittingAction;
-            this.elementContainerProvider = elementContainerProvider;
-        }
+    @Test
+    public void shouldLoadConfigurationDefaults() {
+        assertEquals(DefaultFittingConnector.class, configuration.getDefaultSystemConnector());
+    }
+
+    @Test
+    public void shouldOverrideDefaultConfiguration() {
+        assertEquals(TestFittingConnector.class, configuration.getSystemConnector());
+    }
+
+    static class TestFittingConnector implements FittingConnector {
 
         @Override
         public String getName() {
-            return NAME;
+            return "TestFittingConnector";
         }
 
         @Override
         public ByProvider getByProvider() {
-            return byProvider;
+            return null;
         }
 
         @Override
         public FittingAction getFittingAction() {
-            return fittingAction;
+            return null;
         }
 
         @Override
         public ElementContainerProvider getElementContainerProvider() {
-            return elementContainerProvider;
+            return null;
+        }
+
+        @Override
+        public SearchContext getDefaultSearchContext() {
+            return null;
+        }
+
+        @Override
+        public void destroy() {
+        }
+    }
+
+    static class DefaultFittingConnector implements FittingConnector {
+
+        @Override
+        public String getName() {
+            return "DefaultFittingConnector";
+        }
+
+        @Override
+        public ByProvider getByProvider() {
+            return null;
+        }
+
+        @Override
+        public FittingAction getFittingAction() {
+            return null;
+        }
+
+        @Override
+        public ElementContainerProvider getElementContainerProvider() {
+            return null;
+        }
+
+        @Override
+        public SearchContext getDefaultSearchContext() {
+            return null;
         }
 
         @Override
