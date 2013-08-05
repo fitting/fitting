@@ -22,7 +22,7 @@ package org.fitting;
 /**
  * Connector for connecting Fitting implementation modules to Fitting.
  */
-public interface  FittingConnector {
+public interface FittingConnector {
 
     /**
      * The name of the implementation.
@@ -51,6 +51,13 @@ public interface  FittingConnector {
      * @return The {@link ElementContainerProvider}.
      */
     ElementContainerProvider getElementContainerProvider();
+
+    /**
+     * Get the default {@link SearchContext}, generally providing the root as search context.
+     *
+     * @return The default search context.
+     */
+    SearchContext getDefaultSearchContext();
 
     /**
      * Destroy/tear-down the current connector implementation.

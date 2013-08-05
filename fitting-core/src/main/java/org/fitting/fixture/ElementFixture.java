@@ -36,7 +36,7 @@ public class ElementFixture extends FittingFixture {
      *
      * <p>
      * FitNesse usage:
-     * <pre>| text value for element with | [byTag] | [identifier] |</pre>
+     * <pre>| get text value for element with | [byTag] | [identifier] |</pre>
      * </p>
      *
      * @param byTag      The tag of the by-clause type.
@@ -46,8 +46,8 @@ public class ElementFixture extends FittingFixture {
      *
      * @throws FittingException If the by-clause or element could not be found.
      */
-    @FixtureMethod(description = "Select an element and get the text-value.", signature = {"text value for element with", "byTag", "identifier"})
-    public String elementWithTextValue(@FixtureParameter(name = "byTag", description = "The tag of the by-clause.") String byTag,
+    @FixtureMethod(description = "Get the text-value for an element.", signature = {"get text value for element with", "byTag", "identifier"})
+    public String getTextValueForElementWith(@FixtureParameter(name = "byTag", description = "The tag of the by-clause.") String byTag,
             @FixtureParameter(name = "identifier", description = "The identifier for the by-clause.") String identifier) throws FittingException {
         By byClause = getByClause(byTag, identifier);
         return getFittingAction().getTextValue(getSearchContext(), byClause);
@@ -69,7 +69,11 @@ public class ElementFixture extends FittingFixture {
      *
      * @throws FittingException If the by-clause or element could not be found.
      */
-    public boolean textForElementWithIs(String byTag, String identifier, String text) throws FittingException {
+    @FixtureMethod(description = "Compare the text-value of an element against the provided value.",
+            signature = {"text value for element with", "byTag", "identifier", "is", "text"})
+    public boolean textForElementWithIs(@FixtureParameter(name = "byTag", description = "The tag of the by-clause.") String byTag,
+            @FixtureParameter(name = "identifier", description = "The identifier for the by-clause.") String identifier,
+            @FixtureParameter(name = "text", description = "The text to compare with.") String text) throws FittingException {
         if (text == null) {
             throw new FormattedFittingException("Null text provided found for comparison");
         }
@@ -101,13 +105,13 @@ public class ElementFixture extends FittingFixture {
     /**
      * Wait for an element to be present on the page within the given time-out.
      *
+     * @param seconds    The timeout in seconds.
      * @param byTag      The tag of the by-clause type.
      * @param identifier The identifier/query for the By-clause.
-     * @param seconds    The timeout in seconds.
      *
      * @throws FittingException When the by-clause could not be found or the element wasn't found within the time-out.
      */
-    public void waitSecondsForElementWith(String byTag, String identifier, int seconds) throws FittingException {
+    public void waitSecondsForElementWith(int seconds, String byTag, String identifier) throws FittingException {
         By byClause = getByClause(byTag, identifier);
         getFittingAction().waitForElement(getSearchContext(), byClause, seconds);
     }

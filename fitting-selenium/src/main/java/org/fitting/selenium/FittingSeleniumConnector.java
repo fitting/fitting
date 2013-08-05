@@ -24,6 +24,7 @@ import org.fitting.ElementContainerProvider;
 import org.fitting.FittingAction;
 import org.fitting.FittingConnector;
 import org.fitting.FittingException;
+import org.fitting.SearchContext;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -72,10 +73,20 @@ public class FittingSeleniumConnector implements FittingConnector {
     }
 
     @Override
+    public SearchContext getDefaultSearchContext() {
+        return new WebDriverSearchContext(browser.getWebDriver());
+    }
+
+    @Override
     public void destroy() {
         browser.destroy();
     }
 
+    /**
+     * Get the WebDriver instance used by the connector.
+     *
+     * @return The WebDriver instance.
+     */
     public WebDriver getWebDriver() {
         return browser.getWebDriver();
     }
