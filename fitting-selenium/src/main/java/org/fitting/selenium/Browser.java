@@ -1,70 +1,222 @@
-/*
- * Licensed to the Fitting Project under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The Fitting Project licenses
- * this file to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 package org.fitting.selenium;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.URL;
+import static org.apache.commons.lang.StringUtils.isEmpty;
 
-/** Selenium browser object. */
-public class Browser {
-    /** The underlying WebDriver implementation. */
-    private WebDriver webDriver;
-    /** Flag indicating if javascript is enabled. */
-    private boolean javascriptEnabled;
+/**
+ * Supported browsers.
+ */
+public enum Browser {
+    /**
+     * Microsoft Internet Explorer.
+     */
+    INTERNET_EXPLORER(new SeleniumActionCreator() {
+        @Override
+        public SeleniumAction create(WebDriver webDriver) {
+            return new SeleniumAction(webDriver);
+        }
+    }, new DesiredCapabilitiesCreator() {
+        @Override
+        public DesiredCapabilities create() {
+            return DesiredCapabilities.internetExplorer();
+        }
+    }, "ie", "explorer", "internet explorer"
+    ),
+    /**
+     * Opera.
+     */
+    OPERA(new SeleniumActionCreator() {
+        @Override
+        public SeleniumAction create(WebDriver webDriver) {
+            return new SeleniumAction(webDriver);
+        }
+    }, new DesiredCapabilitiesCreator() {
+        @Override
+        public DesiredCapabilities create() {
+            return DesiredCapabilities.opera();
+        }
+    }, "opera"
+    ),
+    /**
+     * Google Chrome.
+     */
+    CHROME(new SeleniumActionCreator() {
+        @Override
+        public SeleniumAction create(WebDriver webDriver) {
+            return new SeleniumAction(webDriver);
+        }
+    }, new DesiredCapabilitiesCreator() {
+        @Override
+        public DesiredCapabilities create() {
+            return DesiredCapabilities.chrome();
+        }
+    }, "chrome", "google chrome"
+    ),
+    /**
+     * Mozilla Firefox.
+     */
+    FIREFOX(new SeleniumActionCreator() {
+        @Override
+        public SeleniumAction create(WebDriver webDriver) {
+            return new SeleniumAction(webDriver);
+        }
+    }, new DesiredCapabilitiesCreator() {
+        @Override
+        public DesiredCapabilities create() {
+            return DesiredCapabilities.firefox();
+        }
+    }, "firefox", "mozilla firefox", "mozzila"
+    ),
+    /**
+     * PhantomJS headless webkit implementation.
+     */
+    PHANTOM_JS(new SeleniumActionCreator() {
+        @Override
+        public SeleniumAction create(WebDriver webDriver) {
+            return new SeleniumAction(webDriver);
+        }
+    }, new DesiredCapabilitiesCreator() {
+        @Override
+        public DesiredCapabilities create() {
+            return DesiredCapabilities.phantomjs();
+            // TODO Add PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY capability
+        }
+    }, "phantomjs", "phantom js", "headless"
+    ),
+    /**
+     * The default browser ({@link Browser#FIREFOX})
+     */
+    DEFAULT(Browser.FIREFOX);
+
+    /**
+     * The text aliases for the browser.
+     */
+    private final String[] aliases;
+    /**
+     * The creator for creating the browser specific {@link org.fitting.selenium.SeleniumAction}.
+     */
+    private final SeleniumActionCreator seleniumActionCreator;
+    /**
+     * The creator for creating the browser specific Selenium DesiredCapabilities.
+     */
+    private final DesiredCapabilitiesCreator desiredCapabilitiesCreator;
 
     /**
      * Create a new Browser instance.
      *
-     * @param capabilities The desired browser capabilities.
-     * @param url          The URL to connect to.
+     * @param seleniumActionCreator      The creator for creating the browser specific {@link SeleniumAction}.
+     * @param desiredCapabilitiesCreator The creator for creating the browser specific Selenium DesiredCapabilities.
+     * @param aliases                    The text aliases for the browser.
      */
-    public Browser(DesiredCapabilities capabilities, URL url) {
-        webDriver = new RemoteWebDriver(url, capabilities);
-        javascriptEnabled = capabilities.isJavascriptEnabled();
+    private Browser(SeleniumActionCreator seleniumActionCreator, DesiredCapabilitiesCreator desiredCapabilitiesCreator, String... aliases) {
+        this.seleniumActionCreator = seleniumActionCreator;
+        this.aliases = aliases;
+        this.desiredCapabilitiesCreator = desiredCapabilitiesCreator;
     }
 
     /**
-     * Get the underlying WebDriver implementation.
+     * Create a new Browser instance from an existing instance.
      *
-     * @return The WebDriver.
+     * @param original The instance to create the Browser from.
      */
-    public WebDriver getWebDriver() {
-        return webDriver;
+    private Browser(Browser original) {
+        this.aliases = original.aliases;
+        this.seleniumActionCreator = original.seleniumActionCreator;
+        this.desiredCapabilitiesCreator = original.desiredCapabilitiesCreator;
     }
 
     /**
-     * Check if JavaScript is enabled.
+     * Get the text aliases for the browser.
      *
-     * @return <code>true</code> if javascript is enabled.
+     * @return The aliases.
      */
-    public boolean isJavascriptEnabled() {
-        return javascriptEnabled;
+    public String[] getAliases() {
+        return aliases;
     }
 
-    /** Destroy the Browser object. */
-    public void destroy() {
-        this.webDriver.close();
-        this.webDriver = null;
-        this.javascriptEnabled = false;
+    /**
+     * Create a browser specific {@link SeleniumAction}.
+     *
+     * @return The {@link SeleniumAction} instance.
+     */
+    public SeleniumAction createSeleniumAction(WebDriver webDriver) {
+        return seleniumActionCreator.create(webDriver);
+    }
+
+    /**
+     * Create the desired capabilities for the browser.
+     *
+     * @return The desired capabilities.
+     */
+    public DesiredCapabilities createDesiredCapabilities() {
+        return desiredCapabilitiesCreator.create();
+    }
+
+    /**
+     * Check if the given alias is a valid alias for the browser (case insensitive).
+     *
+     * @param alias The alias to check.
+     *
+     * @return <code>true</code> if the alias is a valid alias for the browser.
+     */
+    public boolean hasAlias(String alias) {
+        boolean aliasForBrowser = false;
+        if (!isEmpty(alias)) {
+            for (String a : aliases) {
+                if (alias.equalsIgnoreCase(a)) {
+                    aliasForBrowser = true;
+                    break;
+                }
+            }
+        }
+        return aliasForBrowser;
+    }
+
+    /**
+     * Get the browser for a given alias. If no browser was found {@link Browser#DEFAULT} is returned.
+     *
+     * @param alias The alias.
+     *
+     * @return The browser.
+     */
+    public static Browser getBrowserForAlias(String alias) {
+        Browser browser = DEFAULT;
+        if (!isEmpty(alias)) {
+            for (Browser b : Browser.values()) {
+                if (b.hasAlias(alias)) {
+                    browser = b;
+                    break;
+                }
+            }
+        }
+        return browser;
+    }
+
+    /**
+     * Creator for creating a browser specific {@link SeleniumAction}.
+     */
+    private static interface SeleniumActionCreator {
+        /**
+         * Create the browser specific {@link SeleniumAction}.
+         *
+         * @param webDriver The WebDriver instance to create the action for.
+         *
+         * @return The {@link SeleniumAction}.
+         */
+        SeleniumAction create(WebDriver webDriver);
+    }
+
+    /**
+     * Creator for creating a browser specific DesiredCapabilities instance.
+     */
+    private static interface DesiredCapabilitiesCreator {
+        /**
+         * Create the browser specific DesiredCapabilities instance.
+         *
+         * @return The DesiredCapabilities.
+         */
+        DesiredCapabilities create();
     }
 }

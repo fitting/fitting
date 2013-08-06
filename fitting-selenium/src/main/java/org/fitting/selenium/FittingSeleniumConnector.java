@@ -37,14 +37,14 @@ public class FittingSeleniumConnector implements FittingConnector {
     /**
      * The browser to use.
      */
-    private Browser browser;
+    private BrowserConnector browser;
 
     /**
      * Create a new FittingSeleniumConnect.
      *
      * @param browser The browser to use.
      */
-    public FittingSeleniumConnector(Browser browser) {
+    public FittingSeleniumConnector(BrowserConnector browser) {
         if (browser == null) {
             throw new FittingException("The given selenium connector is null.");
         }
@@ -63,7 +63,7 @@ public class FittingSeleniumConnector implements FittingConnector {
 
     @Override
     public FittingAction getFittingAction() {
-        return new FittingSeleniumAction(browser.getWebDriver());
+        return new SeleniumAction(browser.getWebDriver());
     }
 
     @Override

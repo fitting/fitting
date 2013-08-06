@@ -20,6 +20,7 @@
 package org.fitting.selenium.fixtures;
 
 import org.fitting.fixture.FittingFixture;
+import org.fitting.selenium.BrowserConnector;
 
 /**
  * Fixture for initialising the Selenium coupling.
@@ -30,6 +31,6 @@ import org.fitting.fixture.FittingFixture;
 public class SeleniumFixture extends FittingFixture {
 
     public void openBrowserOnHostWithPort(String browser, String host, int port) {
-
+        BrowserConnector browserConnector = BrowserConnector.builder().withBrowser(browser).onHost(host, port).build();
     }
 }

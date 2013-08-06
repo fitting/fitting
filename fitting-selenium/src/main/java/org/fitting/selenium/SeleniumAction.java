@@ -19,44 +19,54 @@
 
 package org.fitting.selenium;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.fitting.*;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
 /**
- * Selenium implementation of the {@link FittingSeleniumAction}.
+ * Selenium implementation of the {@link SeleniumAction}.
  *
  * @author Barre Dijkstra
  * @since 1.0
  */
-public class FittingSeleniumAction implements FittingAction {
-    /** Error message for when a non-existing search context has been provided. */
+public class SeleniumAction implements FittingAction {
+    /**
+     * Error message for when a non-existing search context has been provided.
+     */
     private static final String ERROR_MESSAGE_NO_SEARCH_CONTEXT = "No search context provided.";
-    /** The id of an (highly likely to be) unknown element. */
+    /**
+     * The id of an (highly likely to be) unknown element.
+     */
     private static final String UNKNOWN_ELEMENT_ID = "unknown_element_id_x3asdf4hd462345";
-    /** The default search interval for element searches in milliseconds. */
+    /**
+     * The default search interval for element searches in milliseconds.
+     */
     private static final int DEFAULT_SEARCH_INTERVAL = 300;
-    /** The WebDriver of the window. */
+    /**
+     * The WebDriver of the window.
+     */
     private final WebDriver driver;
 
     /**
-     * Create a new FittingSeleniumAction instance.
+     * Create a new SeleniumAction instance.
      *
      * @param driver The Selenium WebDriver of the active window.
      */
-    public FittingSeleniumAction(WebDriver driver) {
+    public SeleniumAction(WebDriver driver) {
         this.driver = driver;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Element getElement(final SearchContext searchContext, final By byClause) throws NoSuchElementException {
         return getElement(searchContext, byClause, new NoSuchElementCallback() {
@@ -67,7 +77,9 @@ public class FittingSeleniumAction implements FittingAction {
         });
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Element getElement(SearchContext searchContext, By byClause, NoSuchElementCallback noSuchElementCallback) throws FittingException {
         Element result = null;
@@ -83,7 +95,9 @@ public class FittingSeleniumAction implements FittingAction {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Element> getElements(org.fitting.SearchContext searchContext, By byClause) {
         List<Element> elements = new ArrayList<Element>();
@@ -95,14 +109,21 @@ public class FittingSeleniumAction implements FittingAction {
         return elements;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void waitXSeconds(int duration) {
-        // TODO Implement me, as soon as By.id equivalent is implemented.
-        // waitForElementPresent(null, SeleniumBy.id(UNKNOWN_ELEMENT_ID), duration, null);
+        try {
+            waitForElement(null, SeleniumBy.byId(UNKNOWN_ELEMENT_ID), duration);
+        } catch (NoSuchElementException e) {
+            // Ignore.
+        }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void waitForElement(final SearchContext searchContext, final By byClause, int timeout) throws NoSuchElementException {
         waitForElementPresent(new ExpectedCondition<Element>() {
@@ -119,7 +140,9 @@ public class FittingSeleniumAction implements FittingAction {
         }, timeout, createNoSuchElementExceptionCallback(searchContext, byClause));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void waitForElementWithContent(final SearchContext searchContext, final By byClause, final String content, int timeout) throws NoSuchElementException {
         waitForElementPresent(new ExpectedCondition<Element>() {
@@ -141,13 +164,17 @@ public class FittingSeleniumAction implements FittingAction {
         }, timeout, createNoSuchElementExceptionCallback(searchContext, byClause));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getAttributeValue(SearchContext searchContext, By byClause, String attributeName) throws NoSuchElementException {
         return getElement(searchContext, byClause).getAttributeValue(attributeName);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean elementAttributeValueContains(SearchContext searchContext, By byClause, String attributeName, String text) throws NoSuchElementException {
         boolean contains = false;
@@ -158,13 +185,17 @@ public class FittingSeleniumAction implements FittingAction {
         return contains;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getTextValue(SearchContext searchContext, By byClause) throws NoSuchElementException {
         return getElement(searchContext, byClause).getValue();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean elementTextValueContains(SearchContext searchContext, By byClause, String text) throws NoSuchElementException {
         boolean contains = false;
@@ -175,20 +206,26 @@ public class FittingSeleniumAction implements FittingAction {
         return contains;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clickElement(SearchContext searchContext, By byClause) throws NoSuchElementException {
         getElement(searchContext, byClause).click();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void refresh(ElementContainer elementContainer) {
         // TODO Figure out if we want this on this interface actually...
         elementContainer.refresh();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isContainerPresent(SearchContext searchContext, By byClause) {
         // TODO Figure out if we want this on this interface actually...
@@ -202,113 +239,147 @@ public class FittingSeleniumAction implements FittingAction {
         return present;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ElementContainer getContainer(SearchContext searchContext, By byClause) throws NoSuchElementException {
         // TODO Implement me, but first figure out if we want this on this interface actually...
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ElementContainer getContainer(SearchContext searchContext, By byClause, NoSuchElementCallback noSuchElementCallback) {
         // TODO Implement me, but first figure out if we want this on this interface actually...
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isModalContainerPresent() {
         // TODO Implement me, but first figure out if we want this on this interface actually...
         return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getModalContainerText() {
         // TODO Implement me, but first figure out if we want this on this interface actually...
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void acceptModalContainer() {
         // TODO Implement me, but first figure out if we want this on this interface actually...
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void dismissModalContainer() {
         // TODO Implement me, but first figure out if we want this on this interface actually...
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ElementContainer getModalContainer() {
         // TODO Implement me, but first figure out if we want this on this interface actually...
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isElementValueSelectable(SearchContext searchContext, By byClause, String value) throws NoSuchElementException {
         // TODO Implement me!
         return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void selectElementValue(SearchContext searchContext, By byClause, String value) throws NoSuchElementException {
         // TODO Implement me!
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void selectElementValue(SearchContext searchContext, By byClause, String value, NoSuchElementCallback noSuchElementCallback) {
         // TODO Implement me!
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isElementCheckbox(SearchContext searchContext, By byClause) throws NoSuchElementException {
         // TODO Implement me!
         return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isElementValueSelected(SearchContext searchContext, By byClause, String value) throws NoSuchElementException {
         // TODO Implement me!
         return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isElementValueSelected(SearchContext searchContext, By byClause, String value, NoSuchElementCallback noSuchElementCallback) {
         // TODO Implement me!
         return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isElementValueSettable(SearchContext searchContext, By byClause) throws NoSuchElementException {
         // TODO Implement me!
         return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setValueForElement(SearchContext searchContext, By byClause, String value) {
         getElement(searchContext, byClause).sendKeys(value);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isElementPresent(SearchContext searchContext, By byClause) {
         return getElement(searchContext, byClause, null) != null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isElementDisplayed(SearchContext searchContext, By byClause) throws NoSuchElementException {
         return getElement(searchContext, byClause).isDisplayed();
