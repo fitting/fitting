@@ -19,18 +19,18 @@
 
 package org.fitting.test;
 
+import static java.lang.String.format;
+import static org.apache.commons.lang.StringUtils.isEmpty;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-
-import static java.lang.String.format;
-import static org.apache.commons.lang.StringUtils.isEmpty;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
 
 /**
  * Reflection and dependency injection utility for testing support.
@@ -54,6 +54,7 @@ public final class ReflectionUtility {
      *
      * @return The new singleton instance.
      */
+    @SuppressWarnings("unchecked")
     public static <K> K createNewInstanceAndUpdateSingleton(final Class<K> clazz, final String singletonFieldName, final Object... constructorArguments) {
         K newInstance = null;
         // Get the old instance to ensure at the end that a new instance was created.
@@ -69,7 +70,7 @@ public final class ReflectionUtility {
             final K oldInstance = (K) singletonField.get(null);
 
             // Create a new instance and set it to the singleton field.
-            final Constructor constructor = clazz.getDeclaredConstructor();
+            final Constructor<?> constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
             newInstance = (K) constructor.newInstance();
             singletonField.set(null, newInstance);
@@ -125,6 +126,7 @@ public final class ReflectionUtility {
      *
      * @return The annotation instance.
      */
+    @SuppressWarnings("unchecked")
     public static <K> K getParameterAnnotation(final Method method, final int index, final Class<K> annotationClass) {
         try {
             K annotation = null;
@@ -183,13 +185,13 @@ public final class ReflectionUtility {
     }
 
     /**
-     * Injects the given value on the given object for the given field.
+     * Injects the given value on the given class for the given static field.
      *
      * @param clazz     The class to inject the field value on.
      * @param fieldName The field to inject the value for.
      * @param value     The value to inject.
      */
-    public static void inject(final Class clazz, final String fieldName, final Object value) {
+    public static void injectStatic(final Class<?> clazz, final String fieldName, final Object value) {
         try {
             final Field field = getField(clazz, fieldName);
             field.setAccessible(true);
@@ -218,12 +220,12 @@ public final class ReflectionUtility {
     }
 
     /**
-     * Gets the field from the object.
+     * Gets the static field from the class.
      *
      * @param clazz     The class to extract the field from.
      * @param fieldName The field to extract.
      */
-    public static Object extract(final Class clazz, final String fieldName) {
+    public static Object extractStatic(final Class<?> clazz, final String fieldName) {
         try {
             final Field field = getField(clazz, fieldName);
             field.setAccessible(true);
@@ -243,7 +245,7 @@ public final class ReflectionUtility {
      *
      * @return field The field.
      */
-    private static Field getField(final Class clazz, final String fieldName) {
+    private static Field getField(final Class<?> clazz, final String fieldName) {
         try {
             return clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
@@ -262,9 +264,9 @@ public final class ReflectionUtility {
      *
      * @return instance The instance.
      */
-    public static Object callDefaultPrivateConstructor(final Class clazz) {
+    public static Object callDefaultPrivateConstructor(final Class<?> clazz) {
         try {
-            final Constructor constructor = clazz.getDeclaredConstructor();
+            final Constructor<?> constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
             return constructor.newInstance();
         } catch (NoSuchMethodException e) {
@@ -289,7 +291,8 @@ public final class ReflectionUtility {
      *
      * @return
      */
-    public static <T> T callPrivateMethod(final Object object, final String name, final Class[] parameterTypes, final Object[] objects, final Class<T> returnType)
+    @SuppressWarnings("unchecked")
+    public static <T> T callPrivateMethod(final Object object, final String name, final Class<?>[] parameterTypes, final Object[] objects, final Class<T> returnType)
             throws Throwable {
         try {
             final Method method = object.getClass().getDeclaredMethod(name, parameterTypes);

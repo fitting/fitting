@@ -14,7 +14,7 @@ public enum Browser {
      */
     INTERNET_EXPLORER(new SeleniumActionCreator() {
         @Override
-        public SeleniumAction create(WebDriver webDriver) {
+        public SeleniumAction create(final WebDriver webDriver) {
             return new SeleniumAction(webDriver);
         }
     }, new DesiredCapabilitiesCreator() {
@@ -29,7 +29,7 @@ public enum Browser {
      */
     OPERA(new SeleniumActionCreator() {
         @Override
-        public SeleniumAction create(WebDriver webDriver) {
+        public SeleniumAction create(final WebDriver webDriver) {
             return new SeleniumAction(webDriver);
         }
     }, new DesiredCapabilitiesCreator() {
@@ -44,7 +44,7 @@ public enum Browser {
      */
     CHROME(new SeleniumActionCreator() {
         @Override
-        public SeleniumAction create(WebDriver webDriver) {
+        public SeleniumAction create(final WebDriver webDriver) {
             return new SeleniumAction(webDriver);
         }
     }, new DesiredCapabilitiesCreator() {
@@ -59,7 +59,7 @@ public enum Browser {
      */
     FIREFOX(new SeleniumActionCreator() {
         @Override
-        public SeleniumAction create(WebDriver webDriver) {
+        public SeleniumAction create(final WebDriver webDriver) {
             return new SeleniumAction(webDriver);
         }
     }, new DesiredCapabilitiesCreator() {
@@ -67,14 +67,14 @@ public enum Browser {
         public DesiredCapabilities create() {
             return DesiredCapabilities.firefox();
         }
-    }, "firefox", "mozilla firefox", "mozzila"
+    }, "ff", "firefox", "mozilla firefox", "mozzila"
     ),
     /**
      * PhantomJS headless webkit implementation.
      */
     PHANTOM_JS(new SeleniumActionCreator() {
         @Override
-        public SeleniumAction create(WebDriver webDriver) {
+        public SeleniumAction create(final WebDriver webDriver) {
             return new SeleniumAction(webDriver);
         }
     }, new DesiredCapabilitiesCreator() {
@@ -110,7 +110,7 @@ public enum Browser {
      * @param desiredCapabilitiesCreator The creator for creating the browser specific Selenium DesiredCapabilities.
      * @param aliases                    The text aliases for the browser.
      */
-    private Browser(SeleniumActionCreator seleniumActionCreator, DesiredCapabilitiesCreator desiredCapabilitiesCreator, String... aliases) {
+    private Browser(final SeleniumActionCreator seleniumActionCreator, final DesiredCapabilitiesCreator desiredCapabilitiesCreator, final String... aliases) {
         this.seleniumActionCreator = seleniumActionCreator;
         this.aliases = aliases;
         this.desiredCapabilitiesCreator = desiredCapabilitiesCreator;
@@ -121,7 +121,7 @@ public enum Browser {
      *
      * @param original The instance to create the Browser from.
      */
-    private Browser(Browser original) {
+    private Browser(final Browser original) {
         this.aliases = original.aliases;
         this.seleniumActionCreator = original.seleniumActionCreator;
         this.desiredCapabilitiesCreator = original.desiredCapabilitiesCreator;
@@ -141,7 +141,7 @@ public enum Browser {
      *
      * @return The {@link SeleniumAction} instance.
      */
-    public SeleniumAction createSeleniumAction(WebDriver webDriver) {
+    public SeleniumAction createSeleniumAction(final WebDriver webDriver) {
         return seleniumActionCreator.create(webDriver);
     }
 
@@ -161,7 +161,7 @@ public enum Browser {
      *
      * @return <code>true</code> if the alias is a valid alias for the browser.
      */
-    public boolean hasAlias(String alias) {
+    public boolean hasAlias(final String alias) {
         boolean aliasForBrowser = false;
         if (!isEmpty(alias)) {
             for (String a : aliases) {
@@ -181,7 +181,7 @@ public enum Browser {
      *
      * @return The browser.
      */
-    public static Browser getBrowserForAlias(String alias) {
+    public static Browser getBrowserForAlias(final String alias) {
         Browser browser = DEFAULT;
         if (!isEmpty(alias)) {
             for (Browser b : Browser.values()) {

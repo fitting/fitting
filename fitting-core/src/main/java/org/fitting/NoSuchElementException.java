@@ -25,6 +25,8 @@ import static java.lang.String.format;
  * Exception for when an element could not been found.
  */
 public class NoSuchElementException extends FormattedFittingException {
+    private static final long serialVersionUID = 1L;
+
     /**
      * The default message.
      */
@@ -36,7 +38,7 @@ public class NoSuchElementException extends FormattedFittingException {
      * @param searchContext The search context where the element was searched on.
      * @param byClause      The By-clause used.
      */
-    public NoSuchElementException(SearchContext searchContext, By byClause) {
+    public NoSuchElementException(final SearchContext searchContext, final By byClause) {
         super(format(NO_ELEMENT_MESSAGE, searchContext.toString(), byClause.toString()));
     }
 }

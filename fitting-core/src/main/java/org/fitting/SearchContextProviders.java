@@ -20,26 +20,27 @@
 package org.fitting;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-/** Container for holding multiple search contexts, indexed by their id. */
-public final class SearchContextProviders {
-    /** The providers. */
-    private final Map<String, SearchContextProvider> providers;
+/**
+ * Container for holding multiple search contexts, indexed by their id.
+ * Basically, this class extends HashMap<String, SearchContextProvider>
+ * and provides some user friendly util methods on top of that.
+ */
+public final class SearchContextProviders extends HashMap<String, SearchContextProvider> {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Create a new SearchContextProviders instance.
      * @param providers The providers.
      */
     public SearchContextProviders(final SearchContextProvider... providers) {
-        this.providers = new HashMap<String, SearchContextProvider>();
         if ((providers == null) || (providers.length == 0)) {
             throw new IllegalArgumentException("No SearchContextProviders provided.");
         }
         for (final SearchContextProvider provider : providers) {
-            this.providers.put(provider.getId(), provider);
+            this.put(provider.getId(), provider);
         }
     }
 
@@ -49,11 +50,7 @@ public final class SearchContextProviders {
      * @return The provider or null if no provider was known under the given id.
      */
     public SearchContextProvider getSearchContextProvider(final String id) {
-        SearchContextProvider provider = null;
-        if ((id != null) && (this.providers.containsKey(id))) {
-            provider = this.providers.get(id);
-        }
-        return provider;
+        return this.get(id);
     }
 
     /**
@@ -61,7 +58,7 @@ public final class SearchContextProviders {
      * @return The provider ids.
      */
     public Set<String> getProviderIds() {
-        return new HashSet<String>(this.providers.keySet());
+        return this.keySet();
     }
 
     /**
@@ -70,6 +67,6 @@ public final class SearchContextProviders {
      * @return True if there as a SearchContextProvider known under the given id.
      */
     public boolean isSearchContextProviderKnown(final String id) {
-        return (id != null) && (this.providers.containsKey(id));
+        return id != null && this.containsKey(id);
     }
 }

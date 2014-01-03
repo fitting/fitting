@@ -67,7 +67,7 @@ public interface ElementContainer extends SearchContext {
      *
      * <p>
      * If the container does not support being activated (e.g. for panels), it is up to the implementing class to decide whether to delegate the call to a parent container,
-     * ignore the call or  throw an exception.
+     * ignore the call or throw an exception.
      * </p>
      */
     void activate();

@@ -24,6 +24,7 @@ import org.fitting.ElementContainerProvider;
 import org.fitting.FittingAction;
 import org.fitting.FittingConnector;
 import org.fitting.FittingException;
+import org.fitting.SearchContext;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -44,7 +45,7 @@ public class FittingSeleniumConnector implements FittingConnector {
      *
      * @param browser The browser to use.
      */
-    public FittingSeleniumConnector(BrowserConnector browser) {
+    public FittingSeleniumConnector(final BrowserConnector browser) {
         if (browser == null) {
             throw new FittingException("The given selenium connector is null.");
         }
@@ -63,12 +64,17 @@ public class FittingSeleniumConnector implements FittingConnector {
 
     @Override
     public FittingAction getFittingAction() {
-        return new SeleniumAction(browser.getWebDriver());
+        return new SeleniumAction(this.getWebDriver());
     }
 
     @Override
     public ElementContainerProvider getElementContainerProvider() {
-        return new SeleniumWindowProvider(browser.getWebDriver());
+        return new SeleniumWindowProvider(this.getWebDriver());
+    }
+
+    @Override
+    public SearchContext getDefaultSearchContext() {
+        return new WebDriverSearchContext(this.getWebDriver());
     }
 
     @Override

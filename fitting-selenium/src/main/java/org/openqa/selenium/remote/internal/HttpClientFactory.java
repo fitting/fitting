@@ -90,7 +90,7 @@ public class HttpClientFactory {
         return params;
     }
 
-    public HttpRoutePlanner getRoutePlanner(SchemeRegistry registry) {
+    public HttpRoutePlanner getRoutePlanner(final SchemeRegistry registry) {
         return new ProxySelectorRoutePlanner(registry, ProxySelector.getDefault());
     }
 
@@ -108,13 +108,15 @@ public class HttpClientFactory {
 
     static class MyRedirectHandler implements RedirectStrategy {
 
-        public boolean isRedirected(HttpRequest request, HttpResponse response, HttpContext context)
+        @Override
+        public boolean isRedirected(final HttpRequest request, final HttpResponse response, final HttpContext context)
                 throws ProtocolException {
             return false;
         }
 
-        public HttpUriRequest getRedirect(HttpRequest request, HttpResponse response,
-                                          HttpContext context) throws ProtocolException {
+        @Override
+        public HttpUriRequest getRedirect(final HttpRequest request, final HttpResponse response,
+                                          final HttpContext context) throws ProtocolException {
             return null;
         }
     }

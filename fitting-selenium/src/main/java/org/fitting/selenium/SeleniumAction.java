@@ -32,7 +32,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
 /**
- * Selenium implementation of the {@link SeleniumAction}.
+ * Selenium implementation of the {@link FittingAction}.
  *
  * @author Barre Dijkstra
  * @since 1.0
@@ -60,7 +60,7 @@ public class SeleniumAction implements FittingAction {
      *
      * @param driver The Selenium WebDriver of the active window.
      */
-    public SeleniumAction(WebDriver driver) {
+    public SeleniumAction(final WebDriver driver) {
         this.driver = driver;
     }
 
@@ -69,19 +69,14 @@ public class SeleniumAction implements FittingAction {
      */
     @Override
     public Element getElement(final SearchContext searchContext, final By byClause) throws NoSuchElementException {
-        return getElement(searchContext, byClause, new NoSuchElementCallback() {
-            @Override
-            public void onNoSuchElementFound(Object... objects) {
-                throw new NoSuchElementException(searchContext, byClause);
-            }
-        });
+        return getElement(searchContext, byClause, createNoSuchElementExceptionCallback(searchContext, byClause));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Element getElement(SearchContext searchContext, By byClause, NoSuchElementCallback noSuchElementCallback) throws FittingException {
+    public Element getElement(final SearchContext searchContext, final By byClause, final NoSuchElementCallback noSuchElementCallback) throws FittingException {
         Element result = null;
         try {
             result = searchContext.findElementBy(byClause);
@@ -99,10 +94,10 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public List<Element> getElements(org.fitting.SearchContext searchContext, By byClause) {
+    public List<Element> getElements(final org.fitting.SearchContext searchContext, final By byClause) {
         List<Element> elements = new ArrayList<Element>();
         try {
-            searchContext.findElementsBy(byClause);
+            elements = searchContext.findElementsBy(byClause);
         } catch (NullPointerException e) {
             throw new FormattedFittingException(ERROR_MESSAGE_NO_SEARCH_CONTEXT, e);
         }
@@ -113,7 +108,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public void waitXSeconds(int duration) {
+    public void waitXSeconds(final int duration) {
         try {
             waitForElement(null, SeleniumBy.byId(UNKNOWN_ELEMENT_ID), duration);
         } catch (NoSuchElementException e) {
@@ -125,10 +120,10 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public void waitForElement(final SearchContext searchContext, final By byClause, int timeout) throws NoSuchElementException {
+    public void waitForElement(final SearchContext searchContext, final By byClause, final int timeout) throws NoSuchElementException {
         waitForElementPresent(new ExpectedCondition<Element>() {
             @Override
-            public Element apply(WebDriver driver) {
+            public Element apply(final WebDriver driver) {
                 Element element = null;
                 if (searchContext == null) {
                     element = convert(driver.findElement(convert(byClause)));
@@ -144,10 +139,10 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public void waitForElementWithContent(final SearchContext searchContext, final By byClause, final String content, int timeout) throws NoSuchElementException {
+    public void waitForElementWithContent(final SearchContext searchContext, final By byClause, final String content, final int timeout) throws NoSuchElementException {
         waitForElementPresent(new ExpectedCondition<Element>() {
             @Override
-            public Element apply(WebDriver driver) {
+            public Element apply(final WebDriver driver) {
                 boolean found = false;
                 Element element = null;
                 if (searchContext == null) {
@@ -168,7 +163,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public String getAttributeValue(SearchContext searchContext, By byClause, String attributeName) throws NoSuchElementException {
+    public String getAttributeValue(final SearchContext searchContext, final By byClause, final String attributeName) throws NoSuchElementException {
         return getElement(searchContext, byClause).getAttributeValue(attributeName);
     }
 
@@ -176,7 +171,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public boolean elementAttributeValueContains(SearchContext searchContext, By byClause, String attributeName, String text) throws NoSuchElementException {
+    public boolean elementAttributeValueContains(final SearchContext searchContext, final By byClause, final String attributeName, final String text) throws NoSuchElementException {
         boolean contains = false;
         String attributeValue = getAttributeValue(searchContext, byClause, attributeName);
         if (!isEmpty(attributeValue)) {
@@ -189,7 +184,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public String getTextValue(SearchContext searchContext, By byClause) throws NoSuchElementException {
+    public String getTextValue(final SearchContext searchContext, final By byClause) throws NoSuchElementException {
         return getElement(searchContext, byClause).getValue();
     }
 
@@ -197,7 +192,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public boolean elementTextValueContains(SearchContext searchContext, By byClause, String text) throws NoSuchElementException {
+    public boolean elementTextValueContains(final SearchContext searchContext, final By byClause, final String text) throws NoSuchElementException {
         boolean contains = false;
         String textValue = getElement(searchContext, byClause).getValue();
         if (!isEmpty(textValue)) {
@@ -210,7 +205,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public void clickElement(SearchContext searchContext, By byClause) throws NoSuchElementException {
+    public void clickElement(final SearchContext searchContext, final By byClause) throws NoSuchElementException {
         getElement(searchContext, byClause).click();
     }
 
@@ -218,7 +213,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public void refresh(ElementContainer elementContainer) {
+    public void refresh(final ElementContainer elementContainer) {
         // TODO Figure out if we want this on this interface actually...
         elementContainer.refresh();
     }
@@ -227,7 +222,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public boolean isContainerPresent(SearchContext searchContext, By byClause) {
+    public boolean isContainerPresent(final SearchContext searchContext, final By byClause) {
         // TODO Figure out if we want this on this interface actually...
         boolean present = false;
         try {
@@ -243,7 +238,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public ElementContainer getContainer(SearchContext searchContext, By byClause) throws NoSuchElementException {
+    public ElementContainer getContainer(final SearchContext searchContext, final By byClause) throws NoSuchElementException {
         // TODO Implement me, but first figure out if we want this on this interface actually...
         return null;
     }
@@ -252,7 +247,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public ElementContainer getContainer(SearchContext searchContext, By byClause, NoSuchElementCallback noSuchElementCallback) {
+    public ElementContainer getContainer(final SearchContext searchContext, final By byClause, final NoSuchElementCallback noSuchElementCallback) {
         // TODO Implement me, but first figure out if we want this on this interface actually...
         return null;
     }
@@ -304,7 +299,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public boolean isElementValueSelectable(SearchContext searchContext, By byClause, String value) throws NoSuchElementException {
+    public boolean isElementValueSelectable(final SearchContext searchContext, final By byClause, final String value) throws NoSuchElementException {
         // TODO Implement me!
         return false;
     }
@@ -313,7 +308,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public void selectElementValue(SearchContext searchContext, By byClause, String value) throws NoSuchElementException {
+    public void selectElementValue(final SearchContext searchContext, final By byClause, final String value) throws NoSuchElementException {
         // TODO Implement me!
     }
 
@@ -321,7 +316,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public void selectElementValue(SearchContext searchContext, By byClause, String value, NoSuchElementCallback noSuchElementCallback) {
+    public void selectElementValue(final SearchContext searchContext, final By byClause, final String value, final NoSuchElementCallback noSuchElementCallback) {
         // TODO Implement me!
     }
 
@@ -329,16 +324,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public boolean isElementCheckbox(SearchContext searchContext, By byClause) throws NoSuchElementException {
-        // TODO Implement me!
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isElementValueSelected(SearchContext searchContext, By byClause, String value) throws NoSuchElementException {
+    public boolean isElementCheckbox(final SearchContext searchContext, final By byClause) throws NoSuchElementException {
         // TODO Implement me!
         return false;
     }
@@ -347,7 +333,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public boolean isElementValueSelected(SearchContext searchContext, By byClause, String value, NoSuchElementCallback noSuchElementCallback) {
+    public boolean isElementValueSelected(final SearchContext searchContext, final By byClause, final String value) throws NoSuchElementException {
         // TODO Implement me!
         return false;
     }
@@ -356,7 +342,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public boolean isElementValueSettable(SearchContext searchContext, By byClause) throws NoSuchElementException {
+    public boolean isElementValueSelected(final SearchContext searchContext, final By byClause, final String value, final NoSuchElementCallback noSuchElementCallback) {
         // TODO Implement me!
         return false;
     }
@@ -365,7 +351,16 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public void setValueForElement(SearchContext searchContext, By byClause, String value) {
+    public boolean isElementValueSettable(final SearchContext searchContext, final By byClause) throws NoSuchElementException {
+        // TODO Implement me!
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setValueForElement(final SearchContext searchContext, final By byClause, final String value) {
         getElement(searchContext, byClause).sendKeys(value);
     }
 
@@ -373,7 +368,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public boolean isElementPresent(SearchContext searchContext, By byClause) {
+    public boolean isElementPresent(final SearchContext searchContext, final By byClause) {
         return getElement(searchContext, byClause, null) != null;
     }
 
@@ -381,7 +376,7 @@ public class SeleniumAction implements FittingAction {
      * {@inheritDoc}
      */
     @Override
-    public boolean isElementDisplayed(SearchContext searchContext, By byClause) throws NoSuchElementException {
+    public boolean isElementDisplayed(final SearchContext searchContext, final By byClause) throws NoSuchElementException {
         return getElement(searchContext, byClause).isDisplayed();
     }
 
@@ -419,7 +414,7 @@ public class SeleniumAction implements FittingAction {
     private NoSuchElementCallback createNoSuchElementExceptionCallback(final SearchContext searchContext, final By byClause) {
         return new NoSuchElementCallback() {
             @Override
-            public void onNoSuchElementFound(Object... objects) {
+            public void onNoSuchElementFound(final Object... objects) {
                 throw new NoSuchElementException(searchContext, byClause);
             }
         };

@@ -23,6 +23,8 @@ package org.fitting;
  * Generic exception for Fitting related exceptions.
  */
 public class FittingException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+
     /**
      * Create a new exception.
      *

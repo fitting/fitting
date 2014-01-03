@@ -22,7 +22,7 @@ package org.fitting;
 /**
  * Mock {@link FittingConnector}.
  *
- * @authoir barre
+ * @author Barre Dijkstra
  * @since 1.0
  */
 public class MockFittingConnector implements FittingConnector {
@@ -35,7 +35,7 @@ public class MockFittingConnector implements FittingConnector {
         this(null, null, null);
     }
 
-    public MockFittingConnector(ByProvider byProvider, FittingAction fittingAction, ElementContainerProvider elementContainerProvider) {
+    public MockFittingConnector(final ByProvider byProvider, final FittingAction fittingAction, final ElementContainerProvider elementContainerProvider) {
         this.byProvider = byProvider;
         this.fittingAction = fittingAction;
         this.elementContainerProvider = elementContainerProvider;
@@ -62,6 +62,12 @@ public class MockFittingConnector implements FittingConnector {
     }
 
     @Override
+    public SearchContext getDefaultSearchContext() {
+        return null;
+    }
+
+    @Override
     public void destroy() {
     }
+
 }

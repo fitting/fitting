@@ -22,11 +22,13 @@ package org.fitting;
 import static java.lang.String.format;
 
 /**
- * {@link FittingException} implementation that provides FitNesse formatted messages.
+ * {@link FittingException} implementation that provides Fitting formatted messages.
  */
 public class FormattedFittingException extends FittingException {
+    private static final long serialVersionUID = 1L;
+
     /**
-     * The wrapper string for clean fitnesse messages.
+     * The wrapper string for clean fitting messages.
      */
     private static final String MESSAGE_WRAPPER = "message:<<FITTING_ERROR %s>>";
 

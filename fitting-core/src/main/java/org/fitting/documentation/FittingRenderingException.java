@@ -25,12 +25,14 @@ import org.fitting.FittingException;
  * Exception for rendering related exceptions.
  */
 public class FittingRenderingException extends FittingException {
+    private static final long serialVersionUID = 1L;
+
     /**
      * Create a new exception.
      *
      * @param message The exception message.
      */
-    public FittingRenderingException(String message) {
+    public FittingRenderingException(final String message) {
         super(message);
     }
 
@@ -40,7 +42,7 @@ public class FittingRenderingException extends FittingException {
      * @param message The exception message.
      * @param cause   The cause-exception.
      */
-    public FittingRenderingException(String message, Throwable cause) {
+    public FittingRenderingException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -49,7 +51,7 @@ public class FittingRenderingException extends FittingException {
      *
      * @param cause The cause-exception.
      */
-    public FittingRenderingException(Throwable cause) {
+    public FittingRenderingException(final Throwable cause) {
         super(cause);
     }
 }

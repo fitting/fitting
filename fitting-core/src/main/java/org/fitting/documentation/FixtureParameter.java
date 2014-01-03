@@ -36,7 +36,7 @@ public @interface FixtureParameter {
     /**
      * The name of the parameter.
      * <p>
-     * This is to circumvent that problem that the parameter name is not accessible at runtime until Java 8 (http://openjdk.java.net/projects/jdk8/features#118)
+     * This is to circumvent the problem that the parameter name is not accessible at runtime until Java 8 (http://openjdk.java.net/projects/jdk8/features#118)
      * </p>
      *
      * @return

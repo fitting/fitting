@@ -75,7 +75,7 @@ public abstract class ElementContainerProvider {
      *
      * @param listener The listener to register.
      */
-    public final void register(ContainerListener listener) {
+    public final void register(final ContainerListener listener) {
         if (listener != null) {
             containerListeners.add(listener);
         }
@@ -86,7 +86,7 @@ public abstract class ElementContainerProvider {
      *
      * @param listener The listener to remove.
      */
-    public final void remove(ContainerListener listener) {
+    public final void remove(final ContainerListener listener) {
         if ((listener != null) && (containerListeners.contains(listener))) {
             containerListeners.remove(listener);
         }
@@ -101,7 +101,7 @@ public abstract class ElementContainerProvider {
      *
      * @throws FittingException When no container was found with the given id.
      */
-    public final ElementContainer activateElementContainer(String id) throws FittingException {
+    public final ElementContainer activateElementContainer(final String id) throws FittingException {
         ElementContainer elementContainer = getElementContainer(id);
         elementContainer.activate();
         activeElementContainerId = id;
@@ -118,7 +118,7 @@ public abstract class ElementContainerProvider {
      * @throws FittingException When no container was found with the given id.
      */
 
-    public final ElementContainer getElementContainer(String id) throws FittingException {
+    public final ElementContainer getElementContainer(final String id) throws FittingException {
         ElementContainer elementContainer = null;
         if (!isEmpty(id) && elementContainers.containsKey(id)) {
             elementContainer = elementContainers.get(id);
@@ -163,7 +163,7 @@ public abstract class ElementContainerProvider {
      *
      * @throws FittingException When no container was found with the given id.
      */
-    public final void closeElementContainer(String id) throws FittingException {
+    public final void closeElementContainer(final String id) throws FittingException {
         ElementContainer container = elementContainers.remove(id);
         container.close();
         if (isElementContainerActive(id)) {
@@ -208,8 +208,9 @@ public abstract class ElementContainerProvider {
      *
      * @throws FittingException When there is no container registered with the given id.
      */
-    public final void setMainElementContainer(String id) throws FittingException {
-        ElementContainer container = getElementContainer(id);
+    public final void setMainElementContainer(final String id) throws FittingException {
+        // Try to get an element container with this id, just to assert it exists.
+        getElementContainer(id);
         mainElementContainerId = id;
     }
 
@@ -231,8 +232,8 @@ public abstract class ElementContainerProvider {
      *
      * @throws FittingException When no container was found with the given id.
      */
-    public boolean isElementContainerActive(String id) throws FittingException {
-        return activeElementContainerId.equals(id) && getElementContainer(id).isActive();
+    public boolean isElementContainerActive(final String id) throws FittingException {
+        return activeElementContainerId != null && activeElementContainerId.equals(id);
     }
 
     /**
@@ -245,7 +246,7 @@ public abstract class ElementContainerProvider {
      *
      * @throws FittingException When the container couldn't be created.
      */
-    public final ElementContainer createNewElementContainer(String uri, boolean activate) throws FittingException {
+    public final ElementContainer createNewElementContainer(final String uri, final boolean activate) throws FittingException {
         ElementContainer elementContainer = createContainer(uri);
         addNewElementContainer(elementContainer, activate);
         return elementContainer;
@@ -262,7 +263,7 @@ public abstract class ElementContainerProvider {
      *
      * @throws FittingException When the container couldn't be created or no parent could be found with the given id.
      */
-    public final ElementContainer createNewElementContainer(String uri, String parentId, boolean activate) throws FittingException {
+    public final ElementContainer createNewElementContainer(final String uri, final String parentId, final boolean activate) throws FittingException {
         ElementContainer parent = getElementContainer(parentId);
         ElementContainer elementContainer = createContainer(uri, parent);
         addNewElementContainer(elementContainer, activate);
@@ -275,7 +276,7 @@ public abstract class ElementContainerProvider {
      * @param elementContainer The container to add.
      * @param activate         Flag indicating if the container should be activated.
      */
-    private void addNewElementContainer(ElementContainer elementContainer, boolean activate) {
+    private void addNewElementContainer(final ElementContainer elementContainer, final boolean activate) {
         String containerId = elementContainer.getId();
         elementContainers.put(containerId, elementContainer);
         if (activate) {

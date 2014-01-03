@@ -47,7 +47,7 @@ public class FittingConfigurationTest {
     @Test
     public void shouldBeSingleton() {
         // Make sure the constructors are either private or protected.
-        for (Constructor<?> c : configuration.getClass().getConstructors()) {
+        for (Constructor<?> c : configuration.getClass().getDeclaredConstructors()) {
             assertTrue(Modifier.isPrivate(c.getModifiers()) || Modifier.isProtected(c.getModifiers()));
         }
         // Make sure the getInstance() returns the same instance.

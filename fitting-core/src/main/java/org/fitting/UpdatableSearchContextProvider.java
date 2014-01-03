@@ -51,7 +51,7 @@ public abstract class UpdatableSearchContextProvider implements SearchContextPro
 
     @Override
     public SearchContext getSearchContext() {
-        // TODO Implement me!
-        return null;
+        // TODO Check if implementation below is as expected!
+        return FittingContainer.get().getFittingAction().getElement(FittingContainer.get().getDefaultSearchContext(), this.by);
     }
 }

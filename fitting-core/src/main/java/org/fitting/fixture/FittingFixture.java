@@ -19,29 +19,51 @@
 
 package org.fitting.fixture;
 
-import org.fitting.*;
-
-import static java.lang.String.format;
+import org.fitting.By;
+import org.fitting.ByProvider;
+import org.fitting.ElementContainer;
+import org.fitting.FittingAction;
+import org.fitting.FittingConnector;
+import org.fitting.FittingContainer;
+import org.fitting.FittingException;
+import org.fitting.SearchContext;
+import org.fitting.SearchContextProvider;
+import org.fitting.SearchContextProviders;
 
 /**
  * Base fixture for all fitting fixtures, allowing access to the managed resources.
  */
 public abstract class FittingFixture {
+
+    /**
+     * The fixed id for the default search context provider.
+     */
+    public static final String DEFAULT_SEARCH_CONTEXT_PROVIDER_ID = "DefaultSearchContextProvider";
+
     /**
      * The search context providers to use.
      */
     private final ThreadLocal<SearchContextProviders> providers = new ThreadLocal<SearchContextProviders>();
 
     /**
-     * Create a new selenium fixture, using WebDriver (and thus the window root) as search context.
+     * Create a new fitting fixture, using the default search context from the connector.
      */
     public FittingFixture() {
-        // TODO Add a default SearchContextProvider that uses the default window driver.
-        this(null);
+        // Create an anonymous inner class provider with the default search context and the default id.
+        this(new SearchContextProvider() {
+            @Override
+            public SearchContext getSearchContext() {
+                return FittingContainer.get().getDefaultSearchContext();
+            }
+            @Override
+            public String getId() {
+                return DEFAULT_SEARCH_CONTEXT_PROVIDER_ID;
+            }
+        });
     }
 
     /**
-     * Create a new selenium fixture, using a custom search context provider for providing the search context.
+     * Create a new fitting fixture, using a custom search context provider for providing the search context.
      *
      * @param searchContextProviders The SearchContextProviders.
      */
@@ -68,13 +90,9 @@ public abstract class FittingFixture {
      *
      * @throws FittingAction When the By-clause could not be created.
      */
-    protected final By getByClause(String byTag, String query) throws FittingException {
+    protected final By getByClause(final String byTag, final String query) throws FittingException {
         ByProvider provider = getConnector().getByProvider();
-        By byClause = provider.getBy(byTag, query);
-        if (byClause == null) {
-            throw new FormattedFittingException(format("No By-clause was available for tag [%s] with query [%s].", byTag, query));
-        }
-        return byClause;
+        return provider.getBy(byTag, query);
     }
 
     /**
@@ -96,20 +114,16 @@ public abstract class FittingFixture {
     }
 
     /**
-     * Get the search context by its id.
-     * <p/>
-     * The search context is either a WebElement or the WebDriver.
+     * Get the default search context.
      *
-     * @return The search context or null if there is no search context for the given id.
+     * @return The search context.
      */
     protected final SearchContext getSearchContext() {
-        // TODO Implement a default (public static final) ID for the default search context provider.
-        return getSearchContext(null);
+        return getSearchContext(DEFAULT_SEARCH_CONTEXT_PROVIDER_ID);
     }
 
     /**
      * Get the search context provider by its id.
-     * <p/>
      *
      * @param id The id of the search context.
      *
@@ -120,18 +134,16 @@ public abstract class FittingFixture {
     }
 
     /**
-     * Get the search context by its id.
-     * <p/>
-     * The search context is either a WebElement or the WebDriver.
+     * Get the search context by its search context provider id.
      *
-     * @param id The id of the search context.
+     * @param providerId The id of the search context provider.
      *
-     * @return The search context or null if there is no search context for the given id.
+     * @return The search context or null if there is no search context provider for the given id.
      */
-    protected final SearchContext getSearchContext(final String id) {
+    protected final SearchContext getSearchContext(final String providerId) {
         SearchContext context = null;
-        if (providers.get().isSearchContextProviderKnown(id)) {
-            final SearchContextProvider provider = providers.get().getSearchContextProvider(id);
+        final SearchContextProvider provider = this.getSearchContextProvider(providerId);
+        if (provider != null) {
             context = provider.getSearchContext();
         }
         return context;

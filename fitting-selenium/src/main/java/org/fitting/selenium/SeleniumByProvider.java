@@ -36,52 +36,54 @@ public class SeleniumByProvider implements ByProvider {
     /**
      * The By-clauses provided by this provider.
      */
-    private static final Map<String, SeleniumByFactory> BY_CLAUSES = new HashMap<String, SeleniumByFactory>() {{
+    private static final Map<String, SeleniumByFactory> BY_CLAUSES = new HashMap<String, SeleniumByFactory>() {
+        private static final long serialVersionUID = 1L;
+    {
         put(SeleniumBy.NAME_CLASS_NAME, new SeleniumByFactory() {
             @Override
-            public SeleniumBy create(String query) {
+            public SeleniumBy create(final String query) {
                 return SeleniumBy.byClassName(query);
             }
         });
         put(SeleniumBy.NAME_XPATH, new SeleniumByFactory() {
             @Override
-            public SeleniumBy create(String query) {
+            public SeleniumBy create(final String query) {
                 return SeleniumBy.byXPath(query);
             }
         });
         put(SeleniumBy.NAME_CSS_SELECTOR, new SeleniumByFactory() {
             @Override
-            public SeleniumBy create(String query) {
+            public SeleniumBy create(final String query) {
                 return SeleniumBy.byCssSelector(query);
             }
         });
         put(SeleniumBy.NAME_ID, new SeleniumByFactory() {
             @Override
-            public SeleniumBy create(String query) {
+            public SeleniumBy create(final String query) {
                 return SeleniumBy.byId(query);
             }
         });
         put(SeleniumBy.NAME_LINK_TEXT, new SeleniumByFactory() {
             @Override
-            public SeleniumBy create(String query) {
+            public SeleniumBy create(final String query) {
                 return SeleniumBy.byLinkText(query);
             }
         });
         put(SeleniumBy.NAME_NAME, new SeleniumByFactory() {
             @Override
-            public SeleniumBy create(String query) {
+            public SeleniumBy create(final String query) {
                 return SeleniumBy.byName(query);
             }
         });
         put(SeleniumBy.NAME_PARTIAL_LINK_TEXT, new SeleniumByFactory() {
             @Override
-            public SeleniumBy create(String query) {
+            public SeleniumBy create(final String query) {
                 return SeleniumBy.byPartialLinkText(query);
             }
         });
         put(SeleniumBy.NAME_TAG_NAME, new SeleniumByFactory() {
             @Override
-            public SeleniumBy create(String query) {
+            public SeleniumBy create(final String query) {
                 return SeleniumBy.byTagName(query);
             }
         });
@@ -93,7 +95,7 @@ public class SeleniumByProvider implements ByProvider {
     }
 
     @Override
-    public By getBy(String byTag, String query) {
+    public By getBy(final String byTag, final String query) {
         if (isEmpty(byTag)) {
             throw new FittingException(format("Can't instantiate Selenium By-clause with query [%s] with null tag.", query));
         }

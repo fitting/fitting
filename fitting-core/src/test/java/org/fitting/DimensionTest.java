@@ -19,6 +19,7 @@
 
 package org.fitting;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -108,14 +109,54 @@ public class DimensionTest {
         assertNotSame(original, dim);
     }
 
-    /*
-        public Dimension getSize() {
-        public void setSize(Dimension dimension) {
-        public void setSize(double width, double height) {
-        public void setSize(int width, int height) {
-        public boolean equals(Object obj) {
-        public int hashCode() {
-        public String toString() {
-     */
+    @Test
+    public void shouldCopySizeFromDoubles() {
+        Dimension dimension = new Dimension();
+        dimension.setSize(3.0, 5.0);
+
+        Assert.assertEquals(3, dimension.getWidth());
+        Assert.assertEquals(5, dimension.getHeight());
+
+        dimension.setSize(3.1, 5.1);
+
+        Assert.assertEquals(4, dimension.getWidth());
+        Assert.assertEquals(6, dimension.getHeight());
+    }
+
+    @Test
+    public void testEquals() {
+        Dimension dimension1 = new Dimension(1, 2);
+        Dimension dimension2 = new Dimension(dimension1);
+        Dimension dimension3 = new Dimension(1, 4);
+        Dimension dimension4 = new Dimension(3, 4);
+        Assert.assertEquals(dimension1, dimension2);
+        Assert.assertNotEquals(dimension1, dimension3);
+        Assert.assertNotEquals(dimension2, dimension3);
+        Assert.assertNotEquals(dimension1, dimension4);
+        Assert.assertNotEquals(dimension3, dimension4);
+        Assert.assertNotEquals(dimension1, new Object());
+        Assert.assertNotEquals(dimension1, null);
+    }
+
+    @Test
+    public void testHashCode() {
+        Dimension dimension1 = new Dimension(1, 2);
+        Dimension dimension2 = new Dimension(dimension1);
+        Dimension dimension3 = new Dimension(1, 4);
+        Dimension dimension4 = new Dimension(3, 4);
+        Assert.assertEquals(dimension1.hashCode(), dimension2.hashCode());
+        Assert.assertNotEquals(dimension1.hashCode(), dimension3.hashCode());
+        Assert.assertNotEquals(dimension2.hashCode(), dimension3.hashCode());
+        Assert.assertNotEquals(dimension1.hashCode(), dimension4.hashCode());
+        Assert.assertNotEquals(dimension3.hashCode(), dimension4.hashCode());
+    }
+
+    @Test
+    public void testToString() {
+        String toString = new Dimension(123, 456).toString();
+        Assert.assertTrue(toString.contains("123"));
+        Assert.assertTrue(toString.contains("456"));
+    }
+
 }
 
