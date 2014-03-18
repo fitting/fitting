@@ -19,20 +19,26 @@
 
 package org.fitting;
 
+import java.util.List;
+
 /**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
+ * Search context for finding elements on.
  */
-public interface SearchContextProvider {
+public interface SearchContext {
     /**
-     * Get the id of the search context.
-     * @return The id.
+     * Find all elements on the context matching the given selector.
+     * @param selector The selector.
+     * @return The matching elements.
+     * @throws FittingException When the query failed to execute.
      */
-    String getId();
+    List<Element> findElementsBy(Selector selector) throws FittingException;
 
     /**
-     * Get the search context.
-     * @return The search context.
+     * Find a single element on the context matching the given selector.
+     * @param selector The selector.
+     * @return The matching element.
+     * @throws NoSuchElementException When the element could not be found.
+     * @throws FittingException       When the query failed to execute.
      */
-    SearchContext getSearchContext();
+    Element findElementBy(Selector selector) throws NoSuchElementException, FittingException;
 }

@@ -19,20 +19,21 @@
 
 package org.fitting;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
+import java.util.List;
+
+/** Selector for selecting elements. */
+public interface Selector {
     /**
-     * Get the id of the search context.
-     * @return The id.
+     * Find all elements on the given search context using the selector.
+     * @param context The search context to search on.
+     * @return The found elements.
      */
-    String getId();
+    List<Element> findElements(SearchContext context);
 
     /**
-     * Get the search context.
-     * @return The search context.
+     * Find a single element on the given search context using the selector.
+     * @param context The search context to search on.
+     * @return The element.
      */
-    SearchContext getSearchContext();
+    Element findElement(SearchContext context);
 }

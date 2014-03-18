@@ -17,22 +17,30 @@
  * under the License.
  */
 
-package org.fitting;
+package org.fitting.documentation;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+/** Annotation for documenting fixture method parameters */
+@Retention(RUNTIME)
+@Target({PARAMETER})
+@Documented
+public @interface FixtureParameter {
     /**
-     * Get the id of the search context.
-     * @return The id.
+     * The name of the parameter.
+     * This is to circumvent that problem that the parameter name is not accessible at runtime until Java 8 (http://openjdk.java.net/projects/jdk8/features#118)
+     * @return The name.
      */
-    String getId();
+    String name();
 
     /**
-     * Get the search context.
-     * @return The search context.
+     * The description of the parameter.
+     * @return The description.
      */
-    SearchContext getSearchContext();
+    String description() default "";
 }

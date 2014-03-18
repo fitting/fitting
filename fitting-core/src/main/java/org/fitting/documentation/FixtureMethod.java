@@ -17,22 +17,30 @@
  * under the License.
  */
 
-package org.fitting;
+package org.fitting.documentation;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+/** Annotation for documenting fixture methods. */
+@Retention(RUNTIME)
+@Target({METHOD})
+@Documented
+public @interface FixtureMethod {
     /**
-     * Get the id of the search context.
-     * @return The id.
+     * The signature of the fixture, split between method name segments and variables. The variables are matched to the Java method parameters that are annotated with {@link
+     * FixtureParameter}.
+     * @return The signature in segments.
      */
-    String getId();
+    String[] signature() default {""};
 
     /**
-     * Get the search context.
-     * @return The search context.
+     * The description of the method.
+     * @return The description.
      */
-    SearchContext getSearchContext();
+    String description() default "";
 }

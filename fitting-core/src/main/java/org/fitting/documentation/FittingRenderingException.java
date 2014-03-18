@@ -17,22 +17,34 @@
  * under the License.
  */
 
-package org.fitting;
+package org.fitting.documentation;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
+import org.fitting.FittingException;
+
+/** Exception for rendering related exceptions. */
+public class FittingRenderingException extends FittingException {
     /**
-     * Get the id of the search context.
-     * @return The id.
+     * Create a new exception.
+     * @param message The exception message.
      */
-    String getId();
+    public FittingRenderingException(String message) {
+        super(message);
+    }
 
     /**
-     * Get the search context.
-     * @return The search context.
+     * Create a new exception.
+     * @param message The exception message.
+     * @param cause   The cause-exception.
      */
-    SearchContext getSearchContext();
+    public FittingRenderingException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Create a new exception.
+     * @param cause The cause-exception.
+     */
+    public FittingRenderingException(Throwable cause) {
+        super(cause);
+    }
 }

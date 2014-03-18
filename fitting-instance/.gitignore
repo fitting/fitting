@@ -1,0 +1,9 @@
+#####
+# FitNesse instance files.
+#####
+FitNesseRoot/files/
+FitNesseRoot/ErrorLogs/
+FitNesseRoot/RecentChanges/
+FitNesseRoot/properties
+FitNesseRoot/updateDoNotCopyOverList
+FitNesseRoot/updateList

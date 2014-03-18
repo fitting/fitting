@@ -19,20 +19,19 @@
 
 package org.fitting;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
-    /**
-     * Get the id of the search context.
-     * @return The id.
-     */
-    String getId();
+import static java.lang.String.format;
+
+/** Exception for when an element could not been found. */
+public class NoSuchElementException extends FormattedFittingException {
+    /** The default message. */
+    private static final String NO_ELEMENT_MESSAGE = "No element found on search context %s matching selector %s";
 
     /**
-     * Get the search context.
-     * @return The search context.
+     * Create a new NoSuchElementException.
+     * @param searchContext The search context where the element was searched on.
+     * @param selector      The selector used.
      */
-    SearchContext getSearchContext();
+    public NoSuchElementException(SearchContext searchContext, Selector selector) {
+        super(format(NO_ELEMENT_MESSAGE, searchContext.toString(), selector.toString()));
+    }
 }

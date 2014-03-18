@@ -17,22 +17,15 @@
  * under the License.
  */
 
-package org.fitting;
+package org.fitting.selenium;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
-    /**
-     * Get the id of the search context.
-     * @return The id.
-     */
-    String getId();
+import org.openqa.selenium.SearchContext;
 
+/** Selenium search context proxy marker interface. */
+public interface SeleniumSearchContext {
     /**
-     * Get the search context.
+     * Get the actual search context implementation.
      * @return The search context.
      */
-    SearchContext getSearchContext();
+    SearchContext getImplementation();
 }

@@ -17,22 +17,15 @@
  * under the License.
  */
 
-package org.fitting;
+package org.fitting.documentation;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
+/** Renderer for fixture documentation. */
+public interface FixtureDocumentationRenderer {
     /**
-     * Get the id of the search context.
-     * @return The id.
+     * Render the fixture documentation.
+     * @param documentation The documentation.
+     * @return The rendered result.
+     * @throws org.fitting.documentation.FittingRenderingException When rendering failed.
      */
-    String getId();
-
-    /**
-     * Get the search context.
-     * @return The search context.
-     */
-    SearchContext getSearchContext();
+    String render(FixtureDocumentation documentation) throws FittingRenderingException;
 }

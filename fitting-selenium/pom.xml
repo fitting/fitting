@@ -28,19 +28,31 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>fitting-core</artifactId>
+    <artifactId>fitting-selenium</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+
+    <properties>
+        <selenium.version>2.40.0</selenium.version>
+    </properties>
 
     <dependencies>
-        <!-- Commons -->
+        <!-- Modules -->
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
+            <groupId>org.fitting</groupId>
+            <artifactId>fitting-core</artifactId>
+        </dependency>
+
+        <!-- Selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>${selenium.version}</version>
         </dependency>
 
         <!-- Testing -->
