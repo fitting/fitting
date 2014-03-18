@@ -19,20 +19,30 @@
 
 package org.fitting;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
+/** Generic exception for Fitting related exceptions. */
+public class FittingException extends RuntimeException {
     /**
-     * Get the id of the search context.
-     * @return The id.
+     * Create a new exception.
+     * @param message The exception message.
      */
-    String getId();
+    public FittingException(final String message) {
+        super(message);
+    }
 
     /**
-     * Get the search context.
-     * @return The search context.
+     * Create a new exception.
+     * @param message The exception message.
+     * @param cause   The cause-exception.
      */
-    SearchContext getSearchContext();
+    public FittingException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Create a new exception.
+     * @param cause The cause-exception.
+     */
+    public FittingException(final Throwable cause) {
+        super(cause);
+    }
 }

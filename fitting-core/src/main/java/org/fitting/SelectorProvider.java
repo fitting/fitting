@@ -19,20 +19,24 @@
 
 package org.fitting;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
+/** Provider for creating {@link org.fitting.Selector} instances. */
+public interface SelectorProvider {
     /**
-     * Get the id of the search context.
-     * @return The id.
+     * Get the selector with a given tag.
+     *
+     * @param selector The selector tag.
+     * @param query    The query for the selector.
+     *
+     * @return The selector.
+     *
+     * @throws org.fitting.FittingException When no matching selector could be found.
      */
-    String getId();
+    Selector getSelector(String selector, String query) throws FittingException;
 
     /**
-     * Get the search context.
-     * @return The search context.
+     * Get the selector tags available via the provider.
+     *
+     * @return The available tags.
      */
-    SearchContext getSearchContext();
+    String[] getAvailableTags();
 }

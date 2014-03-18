@@ -19,20 +19,11 @@
 
 package org.fitting;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
+/** Callback for when an element is not found. */
+public interface NoSuchElementCallback {
     /**
-     * Get the id of the search context.
-     * @return The id.
+     * Can be used to do stuff when an element is not found
+     * @param objects The objects that can be passed to the callback implementation.
      */
-    String getId();
-
-    /**
-     * Get the search context.
-     * @return The search context.
-     */
-    SearchContext getSearchContext();
+    void onNoSuchElementFound(final Object... objects);
 }

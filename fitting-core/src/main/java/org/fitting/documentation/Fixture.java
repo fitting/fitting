@@ -17,22 +17,23 @@
  * under the License.
  */
 
-package org.fitting;
+package org.fitting.documentation;
 
-/**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
- */
-public interface SearchContextProvider {
-    /**
-     * Get the id of the search context.
-     * @return The id.
-     */
-    String getId();
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+/** Annotation for marking fixtures. */
+@Retention(RUNTIME)
+@Target({TYPE})
+@Documented
+public @interface Fixture {
     /**
-     * Get the search context.
-     * @return The search context.
+     * The global description of the fixture.
+     * @return The global description.
      */
-    SearchContext getSearchContext();
+    String description() default "";
 }

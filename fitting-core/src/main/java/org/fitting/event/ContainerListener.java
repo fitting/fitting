@@ -17,22 +17,27 @@
  * under the License.
  */
 
-package org.fitting;
+package org.fitting.event;
 
 /**
- * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- * @see SearchContextProviders
+ * Listener for container related events.
  */
-public interface SearchContextProvider {
+public interface ContainerListener {
     /**
-     * Get the id of the search context.
-     * @return The id.
+     * Event hook for when a container is created.
+     * @param event The event.
      */
-    String getId();
+    void onContainerCreated(ContainerCreatedEvent event);
 
     /**
-     * Get the search context.
-     * @return The search context.
+     * Event hook for when a container is closed.
+     * @param event The event.
      */
-    SearchContext getSearchContext();
+    void onContainerClosed(ContainerClosedEvent event);
+
+    /**
+     * Event hook for when the location of a container has changed.
+     * @param event The event.
+     */
+    void onLocationChanged(LocationChangedEvent event);
 }

@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--
+  ~ Licensed to the Fitting Project under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The Fitting Project licenses
+  ~ this file to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.fitting</groupId>
     <artifactId>fitting</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>Fitting</name>
-    <description>Fitting main pom</description>
+
+    <name>Fitting Parent</name>
+    <description>Fitting</description>
 
     <organization>
         <name>Fitting</name>
@@ -21,7 +41,7 @@
                 <role>Architect</role>
                 <role>Developer</role>
             </roles>
-            <email>mischa.dasberg@jpoint.nl</email>
+            <email>mischa@jpoint.nl</email>
             <organization>jPoint</organization>
             <organizationUrl>http://www.jpoint.nl/</organizationUrl>
         </developer>
@@ -38,142 +58,128 @@
     </developers>
 
     <modules>
+        <module>fitting-util</module>
         <module>fitting-core</module>
-        <module>proxy-factory</module>
-        <module>util</module>
+        <module>fitting-selenium</module>
+        <module>fitting-instance</module>
     </modules>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <selenium.version>2.28.0</selenium.version>
-        <fitnesse.version>20120530</fitnesse.version>
-        <commons-configuration.version>1.6</commons-configuration.version>
-        <commons-codec.version>1.4</commons-codec.version>
-        <commons-lang.version>2.6</commons-lang.version>
-        <maven.surefire.version>2.12</maven.surefire.version>
-        <aspectj.version>1.6.7</aspectj.version>
-        <slf4j.version>1.6.4</slf4j.version>
-        <junit.test.version>4.8.2</junit.test.version>
-        <mockito.version>1.9.0</mockito.version>
-        <powermock.version>1.4.12</powermock.version>
-    </properties>
+        <dependency.commons-lang.version>2.6</dependency.commons-lang.version>
+        <dependency.commons-configuration.version>1.6</dependency.commons-configuration.version>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+        <dependency.logback.version>1.0.13</dependency.logback.version>
+        <dependency.slf4j.version>1.6.4</dependency.slf4j.version>
+
+        <dependency.junit.version>4.11</dependency.junit.version>
+        <dependency.mockito.version>1.9.5</dependency.mockito.version>
+        <dependency.powermock.version>1.5.4</dependency.powermock.version>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
             <!-- Modules -->
             <dependency>
-                <groupId>org.fitting.proxy</groupId>
-                <artifactId>client</artifactId>
+                <groupId>org.fitting</groupId>
+                <artifactId>fitting-util</artifactId>
                 <version>${project.version}</version>
+                <classifier>tests</classifier>
+                <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.fitting.proxy</groupId>
-                <artifactId>domain</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.fitting.proxy</groupId>
-                <artifactId>server</artifactId>
+                <groupId>org.fitting</groupId>
+                <artifactId>fitting-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.fitting</groupId>
-                <artifactId>fitting-util</artifactId>
-                <classifier>tests</classifier>
-                <scope>test</scope>
+                <artifactId>fitting-selenium</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-
-            <!-- Selenium -->
-            <dependency>
-                <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-java</artifactId>
-                <version>${selenium.version}</version>
-            </dependency>
-
-            <!-- Fitnesse -->
-            <dependency>
-                <groupId>org.fitnesse</groupId>
-                <artifactId>fitnesse</artifactId>
-                <version>${fitnesse.version}</version>
-            </dependency>
-
-            <!-- AOP -->
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjrt</artifactId>
-                <version>${aspectj.version}</version>
             </dependency>
 
             <!-- Commons -->
             <dependency>
-                <groupId>commons-configuration</groupId>
-                <artifactId>commons-configuration</artifactId>
-                <version>${commons-configuration.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons-codec.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
-                <version>${commons-lang.version}</version>
+                <version>${dependency.commons-lang.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${dependency.commons-configuration.version}</version>
             </dependency>
 
             <!-- Logging -->
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${dependency.logback.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.version}</version>
+                <artifactId>slf4j-api</artifactId>
+                <version>${dependency.slf4j.version}</version>
             </dependency>
 
-            <!-- Test -->
+            <!-- Testing -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>${junit.test.version}</version>
+                <version>${dependency.junit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
-                <version>${mockito.version}</version>
+                <version>${dependency.mockito.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.powermock</groupId>
                 <artifactId>powermock-api-mockito</artifactId>
-                <version>${powermock.version}</version>
+                <version>${dependency.powermock.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.powermock</groupId>
                 <artifactId>powermock-module-junit4</artifactId>
-                <version>${powermock.version}</version>
+                <version>${dependency.powermock.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <!-- Logging -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
 </project>

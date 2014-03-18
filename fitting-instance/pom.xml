@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Fitting Project under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The Fitting Project licenses
+  ~ this file to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>fitting</artifactId>
+        <groupId>org.fitting</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>fitting-instance</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Fitting Instance</name>
+    <description>Fitting Instance</description>
+
+    <properties>
+        <fitnesse.version>20140201</fitnesse.version>
+        <fitnesse.port>9000</fitnesse.port>
+        <fitnesse.expiration>0</fitnesse.expiration>
+        <maven-classpath-plugin.version>1.7</maven-classpath-plugin.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>start-fitnesse</id>
+                        <phase>test</phase>
+                        <configuration>
+                            <target name="fitnesse">
+                                <echo taskname="fitnesse" message="Starting FitNesse ${fitnesse.version}..."/>
+                                <java classname="fitnesseMain.FitNesseMain" classpathref="maven.test.classpath"
+                                      fork="true">
+                                    <arg line="-p ${fitnesse.port}"/>
+                                    <arg line="-d ."/>
+                                    <arg line="-e ${fitnesse.expiration}"/>
+                                </java>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- Fitnesse -->
+        <dependency>
+            <groupId>org.fitnesse</groupId>
+            <artifactId>fitnesse</artifactId>
+            <version>${fitnesse.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fitnesse.plugins</groupId>
+            <artifactId>maven-classpath-plugin</artifactId>
+            <version>${maven-classpath-plugin.version}</version>
+        </dependency>
+
+        <!-- Fitting modules -->
+        <dependency>
+            <groupId>org.fitting</groupId>
+            <artifactId>fitting-selenium</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</project>
