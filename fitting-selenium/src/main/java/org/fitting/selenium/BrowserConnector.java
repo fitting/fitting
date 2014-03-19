@@ -27,6 +27,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.String.format;
 import static org.apache.commons.lang.StringUtils.isEmpty;
@@ -105,6 +107,8 @@ public class BrowserConnector {
         private int port;
         /** Indicator javascript. */
         private boolean javascript = true;
+        /** The added capabilities. */
+        private final Map<String, Object> capabilities = new HashMap<String, Object>();
 
         /**
          * Set the platform the browser should run on.
@@ -187,6 +191,21 @@ public class BrowserConnector {
         }
 
         /**
+         * Add a custom capability.
+         *
+         * @param capability The capability.
+         * @param value      The capability value.
+         *
+         * @return The builder with the added capability.
+         */
+        public Builder withCapabilities(String capability, Object value) {
+            if (!isEmpty(capability)) {
+                this.capabilities.put(capability, value);
+            }
+            return this;
+        }
+
+        /**
          * Build the {@link org.fitting.selenium.BrowserConnector} with the set properties.
          *
          * @return The build browser connector.
@@ -203,6 +222,9 @@ public class BrowserConnector {
             }
             capabilities.setJavascriptEnabled(javascript);
             capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+            for (String capability : this.capabilities.keySet()) {
+                capabilities.setCapability(capability, this.capabilities.get(capability));
+            }
             return new BrowserConnector(capabilities, createSeleniumUrl());
         }
 
