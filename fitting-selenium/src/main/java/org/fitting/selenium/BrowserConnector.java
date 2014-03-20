@@ -46,7 +46,7 @@ public class BrowserConnector {
      * @param capabilities The desired browser capabilities.
      * @param url          The URL to connect to.
      */
-    private BrowserConnector(DesiredCapabilities capabilities, URL url) {
+    protected BrowserConnector(DesiredCapabilities capabilities, URL url) {
         webDriver = new RemoteWebDriver(url, capabilities);
         javascriptEnabled = capabilities.isJavascriptEnabled();
     }
@@ -89,12 +89,12 @@ public class BrowserConnector {
         return new Builder();
     }
 
-    /** Builder for creating Browser objects. */
-    public static final class Builder {
+    /**
+     * Builder for constructing new {@link org.fitting.selenium.BrowserConnector} instances.
+     */
+    public static class Builder {
         /** The URL for connecting to Selenium. */
         private static final String SELENIUM_CONNECTION_URL = "http://%s:%d/wd/hub";
-        /** The URL for proxy servers, used by selenium. */
-        private static final String SELENIUM_PROXY_URL = "%s:%d";
         /** The targeted platform. */
         private String platform;
         /** The targeted browser name. */
@@ -225,7 +225,7 @@ public class BrowserConnector {
             for (String capability : this.capabilities.keySet()) {
                 capabilities.setCapability(capability, this.capabilities.get(capability));
             }
-            return new BrowserConnector(capabilities, createSeleniumUrl());
+            return new BrowserConnector(capabilities, createSeleniumUrl(host, port));
         }
 
         /**
@@ -235,7 +235,7 @@ public class BrowserConnector {
          *
          * @throws IllegalArgumentException When the URL is not valid.
          */
-        private URL createSeleniumUrl() throws IllegalArgumentException {
+        protected URL createSeleniumUrl(String host, int port) throws IllegalArgumentException {
             String url = format(SELENIUM_CONNECTION_URL, host, port);
             try {
                 return new URL(url);
