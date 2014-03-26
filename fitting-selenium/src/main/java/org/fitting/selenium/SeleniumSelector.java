@@ -83,6 +83,11 @@ public class SeleniumSelector implements Selector {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return selector.toString();
+    }
+
     /**
      * Create a selector for selecting elements based on their class name.
      *

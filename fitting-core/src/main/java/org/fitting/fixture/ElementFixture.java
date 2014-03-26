@@ -19,10 +19,9 @@
 
 package org.fitting.fixture;
 
-import org.fitting.Element;
-import org.fitting.FittingException;
-import org.fitting.FormattedFittingException;
-import org.fitting.Selector;
+import org.fitting.*;
+
+import static java.lang.String.format;
 
 /**
  * Fixture for basic interaction with UI elements and querying of elements.
@@ -43,8 +42,7 @@ public class ElementFixture extends FittingFixture {
      * @throws FittingException When the selector or element could not be found.
      */
     public String textForElementWithBeing(String selector, String identifier) throws FittingException {
-        final Selector select = getSelector(selector, identifier);
-        return getFittingAction().getTextValue(getSearchContext(), select);
+        return getElement(selector, identifier).getValue();
     }
 
     /**
@@ -66,8 +64,7 @@ public class ElementFixture extends FittingFixture {
         if (text == null) {
             throw new FormattedFittingException("Null text provided for comparison");
         }
-        Selector select = getSelector(selector, identifier);
-        String elementText = getFittingAction().getTextValue(getSearchContext(), select);
+        String elementText = getElement(selector, identifier).getValue();
         return text.equalsIgnoreCase(elementText);
     }
 
@@ -90,10 +87,9 @@ public class ElementFixture extends FittingFixture {
         if (text == null) {
             throw new FormattedFittingException("Null text provided for comparison");
         }
-        Selector select = getSelector(selector, identifier);
-        return getFittingAction().elementTextValueContains(getSearchContext(), select, text);
+        String elementText = getElement(selector, identifier).getValue();
+        return elementText.contains(text);
     }
-
 
     /**
      * Check if an element exists.
@@ -110,8 +106,14 @@ public class ElementFixture extends FittingFixture {
      * @throws FittingException When the selector could not be found.
      */
     public boolean elementWithBeingExists(String selector, String identifier) throws FittingException {
-        Selector select = getSelector(selector, identifier);
-        return getFittingAction().isElementPresent(getSearchContext(), select);
+        boolean present;
+        try {
+            Element element = getElement(selector, identifier);
+            present = true;
+        } catch (NoSuchElementException e) {
+            present = false;
+        }
+        return present;
     }
 
     /**
@@ -127,9 +129,7 @@ public class ElementFixture extends FittingFixture {
      * @throws FittingException If no matching element could not be found.
      */
     public void clickElementWithBeing(String selector, String identifier) throws FittingException {
-        Selector select = getSelector(selector, identifier);
-        Element element = getFittingAction().getElement(getSearchContext(), select);
-        element.click();
+        getElement(selector, identifier).click();
     }
 
     /**
@@ -146,9 +146,10 @@ public class ElementFixture extends FittingFixture {
      * @throws FittingException When the selector or element could not be found.
      */
     public void setValueForElementWithBeing(String value, String selector, String identifier) throws FittingException {
-        Selector select = getSelector(selector, identifier);
-        Element element = getFittingAction().getElement(getSearchContext(), select);
-        element.sendKeys(value);
+        if (value == null || value.length() < 1) {
+            throw new FormattedFittingException("Unable to send an empty String to element ");
+        }
+        getElement(selector, identifier).sendKeys(value);
     }
 
     /**
@@ -186,8 +187,7 @@ public class ElementFixture extends FittingFixture {
      * @throws FittingException When the selector or element could not be found.
      */
     public boolean elementWithBeingIsDisplayed(String selector, String identifier) throws FittingException {
-        Selector select = getSelector(selector, identifier);
-        return getFittingAction().isElementDisplayed(getSearchContext(), select);
+        return getElement(selector, identifier).isDisplayed();
     }
 
     /**
@@ -227,8 +227,7 @@ public class ElementFixture extends FittingFixture {
      * @throws FittingException When the selector, element or attribute could not be found.
      */
     public String attributeValueOfForElementWithBeing(String attributeName, String selector, String identifier) throws FittingException {
-        Selector select = getSelector(selector, identifier);
-        return getFittingAction().getAttributeValue(getSearchContext(), select, attributeName);
+        return getAttributeValue(selector, identifier, attributeName);
     }
 
     /**
@@ -249,7 +248,41 @@ public class ElementFixture extends FittingFixture {
      * @throws FittingException When the selector, element or attribute could not be found.
      */
     public boolean attributeValueOfForElementWithBeingContains(String attributeName, String selector, String identifier, String value) throws FittingException {
-        Selector select = getSelector(selector, identifier);
-        return getFittingAction().elementAttributeValueContains(getSearchContext(), select, attributeName, value);
+        String attributeValue = getAttributeValue(selector, identifier, attributeName);
+        return attributeValue.contains(value);
+    }
+
+    /**
+     * Get the element from the base search context.
+     *
+     * @param selector   The name of the selector.
+     * @param identifier The identifier/query for the selector.
+     *
+     * @return The element.
+     *
+     * @throws NoSuchElementException When no matching element was found.
+     */
+    private Element getElement(String selector, String identifier) throws NoSuchElementException {
+        return getSearchContext().findElementBy(getSelector(selector, identifier));
+    }
+
+    /**
+     * Get the value of an attribute on an element.
+     *
+     * @param selector      The name of the selector.
+     * @param identifier    The identifier/query for the selector.
+     * @param attributeName The name of the attribute.
+     *
+     * @return The value of the attribute.
+     *
+     * @throws NoSuchElementException    When no matching element was found.
+     * @throws FormattedFittingException When no attribute was found with the given name.
+     */
+    private String getAttributeValue(String selector, String identifier, String attributeName) throws NoSuchElementException, FormattedFittingException {
+        String attributeValue = getElement(selector, identifier).getAttributeValue(attributeName);
+        if (attributeValue == null) {
+            throw new FormattedFittingException(format("No attribute found with name %s on element %s[%s]", attributeName, selector, identifier));
+        }
+        return attributeValue;
     }
 }
