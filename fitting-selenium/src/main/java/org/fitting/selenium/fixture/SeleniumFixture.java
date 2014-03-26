@@ -19,73 +19,41 @@
 
 package org.fitting.selenium.fixture;
 
+import org.fitting.FittingConnector;
 import org.fitting.FittingContainer;
-import org.fitting.selenium.BrowserConnector;
+import org.fitting.FittingException;
+import org.fitting.fixture.FittingFixture;
 import org.fitting.selenium.FittingSeleniumConnector;
-import org.fitting.selenium.SeleniumServerManager;
+import org.openqa.selenium.WebDriver;
 
 /**
- * Fixture for initialising the Selenium coupling and starting/navigating browsers.
- *
- * @author Barre Dijkstra
- * @since 1.0
+ * Base class for selenium fitting fixtures, providing all functionality of the {@link org.fitting.fixture.FittingFixture} as well.
  */
-public class SeleniumFixture {
-    /** The number of ports to try when creating a new in-process Selenium server. */
-    private final static int TRIES_FOR_SELENIUM_PORTS = 20;
-    /** The port used for the in-process selenium server, if any. */
-    private ThreadLocal<Integer> seleniumPort = new ThreadLocal<Integer>();
+public abstract class SeleniumFixture extends FittingFixture {
 
     /**
-     * Open a browser, starting a local selenium server in process, and go to a specific URL.
-     *
-     * @param browser The browser to open. See {@link org.fitting.selenium.Browser}.
-     * @param url     The URL to navigate to.
+     * Get the active WebDriver instance.
+     * @return The WebDriver instance.
      */
-    public void openBrowserFor(String browser, String url) throws Exception {
-        if (seleniumPort.get() == null) {
-            int port = SeleniumServerManager.getInstance().startServerOnFirstAvailablePort(TRIES_FOR_SELENIUM_PORTS);
-            seleniumPort.set(port);
-        }
-        openBrowserOnHostWithPortFor(browser, "localhost", seleniumPort.get(), url);
+    protected final WebDriver getWebDriver() {
+        return getSeleniumConnector().getWebDriver();
     }
 
     /**
-     * Open a browser, connecting to an external selenium running on the provided host and port, and go to a specific URL.
-     *
-     * @param browser The browser to open. See {@link org.fitting.selenium.Browser}.
-     * @param host    The host the selenium server is running on.
-     * @param port    The port the selenium server is running on.
-     * @param url     The URL to navigate to.
+     * Get the active {@link SeleniumFixture} instance.
+     * @return The instance.
+     * @throws org.fitting.FittingException When the current {@link org.fitting.FittingConnector} is not available or not a {@link org.fitting.selenium.FittingSeleniumConnector}.
      */
-    public void openBrowserOnHostWithPortFor(String browser, String host, int port, String url) {
-        FittingContainer.set(new FittingSeleniumConnector(BrowserConnector.builder().withBrowser(browser).onHost(host, port).build()));
-        openUrl(url);
-    }
+    protected final FittingSeleniumConnector getSeleniumConnector() {
+        FittingSeleniumConnector seleniumConnector;
+        FittingConnector connector = FittingContainer.get();
 
-    /**
-     * Navigate the active browser window to the provided URL.
-     *
-     * @param url The URL to navigate to.
-     */
-    public void openUrl(final String url) {
-        FittingContainer.get().getElementContainerProvider().navigateElementContainerTo(stripURL(url));
-    }
 
-    /**
-     * Since Selenium passes URLs as full &lt;a&gt;-tags, strip the tags from it.
-     *
-     * @param url The URL to strip.
-     *
-     * @return The stripped URL.
-     */
-    private static final String stripURL(String url) {
-        String uri;
-        if (url.startsWith("<") && url.endsWith("</a>")) {
-            uri = url.split(">", 2)[1].split("<", 2)[0];
+        if (FittingSeleniumConnector.class.isAssignableFrom(connector.getClass())) {
+            seleniumConnector = (FittingSeleniumConnector) connector;
         } else {
-            uri = url;
+            throw new FittingException(String.format("The connector %s (%s) is not a valid SeleniumConnector.", connector.getName(), connector.getClass().getName()));
         }
-        return uri;
+        return seleniumConnector;
     }
 }

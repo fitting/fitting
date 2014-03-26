@@ -19,20 +19,21 @@
 
 package org.fitting.selenium;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.fitting.*;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
 /**
  * Selenium implementation of the {@link org.fitting.selenium.SeleniumAction}.
+ *
  * @author Barre Dijkstra
  * @since 1.0
  */
@@ -48,10 +49,16 @@ public class SeleniumAction implements FittingAction {
 
     /**
      * Create a new SeleniumAction instance.
+     *
      * @param driver The Selenium WebDriver of the active window.
      */
     public SeleniumAction(WebDriver driver) {
         this.driver = driver;
+    }
+
+    @Override
+    public boolean isTextPresentWithinContainer(final String text) {
+        return driver.getPageSource().contains(text);
     }
 
     /** {@inheritDoc} */
@@ -140,6 +147,12 @@ public class SeleniumAction implements FittingAction {
                 return found ? element : null;
             }
         }, timeout, createNoSuchElementExceptionCallback(searchContext, selector));
+    }
+
+    @Override
+    public void sendKeysToElement(final SearchContext searchContext, final Selector selector, final CharSequence keys) throws NoSuchElementException {
+        Element element = getElement(searchContext, selector);
+        element.sendKeys(keys);
     }
 
     /** {@inheritDoc} */
@@ -269,6 +282,16 @@ public class SeleniumAction implements FittingAction {
         // TODO Implement me!
     }
 
+    @Override
+    public String getSelectedElementValue(final SearchContext searchContext, final Selector selector) throws NoSuchElementException {
+        return null;
+    }
+
+    @Override
+    public String getSelectedElementValue(final SearchContext searchContext, final Selector selector, final NoSuchElementCallback noSuchElementCallback) {
+        return null;
+    }
+
     /** {@inheritDoc} */
     @Override
     public boolean isElementCheckbox(SearchContext searchContext, Selector selector) throws NoSuchElementException {
@@ -276,11 +299,25 @@ public class SeleniumAction implements FittingAction {
         return false;
     }
 
+    @Override
+    public boolean isCheckboxChecked(final SearchContext searchContext, final Selector selector) throws NoSuchElementException {
+        return false;
+    }
+
+    @Override
+    public boolean toggleCheckbox(final SearchContext searchContext, final Selector selector) throws NoSuchElementException {
+        return false;
+    }
+
     /** {@inheritDoc} */
     @Override
-    public boolean isElementValueSelected(SearchContext searchContext, Selector selector, String value) throws NoSuchElementException {
-        // TODO Implement me!
-        return false;
+    public boolean isElementValueSelected(final SearchContext searchContext, final Selector selector, final String value) throws NoSuchElementException {
+        return isElementValueSelected(searchContext, selector, value, new NoSuchElementCallback() {
+            @Override
+            public void onNoSuchElementFound(Object... objects) {
+                throw new NoSuchElementException(searchContext, selector);
+            }
+        });
     }
 
     /** {@inheritDoc} */
@@ -317,10 +354,12 @@ public class SeleniumAction implements FittingAction {
 
     /**
      * Wait for the expected condition to occur within the given time-out.
+     *
      * @param expectedCondition The condition to wait for.
      * @param seconds           The timeout in seconds.
      * @param callback          The callback to execute when the condition was not met within the timeout.
      * @param <E>               The type of condition.
+     *
      * @return <code>true</code> if the condition was met within the timeout period.
      */
     private <E> boolean waitForElementPresent(final ExpectedCondition<E> expectedCondition, final int seconds, final NoSuchElementCallback callback) {
@@ -338,8 +377,10 @@ public class SeleniumAction implements FittingAction {
 
     /**
      * Create a {@link org.fitting.NoSuchElementCallback} instance which throws a {@link org.fitting.NoSuchElementException} for the given search context and selector.
+     *
      * @param searchContext The search context where was searched on.
      * @param selector      The selector used.
+     *
      * @return The callback.
      */
     private NoSuchElementCallback createNoSuchElementExceptionCallback(final SearchContext searchContext, final Selector selector) {

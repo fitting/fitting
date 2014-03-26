@@ -19,26 +19,26 @@
 
 package org.fitting.selenium;
 
+import java.util.List;
+
 import org.fitting.Element;
 import org.fitting.SearchContext;
 import org.fitting.Selector;
 import org.openqa.selenium.By;
-
-import java.util.List;
 
 /**
  * {@link org.openqa.selenium.By} implementation for Selenium.
  * This class acts as a wrapper for a Selenium selector.
  */
 public class SeleniumSelector implements Selector {
-    public static final String NAME_CLASS_NAME = "className";
-    public static final String NAME_CSS_SELECTOR = "cssSelector";
-    public static final String NAME_ID = "id";
-    public static final String NAME_LINK_TEXT = "linkText";
-    public static final String NAME_NAME = "name";
-    public static final String NAME_PARTIAL_LINK_TEXT = "partialLinkText";
-    public static final String NAME_TAG_NAME = "tagName";
-    public static final String NAME_XPATH = "xpath";
+    public static final String CLASS_NAME = "className";
+    public static final String CSS_SELECTOR = "cssSelector";
+    public static final String ID = "id";
+    public static final String LINK_TEXT = "linkText";
+    public static final String NAME = "name";
+    public static final String PARTIAL_LINK_TEXT = "partialLinkText";
+    public static final String TAG_NAME = "tagName";
+    public static final String XPATH = "xpath";
 
     /** The wrapped Selenium selector. */
     private final By selector;
@@ -47,6 +47,7 @@ public class SeleniumSelector implements Selector {
 
     /**
      * Create a new SeleniumBy.
+     *
      * @param selector The Selenium selector to wrap.
      */
     private SeleniumSelector(String name, By selector) {
@@ -66,6 +67,7 @@ public class SeleniumSelector implements Selector {
 
     /**
      * Get the wrapped Selenium selector.
+     *
      * @return The Selenium selector.
      */
     public By getSeleniumBy() {
@@ -74,6 +76,7 @@ public class SeleniumSelector implements Selector {
 
     /**
      * Get the name of the selector.
+     *
      * @return The name.
      */
     public String getName() {
@@ -82,73 +85,89 @@ public class SeleniumSelector implements Selector {
 
     /**
      * Create a selector for selecting elements based on their class name.
+     *
      * @param className The class name.
+     *
      * @return The {@link org.fitting.selenium.SeleniumSelector} implementation.
      */
     public static SeleniumSelector byClassName(String className) {
-        return new SeleniumSelector(NAME_CLASS_NAME, By.className(className));
+        return new SeleniumSelector(CLASS_NAME, By.className(className));
     }
 
     /**
      * Create a selector for selecting elements based on a css selector.
+     *
      * @param cssSelector The css selector.
+     *
      * @return The {@link org.fitting.selenium.SeleniumSelector} implementation.
      */
     public static SeleniumSelector byCssSelector(String cssSelector) {
-        return new SeleniumSelector(NAME_CSS_SELECTOR, By.cssSelector(cssSelector));
+        return new SeleniumSelector(CSS_SELECTOR, By.cssSelector(cssSelector));
     }
 
     /**
      * Create a selector for selecting elements based on their class id.
+     *
      * @param id The id.
+     *
      * @return The {@link org.fitting.selenium.SeleniumSelector} implementation.
      */
     public static SeleniumSelector byId(String id) {
-        return new SeleniumSelector(NAME_ID, By.id(id));
+        return new SeleniumSelector(ID, By.id(id));
     }
 
     /**
      * Create a selector for selecting elements based on their link text.
+     *
      * @param linkText The link text.
+     *
      * @return The {@link org.fitting.selenium.SeleniumSelector} implementation.
      */
     public static SeleniumSelector byLinkText(String linkText) {
-        return new SeleniumSelector(NAME_LINK_TEXT, By.linkText(linkText));
+        return new SeleniumSelector(LINK_TEXT, By.linkText(linkText));
     }
 
     /**
      * Create a selector for selecting elements based on their name.
+     *
      * @param name The name.
+     *
      * @return The {@link org.fitting.selenium.SeleniumSelector} implementation.
      */
     public static SeleniumSelector byName(String name) {
-        return new SeleniumSelector(NAME_NAME, By.name(name));
+        return new SeleniumSelector(NAME, By.name(name));
     }
 
     /**
      * Create a selector for selecting elements based on a partial link text.
+     *
      * @param partialLinkText The partial link text.
+     *
      * @return The {@link org.fitting.selenium.SeleniumSelector} implementation.
      */
     public static SeleniumSelector byPartialLinkText(String partialLinkText) {
-        return new SeleniumSelector(NAME_PARTIAL_LINK_TEXT, By.partialLinkText(partialLinkText));
+        return new SeleniumSelector(PARTIAL_LINK_TEXT, By.partialLinkText(partialLinkText));
     }
 
     /**
      * Create a selector for selecting elements based on their tag name.
+     *
      * @param tagName The tag name.
+     *
      * @return The {@link org.fitting.selenium.SeleniumSelector} implementation.
      */
     public static SeleniumSelector selectorName(String tagName) {
-        return new SeleniumSelector(NAME_TAG_NAME, By.tagName(tagName));
+        return new SeleniumSelector(TAG_NAME, By.tagName(tagName));
     }
 
     /**
      * Create a selector for selecting elements based on a xpath.
+     *
      * @param xpath The XPath.
+     *
      * @return The {@link org.fitting.selenium.SeleniumSelector} implementation.
      */
     public static SeleniumSelector byXPath(String xpath) {
-        return new SeleniumSelector(NAME_XPATH, By.xpath(xpath));
+        return new SeleniumSelector(XPATH, By.xpath(xpath));
     }
 }

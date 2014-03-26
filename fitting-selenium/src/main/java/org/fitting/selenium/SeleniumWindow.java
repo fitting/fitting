@@ -19,15 +19,14 @@
 
 package org.fitting.selenium;
 
-import org.fitting.Selector;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.fitting.Dimension;
 import org.fitting.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.SearchContext;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
@@ -45,6 +44,7 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
 
     /**
      * Create a new SeleniumWindow.
+     *
      * @param id     The window id.
      * @param driver The underlying web driver for the window.
      */
@@ -81,6 +81,7 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
 
     /**
      * Select the frame with id.
+     *
      * @param id     The frame id.
      * @param driver The WebDriver.
      */
@@ -93,6 +94,7 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
 
     /**
      * Select the frame with name.
+     *
      * @param name   The frame name.
      * @param driver The WebDriver.
      */
@@ -105,6 +107,7 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
 
     /**
      * Select the main frame.
+     *
      * @param driver The WebDriver.
      */
     public void selectMainFrame(final WebDriver driver) {
@@ -114,6 +117,7 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
 
     /**
      * Get the selected frame id.
+     *
      * @return The Selenium By clause with which the frame was selected.
      */
     public org.openqa.selenium.By getSelectedFrameSelectClause() {
@@ -122,8 +126,10 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
 
     /**
      * Create a new window.
+     *
      * @param location  The location.
      * @param webDriver The WebDriver.
+     *
      * @return window The newly created window.
      */
     public static SeleniumWindow createNewWindow(final String location, final WebDriver webDriver) {
@@ -146,8 +152,10 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
 
     /**
      * Switch to another window.
+     *
      * @param handle    The id of the window.
      * @param webDriver The webdriver to use.
+     *
      * @return The window.
      */
     public static SeleniumWindow switchToWindow(final String handle, final WebDriver webDriver) {
@@ -190,6 +198,11 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
     @Override
     public String currentLocation() {
         return driver.getCurrentUrl();
+    }
+
+    @Override
+    public String getTitle() {
+        return driver.getTitle();
     }
 
     @Override

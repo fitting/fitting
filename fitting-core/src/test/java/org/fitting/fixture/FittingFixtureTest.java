@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
  * Unit tests for {@link FittingFixture}.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({FittingContainer.class, ElementContainerProvider.class})
+@PrepareForTest({ FittingContainer.class, ElementContainerProvider.class })
 public class FittingFixtureTest {
     @Mock
     private FittingConnector connector;
@@ -121,7 +121,8 @@ public class FittingFixtureTest {
      */
     @Test(expected = NullPointerException.class)
     public void shouldFailWhenProvidingNullSearchContextProvider() {
-        new FittingFixture((SearchContextProvider) null) { };
+        new FittingFixture((SearchContextProvider) null) {
+        };
 
         fail("Managed to create a new fixture with a null search context provider.");
     }
@@ -133,7 +134,7 @@ public class FittingFixtureTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailWhenProvidingNoSearchContextProvider() {
-        new FittingFixture(new SearchContextProvider[] {}) {
+        new FittingFixture(new SearchContextProvider[] { }) {
         };
 
         fail("Managed to create a new fixture with no search context providers.");
@@ -196,17 +197,12 @@ public class FittingFixtureTest {
     }
 
     /**
-     * Ensure the active container is retrieved.
+     * Ensure the element container provider is retrieved.
      *
-     * @see FittingFixture#getActiveContainer()
+     * @see FittingFixture#getElementContainerProvider()
      */
     @Test
-    public void shouldGetActiveContainer() {
-        when(containerProvider.getActiveElementContainer()).thenReturn(null);
-
-        fixture.getActiveContainer();
-
-        verify(containerProvider, times(1)).getActiveElementContainer();
-        verifyNoMoreInteractions(containerProvider);
+    public void shouldGetElementContainerProvider() {
+        assertNotNull("No element container provider returned", fixture.getElementContainerProvider());
     }
 }
