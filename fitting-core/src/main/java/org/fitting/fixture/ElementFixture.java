@@ -267,6 +267,11 @@ public class ElementFixture extends FittingFixture {
     /**
      * Get the value of an element.
      *
+     * <p>
+     * FitNesse usage:
+     * <pre>| value of element with | [selector] | being | [identifier] |</pre>
+     * </p>
+     *
      * @param selector   The name of the selector.
      * @param identifier The identifier/query for the selector.
      *

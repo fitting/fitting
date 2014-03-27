@@ -52,9 +52,20 @@ public interface SearchContext {
      * Wait for a sub-element to become present within the element.
      *
      * @param selector The selector of the element.
-     * @param timeout  The time to wait for the element before timing-out, in milliseconds.
+     * @param timeout  The time to wait for the element before timing-out in seconds.
      *
      * @throws NoSuchElementException When no element was found within the provided time-out.
      */
     void waitForElement(Selector selector, int timeout) throws NoSuchElementException;
+
+    /**
+     * Wait for a sub-element with specific content to become present within the element.
+     *
+     * @param selector The selector of the element.
+     * @param content  The content that the element must contain.
+     * @param timeout  The time to wait for the element before timing-out, in milliseconds.
+     *
+     * @throws NoSuchElementException When no element was found within the provided time-out.
+     */
+    void waitForElementWithContent(Selector selector, String content, int timeout);
 }

@@ -227,9 +227,9 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
     }
 
     @Override
-    public void wait(final int milliseconds) {
+    public void waitSeconds(final int seconds) {
         try {
-            waitForElement(SeleniumSelector.byId(UNKNOWN_ELEMENT_ID), milliseconds);
+            waitForElement(SeleniumSelector.byId(UNKNOWN_ELEMENT_ID), seconds);
         } catch (NoSuchElementException e) {
             // Ignore.
         }
@@ -252,13 +252,12 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
 
     @Override
     public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException {
-        final SeleniumWindow currentContext = this;
-        SeleniumUtil.waitForElement(driver, this, selector, timeout, new NoSuchElementCallback() {
-            @Override
-            public void onNoSuchElementFound(final Object... objects) {
-                throw new NoSuchElementException(currentContext, selector);
-            }
-        });
+        SeleniumUtil.waitForElement(driver, this, selector, timeout);
+    }
+
+    @Override
+    public void waitForElementWithContent(final Selector selector, final String content, final int timeout) {
+        SeleniumUtil.waitForElementWithContent(driver, this, selector, content, timeout);
     }
 
     @Override

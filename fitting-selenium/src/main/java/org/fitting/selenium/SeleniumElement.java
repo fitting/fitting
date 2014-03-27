@@ -149,6 +149,11 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
         // TODO Implement me!
     }
 
+    @Override
+    public void waitForElementWithContent(final Selector selector, final String content, final int timeout) {
+        // TODO Implement me!
+    }
+
     /** {@inheritDoc} */
     @Override
     public SearchContext getImplementation() {

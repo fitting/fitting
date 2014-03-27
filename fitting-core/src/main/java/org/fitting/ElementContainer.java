@@ -129,9 +129,9 @@ public interface ElementContainer extends SearchContext {
     /**
      * Tell the container to block operations for a given amount of time.
      *
-     * @param milliseconds The time to wait.
+     * @param seconds The time to wait in seconds.
      */
-    void wait(int milliseconds);
+    void waitSeconds(int seconds);
 
     /**
      * Check if the provided text is present in the container.

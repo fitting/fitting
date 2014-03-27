@@ -19,10 +19,7 @@
 
 package org.fitting.fixture;
 
-import org.fitting.Dimension;
-import org.fitting.ElementContainer;
-import org.fitting.FittingException;
-import org.fitting.FormattedFittingException;
+import org.fitting.*;
 
 /**
  * Fixture for basic interaction with UI containers/windows.
@@ -89,6 +86,10 @@ public class ContainerFixture extends FittingFixture {
 
     /**
      * Check if a given text is present in one of the elements of the container.
+     * <p>
+     * FitNesse usage:
+     * <pre>| container contains text | [text] |</pre>
+     * </p>
      *
      * <p>
      * <em>Warning</em>
@@ -103,5 +104,67 @@ public class ContainerFixture extends FittingFixture {
      */
     public boolean containerContainsText(String text) throws FittingException {
         return getElementContainerProvider().getActiveElementContainer().isTextPresent(text);
+    }
+
+    /**
+     * Wait for a given time.
+     * <p>
+     * FitNesse usage:
+     * <pre>| wait | [seconds] | seconds |</pre>
+     * </p>
+     *
+     * @param seconds The time in seconds.
+     */
+    public void waitSeconds(int seconds) {
+        getElementContainerProvider().getActiveElementContainer().waitSeconds(seconds);
+    }
+
+    /**
+     * Wait for an element to be loaded into the container within a provided timeout.
+     * <p>
+     * FitNesse usage:
+     * <pre>| wait for element with | [selector] | being | [identifier] | within | [seconds] | seconds |</pre>
+     * </p>
+     *
+     * @param selector   The name of the selector.
+     * @param identifier The identifier/query for the selector.
+     * @param seconds    The time in seconds.
+     *
+     * @return <code>true</code> if the element was found within the timeout time, <code>false</code> if not.
+     */
+    public boolean waitSecondsForElementWithBeing(int seconds, String selector, String identifier) {
+        boolean present;
+        try {
+            getSearchContext().waitForElement(getSelector(selector, identifier), seconds);
+            present = true;
+        } catch (NoSuchElementException e) {
+            present = false;
+        }
+        return present;
+    }
+
+    /**
+     * Wait for an element to be loaded into the container within a provided timeout.
+     * <p>
+     * FitNesse usage:
+     * <pre>| wait | [seconds] | seconds for element with | [selector] | being | [identifier] | and containing | [contents] |</pre>
+     * </p>
+     *
+     * @param selector   The name of the selector.
+     * @param identifier The identifier/query for the selector.
+     * @param contents   The contents to search for.
+     * @param seconds    The time in seconds.
+     *
+     * @return <code>true</code> if the element was found within the timeout time, <code>false</code> if not.
+     */
+    public boolean waitSecondsForElementWithBeingAndContaining(int seconds, String selector, String identifier, String contents) {
+        boolean present;
+        try {
+            getSearchContext().waitForElementWithContent(getSelector(selector, identifier), contents, seconds);
+            present = true;
+        } catch (NoSuchElementException e) {
+            present = false;
+        }
+        return present;
     }
 }

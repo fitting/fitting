@@ -28,93 +28,113 @@ import org.openqa.selenium.SearchContext;
 public class SeleniumFrame implements ElementContainer, SeleniumSearchContext {
     @Override
     public String getId() {
+        // TODO Implement me!
         return null;
     }
 
     @Override
     public String getParentId() {
+        // TODO Implement me!
         return null;
     }
 
     @Override
     public boolean hasParent() {
+        // TODO Implement me!
         return false;
     }
 
     @Override
     public Dimension getSize() {
+        // TODO Implement me!
         return null;
     }
 
     @Override
     public void setSize(final Dimension size) throws FittingException {
-
+        // TODO Implement me!
     }
 
     @Override
     public boolean isActive() {
+        // TODO Implement me!
         return false;
     }
 
     @Override
     public void activate() {
+        // TODO Implement me!
     }
 
     @Override
     public void refresh() {
+        // TODO Implement me!
     }
 
     @Override
     public boolean isRootContainer() {
+        // TODO Implement me!
         return false;
     }
 
     @Override
     public void close() {
+        // TODO Implement me!
     }
 
     @Override
     public void navigateTo(String uri) {
-
+        // TODO Implement me!
     }
 
     @Override
     public String currentLocation() {
+        // TODO Implement me!
         return null;
     }
 
     @Override
     public String getTitle() {
+        // TODO Implement me!
         return null;
     }
 
     @Override
-    public void wait(final int milliseconds) {
-
+    public void waitSeconds(final int seconds) {
+        // TODO Implement me!
     }
 
     @Override
     public boolean isTextPresent(final String text) {
+        // TODO Implement me!
         return false;
     }
 
     @Override
     public List<Element> findElementsBy(final Selector selector) {
+        // TODO Implement me!
         return null;
     }
 
     @Override
     public Element findElementBy(final Selector selector) {
+        // TODO Implement me!
         return null;
     }
 
     @Override
     public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException {
+        // TODO Implement me!
+    }
 
+    @Override
+    public void waitForElementWithContent(final Selector selector, final String content, final int timeout) {
+        // TODO Implement me!
     }
 
     @Override
     public SearchContext getImplementation() {
+        // TODO Implement me!
         return null;
     }
 }

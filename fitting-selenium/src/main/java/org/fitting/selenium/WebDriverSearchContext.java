@@ -36,7 +36,12 @@ public class WebDriverSearchContext implements SearchContext, SeleniumSearchCont
 
     @Override
     public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException {
-        SeleniumUtil.waitForElement(this.webDriver, this, selector, timeout);
+        SeleniumUtil.waitForElement(webDriver, this, selector, timeout);
+    }
+
+    @Override
+    public void waitForElementWithContent(final Selector selector, final String content, final int timeout) {
+        SeleniumUtil.waitForElementWithContent(webDriver, this, selector, content, timeout);
     }
 
     @Override

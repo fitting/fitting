@@ -46,6 +46,11 @@ public class NoSuchElementExceptionTest {
             }
 
             @Override
+            public void waitForElementWithContent(final Selector selector, final String content, final int timeout) {
+
+            }
+
+            @Override
             public String toString() {
                 return SEARCH_CONTEXT_TO_STRING;
             }
