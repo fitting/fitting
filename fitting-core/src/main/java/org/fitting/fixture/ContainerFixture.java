@@ -19,6 +19,7 @@
 
 package org.fitting.fixture;
 
+import org.fitting.Dimension;
 import org.fitting.ElementContainer;
 import org.fitting.FittingException;
 import org.fitting.FormattedFittingException;
@@ -29,6 +30,10 @@ import org.fitting.FormattedFittingException;
 public class ContainerFixture extends FittingFixture {
     /**
      * Get the title of the current window.
+     * <p>
+     * FitNesse usage:
+     * <pre>| window title |</pre>
+     * </p>
      *
      * @return The title text.
      *
@@ -44,6 +49,10 @@ public class ContainerFixture extends FittingFixture {
 
     /**
      * Navigate the currently active container to the provided URI.
+     * <p>
+     * FitNesse usage:
+     * <pre>| navigate to | [uri] |</pre>
+     * </p>
      *
      * @param uri The URI to navigate to.
      *
@@ -51,5 +60,48 @@ public class ContainerFixture extends FittingFixture {
      */
     public void navigateTo(String uri) throws FittingException {
         getElementContainerProvider().navigateElementContainerTo(uri);
+    }
+
+    /**
+     * Resize the container.
+     * <p>
+     * FitNesse usage:
+     * <pre>| resize to | [width] | by | [height] |</pre>
+     * </p>
+     *
+     * @param width  The new width for the container.
+     * @param height The new height for the container.
+     *
+     * @throws FittingException When the container couldn't be resized.
+     */
+    public void resizeToBy(String width, String height) throws FittingException {
+        Dimension size;
+        try {
+            int w = Integer.parseInt(width);
+            int h = Integer.parseInt(height);
+            size = new Dimension(w, h);
+        } catch (NumberFormatException e) {
+            throw new FormattedFittingException(String.format("Cannot resize the container to the width [%s] and height [%s]", width, height));
+        }
+
+        getElementContainerProvider().getActiveElementContainer().setSize(size);
+    }
+
+    /**
+     * Check if a given text is present in one of the elements of the container.
+     *
+     * <p>
+     * <em>Warning</em>
+     * Depending on the implementation this operation can be quite expensive.
+     * </p>
+     *
+     * @param text The text to search for.
+     *
+     * @return <code>true</code> if the container contains the given text.
+     *
+     * @throws FittingException When searching failed.
+     */
+    public boolean containerContainsText(String text) throws FittingException {
+        return getElementContainerProvider().getActiveElementContainer().isTextPresent(text);
     }
 }

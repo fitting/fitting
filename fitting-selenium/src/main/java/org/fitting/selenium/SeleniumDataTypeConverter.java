@@ -19,11 +19,11 @@
 
 package org.fitting.selenium;
 
-import org.fitting.*;
-import org.openqa.selenium.WebElement;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.fitting.*;
+import org.openqa.selenium.WebElement;
 
 import static java.lang.String.format;
 
@@ -49,6 +49,15 @@ public class SeleniumDataTypeConverter {
      */
     public static Dimension convert(org.openqa.selenium.Dimension dimension) {
         return new Dimension(dimension.getWidth(), dimension.getHeight());
+    }
+
+    /**
+     * Convert a Fitting {@link org.fitting.Dimension} to a Selenium Dimension .
+     * @param dimension The {@link org.fitting.Dimension} to convert.
+     * @return The Selenium Dimension.
+     */
+    public static org.openqa.selenium.Dimension convert(Dimension dimension) {
+        return new org.openqa.selenium.Dimension(dimension.getWidth(), dimension.getHeight());
     }
 
     /**

@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.fitting.Dimension;
 import org.fitting.*;
+import org.fitting.NoSuchElementException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.SearchContext;
 
@@ -33,6 +34,8 @@ import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
 /** {@link org.fitting.ElementContainer} for Selenium based browser windows. */
 public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
+    /** The id of an (highly likely to be) unknown element. */
+    private static final String UNKNOWN_ELEMENT_ID = "unknown_element_id_x3asdf4hd462345";
     /** The id of the window. */
     private final String id;
     /** The parent id of the window. */
@@ -47,6 +50,17 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
      *
      * @param id     The window id.
      * @param driver The underlying web driver for the window.
+     */
+    public SeleniumWindow(String id, WebDriver driver) {
+        this(id, null, driver);
+    }
+
+    /**
+     * Create a new SeleniumWindow.
+     *
+     * @param id       The window id.
+     * @param parentId The ID of the parent window.
+     * @param driver   The underlying web driver for the window.
      */
     public SeleniumWindow(String id, String parentId, WebDriver driver) {
         this.driver = driver;
@@ -133,8 +147,9 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
      * @return window The newly created window.
      */
     public static SeleniumWindow createNewWindow(final String location, final WebDriver webDriver) {
+        // TODO Revisit this code and probably rewrite. Let window creation/destruction be handled by the ElementContainerProvider.
         if (!JavascriptExecutor.class.isAssignableFrom(webDriver.getClass())) {
-            throw new FittingException("The provided webdriver does not support javascript execution, a new window can not be created.");
+            throw new FittingException("The provided Selenium web driver does not support javascript execution, a new window can not be created.");
         }
         final Set<String> currentHandles = webDriver.getWindowHandles();
         final String currentWindowHandle = webDriver.getWindowHandle();
@@ -154,7 +169,7 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
      * Switch to another window.
      *
      * @param handle    The id of the window.
-     * @param webDriver The webdriver to use.
+     * @param webDriver The Selenium web driver to use.
      *
      * @return The window.
      */
@@ -175,14 +190,20 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
     }
 
     @Override
+    public void setSize(final Dimension size) throws FittingException {
+        driver.manage().window().setSize(convert(size));
+    }
+
+    @Override
     public boolean isActive() {
-        // TODO Implement me!
-        return false;
+        return id.equals(driver.getWindowHandle());
     }
 
     @Override
     public void activate() {
-        // TODO Implement me!
+        if (!isActive()) {
+            driver.switchTo().window(id);
+        }
     }
 
     @Override
@@ -206,6 +227,20 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
     }
 
     @Override
+    public void wait(final int milliseconds) {
+        try {
+            waitForElement(SeleniumSelector.byId(UNKNOWN_ELEMENT_ID), milliseconds);
+        } catch (NoSuchElementException e) {
+            // Ignore.
+        }
+    }
+
+    @Override
+    public boolean isTextPresent(final String text) {
+        return false;
+    }
+
+    @Override
     public List<Element> findElementsBy(final Selector selector) {
         return convert(driver.findElements(convert(selector)));
     }
@@ -213,6 +248,17 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
     @Override
     public Element findElementBy(final Selector selector) {
         return convert(driver.findElement(convert(selector)));
+    }
+
+    @Override
+    public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException {
+        final SeleniumWindow currentContext = this;
+        SeleniumUtil.waitForElement(driver, this, selector, timeout, new NoSuchElementCallback() {
+            @Override
+            public void onNoSuchElementFound(final Object... objects) {
+                throw new NoSuchElementException(currentContext, selector);
+            }
+        });
     }
 
     @Override

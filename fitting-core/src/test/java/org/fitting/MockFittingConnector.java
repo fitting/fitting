@@ -28,16 +28,14 @@ package org.fitting;
 public class MockFittingConnector implements FittingConnector {
     public static final String NAME = "mock-fitting-connector";
     private final SelectorProvider selectorProvider;
-    private final FittingAction fittingAction;
     private final ElementContainerProvider elementContainerProvider;
 
     public MockFittingConnector() {
-        this(null, null, null);
+        this(null, null);
     }
 
-    public MockFittingConnector(final SelectorProvider selectorProvider, final FittingAction fittingAction, final ElementContainerProvider elementContainerProvider) {
+    public MockFittingConnector(final SelectorProvider selectorProvider, final ElementContainerProvider elementContainerProvider) {
         this.selectorProvider = selectorProvider;
-        this.fittingAction = fittingAction;
         this.elementContainerProvider = elementContainerProvider;
     }
 
@@ -49,11 +47,6 @@ public class MockFittingConnector implements FittingConnector {
     @Override
     public SelectorProvider getSelectorProvider() {
         return selectorProvider;
-    }
-
-    @Override
-    public FittingAction getFittingAction() {
-        return fittingAction;
     }
 
     @Override
@@ -69,5 +62,4 @@ public class MockFittingConnector implements FittingConnector {
     @Override
     public void destroy() {
     }
-
 }

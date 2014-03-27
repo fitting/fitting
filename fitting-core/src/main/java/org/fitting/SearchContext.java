@@ -27,18 +27,34 @@ import java.util.List;
 public interface SearchContext {
     /**
      * Find all elements on the context matching the given selector.
+     *
      * @param selector The selector.
+     *
      * @return The matching elements.
+     *
      * @throws FittingException When the query failed to execute.
      */
     List<Element> findElementsBy(Selector selector) throws FittingException;
 
     /**
      * Find a single element on the context matching the given selector.
+     *
      * @param selector The selector.
+     *
      * @return The matching element.
+     *
      * @throws NoSuchElementException When the element could not be found.
      * @throws FittingException       When the query failed to execute.
      */
     Element findElementBy(Selector selector) throws NoSuchElementException, FittingException;
+
+    /**
+     * Wait for a sub-element to become present within the element.
+     *
+     * @param selector The selector of the element.
+     * @param timeout  The time to wait for the element before timing-out, in milliseconds.
+     *
+     * @throws NoSuchElementException When no element was found within the provided time-out.
+     */
+    void waitForElement(Selector selector, int timeout) throws NoSuchElementException;
 }

@@ -23,57 +23,117 @@ package org.fitting;
 public interface Element extends SearchContext {
     /**
      * Get the name of the element.
+     *
      * @return The name.
      */
     String getName();
 
     /**
-     * Get the value of the element.
-     * @return The value.
+     * Get the type of element.
+     *
+     * @return The type of element.
      */
-    String getValue();
-
-    /** Click the element. */
-    void click();
+    String getType();
 
     /**
-     * Send a sequence of keys to the element.
-     * @param characters The keys to send.
+     * Get the displayed text of the element.
+     *
+     * @return The text.
      */
-    void sendKeys(CharSequence... characters);
-
-    /** Clear the element. */
-    void clear();
+    String getText();
 
     /**
      * Get the value of an attribute on the element.
      * The implementation can either decide to return <code>null</code> or throw one of the {@link FittingException}-exceptions when there is no attribute with the given name.
+     *
      * @param attributeName The name of the attribute.
+     *
      * @return The value.
      */
     String getAttributeValue(String attributeName);
 
     /**
      * Check if the element is currently active (e.g. selected, etc.).
+     *
      * @return <code>true</code> if the element is active or <code>false</code> if not or the element can't be active.
      */
     boolean isActive();
 
     /**
      * Check if the element is displayed (this also includes being visible, etc.).
+     *
      * @return <code>true</code> if the element is displayed.
      */
     boolean isDisplayed();
 
     /**
-     * Get the location of the element within the container.
+     * Get the absolute location of the element within the container.
+     *
      * @return The location or <code>null</code> if no location information was available.
      */
     Point getLocation();
 
     /**
      * Get the size of the element.
+     *
      * @return The size or <code>null</code> if no size information was available.
      */
     Dimension getSize();
+
+    /**
+     * Check if the element allows input and/or setting of the value.
+     *
+     * @return <code>true</code> if the element is an input element.
+     */
+    boolean isInput();
+
+    /**
+     * Get the value of the element.
+     *
+     * <p>
+     * Returns the same result as {@link Element#getText()} for non-input elements.
+     * </p>
+     *
+     * @return The value.
+     *
+     * @see Element#getText()
+     */
+    String getValue();
+
+    /**
+     * Click the element.
+     */
+    void click();
+
+    /**
+     * Send a sequence of keys to the element.
+     *
+     * @param characters The keys to send.
+     */
+    void sendKeys(CharSequence... characters);
+
+    /**
+     * Select the given value for an input element.
+     *
+     * @param value The value.
+     *
+     * @throws FittingException When the element does not allow the setting of the value.
+     * @see Element#isInput()
+     */
+    void setValue(String value) throws FittingException;
+
+    /**
+     * Set the value of the element to that of the one with the provided displayed text for an input element.
+     *
+     * @param text The displayed text of the value.
+     *
+     * @throws FittingException When the element does not allow the setting of the value by text.
+     * @see Element#isInput()
+     */
+    void setValueWithText(String text) throws FittingException;
+
+    /**
+     * Clear the value for the element if applicable.
+     */
+    void clear();
 }

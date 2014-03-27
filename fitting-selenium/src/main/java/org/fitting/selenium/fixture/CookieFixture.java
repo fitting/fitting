@@ -37,7 +37,7 @@ import static org.apache.commons.lang.StringUtils.isNotEmpty;
  * @author Barre Dijkstra
  * @since 1.0
  */
-public class SeleniumCookieFixture extends SeleniumFixture {
+public class CookieFixture extends SeleniumFixture {
     /** The pattern for a domain. */
     protected static final Pattern DOMAIN_PATTERN = Pattern.compile("^\\w+://([^\\/:\\?]+)([\\w\\W])*$");
 

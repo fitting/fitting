@@ -19,7 +19,13 @@
 
 package org.fitting.fixture;
 
-import org.fitting.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.fitting.Element;
+import org.fitting.FittingException;
+import org.fitting.FormattedFittingException;
+import org.fitting.NoSuchElementException;
 
 import static java.lang.String.format;
 
@@ -117,6 +123,24 @@ public class ElementFixture extends FittingFixture {
     }
 
     /**
+     * Get the number of times an element matching the criteria exists.
+     * <p>
+     * FitNesse usage:
+     * <pre>| number of elements with | [selector] | being | [identifier] | is |</pre>
+     * </p>
+     *
+     * @param selector   The name of the selector.
+     * @param identifier The identifier/query for the selector.
+     *
+     * @return The times the elements matching the criteria exist.
+     *
+     * @throws FittingException When the selector could not be found.
+     */
+    public int numberOfElementsWithBeingIs(String selector, String identifier) throws FittingException {
+        return getElements(selector, identifier).size();
+    }
+
+    /**
      * Click an element.
      * <p>
      * FitNesse usage:
@@ -133,6 +157,23 @@ public class ElementFixture extends FittingFixture {
     }
 
     /**
+     * Send a series of keys to an element.
+     * <p>
+     * FitNesse usage:
+     * <pre>| send keys | [keys] | to element with | [selector] | being | [identifier] |</pre>
+     * </p>
+     *
+     * @param keys       The keys to send.
+     * @param selector   The name of the selector.
+     * @param identifier The identifier/query for the selector.
+     *
+     * @throws FittingException If no matching element could not be found.
+     */
+    public void sendKeysToElementWithBeing(CharSequence keys, String selector, String identifier) throws FittingException {
+        getElement(selector, identifier).sendKeys(keys);
+    }
+
+    /**
      * Set the value for an element.
      * <p>
      * FitNesse usage:
@@ -143,13 +184,27 @@ public class ElementFixture extends FittingFixture {
      * @param selector   The name of the selector.
      * @param identifier The identifier/query for the selector.
      *
-     * @throws FittingException When the selector or element could not be found.
+     * @throws FittingException When the selector or element could not be found or no value could be set.
      */
     public void setValueForElementWithBeing(String value, String selector, String identifier) throws FittingException {
-        if (value == null || value.length() < 1) {
-            throw new FormattedFittingException("Unable to send an empty String to element ");
-        }
-        getElement(selector, identifier).sendKeys(value);
+        getElement(selector, identifier).setValue(value);
+    }
+
+    /**
+     * Set the value for an element by it's displayed text.
+     * <p>
+     * FitNesse usage:
+     * <pre>| set value with text | [text] | for element with | [selector] | being | [identifier] |</pre>
+     * </p>
+     *
+     * @param text       The display text of the value to set.
+     * @param selector   The name of the selector.
+     * @param identifier The identifier/query for the selector.
+     *
+     * @throws FittingException When the selector or element could not be found or no value was found with the given text.
+     */
+    public void setValueWithTextForElementWithBeing(String text, String selector, String identifier) throws FittingException {
+        getElement(selector, identifier).setValueWithText(text);
     }
 
     /**
@@ -167,8 +222,7 @@ public class ElementFixture extends FittingFixture {
      * @throws FittingException When the selector or element could not be found or the time-out was reached.
      */
     public void waitSecondsForElementWithBeing(int seconds, String selector, String identifier) throws FittingException {
-        Selector select = getSelector(selector, identifier);
-        getFittingAction().waitForElement(getSearchContext(), select, seconds);
+        getSearchContext().waitForElement(getSelector(selector, identifier), seconds);
     }
 
     /**
@@ -206,8 +260,23 @@ public class ElementFixture extends FittingFixture {
      * @throws FittingException When the selector or element could not be found.
      */
     public boolean valueOfElementWithBeingIsSettable(String selector, String identifier) throws FittingException {
-        Selector select = getSelector(selector, identifier);
-        return !getFittingAction().isElementValueSettable(getSearchContext(), select);
+        Element element = getSearchContext().findElementBy(getSelector(selector, identifier));
+        return element.isInput();
+    }
+
+    /**
+     * Get the value of an element.
+     *
+     * @param selector   The name of the selector.
+     * @param identifier The identifier/query for the selector.
+     *
+     * @return The value.
+     *
+     * @throws FittingException When the selector or element could not be found.
+     */
+    public String valueOfElementWithBeing(String selector, String identifier) throws FittingException {
+        Element element = getSearchContext().findElementBy(getSelector(selector, identifier));
+        return element.getValue();
     }
 
     /**
@@ -264,6 +333,25 @@ public class ElementFixture extends FittingFixture {
      */
     private Element getElement(String selector, String identifier) throws NoSuchElementException {
         return getSearchContext().findElementBy(getSelector(selector, identifier));
+    }
+
+    /**
+     * Get all the elements that match the given criteria from the base search context.
+     *
+     * @param selector   The name of the selector.
+     * @param identifier The identifier/query for the selector.
+     *
+     * @return The elements.
+     *
+     * @throws FittingException When no matching selector could be found.
+     */
+    private List<Element> getElements(String selector, String identifier) throws FittingException {
+        List<Element> elements = new ArrayList<Element>();
+        List<Element> foundElements = getSearchContext().findElementsBy(getSelector(selector, identifier));
+        if (foundElements != null) {
+            elements.addAll(foundElements);
+        }
+        return elements;
     }
 
     /**

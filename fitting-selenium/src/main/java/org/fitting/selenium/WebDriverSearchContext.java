@@ -1,9 +1,9 @@
 package org.fitting.selenium;
 
+import java.util.List;
+
 import org.fitting.*;
 import org.openqa.selenium.WebDriver;
-
-import java.util.List;
 
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
@@ -14,6 +14,7 @@ public class WebDriverSearchContext implements SearchContext, SeleniumSearchCont
 
     /**
      * Create a new {@link org.fitting.selenium.WebDriverSearchContext} instance.
+     *
      * @param webDriver The WebDriver to wrap.
      */
     public WebDriverSearchContext(WebDriver webDriver) {
@@ -31,6 +32,11 @@ public class WebDriverSearchContext implements SearchContext, SeleniumSearchCont
     @Override
     public Element findElementBy(Selector selector) throws NoSuchElementException, FittingException {
         return convert(webDriver.findElement(convert(selector)));
+    }
+
+    @Override
+    public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException {
+        SeleniumUtil.waitForElement(this.webDriver, this, selector, timeout);
     }
 
     @Override

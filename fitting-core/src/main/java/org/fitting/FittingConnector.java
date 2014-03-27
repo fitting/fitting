@@ -26,30 +26,28 @@ public interface FittingConnector {
 
     /**
      * The name of the implementation.
+     *
      * @return The name.
      */
     String getName();
 
     /**
      * Get the {@link SelectorProvider} implementation for the implementation.
+     *
      * @return The {@link SelectorProvider}.
      */
     SelectorProvider getSelectorProvider();
 
     /**
-     * Get the {@link org.fitting.FittingAction} implementation for the implementation.
-     * @return The {@link org.fitting.FittingAction}.
-     */
-    FittingAction getFittingAction();
-
-    /**
      * Get the {@link ElementContainerProvider} implementation for the implementation.
+     *
      * @return The {@link ElementContainerProvider}.
      */
     ElementContainerProvider getElementContainerProvider();
 
     /**
      * Get the default {@link org.fitting.SearchContext}, generally providing the root as search context.
+     *
      * @return The default search context.
      */
     SearchContext getDefaultSearchContext();

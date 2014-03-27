@@ -19,10 +19,10 @@
 
 package org.fitting;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.List;
 
 public class NoSuchElementExceptionTest {
 
@@ -40,6 +40,11 @@ public class NoSuchElementExceptionTest {
             public Element findElementBy(final Selector selector) throws FittingException {
                 return null;
             }
+
+            @Override
+            public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException {
+            }
+
             @Override
             public String toString() {
                 return SEARCH_CONTEXT_TO_STRING;

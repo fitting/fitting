@@ -33,9 +33,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -53,7 +50,6 @@ public class FittingFixtureTest {
     @Mock
     private Selector selector;
     @Mock
-    private FittingAction action;
     private ElementContainerProvider containerProvider;
 
     /**
@@ -74,7 +70,6 @@ public class FittingFixtureTest {
 
         when(connector.getSelectorProvider()).thenReturn(selectorProvider);
         when(connector.getElementContainerProvider()).thenReturn(containerProvider);
-        when(connector.getFittingAction()).thenReturn(action);
 
         PowerMockito.mockStatic(FittingContainer.class);
         PowerMockito.mockStatic(FittingContainer.class);
@@ -181,19 +176,6 @@ public class FittingFixtureTest {
         fixture.getSelector("non-existing", "query");
 
         fail("Managed to create a selector for a non-existing tag.");
-    }
-
-    /**
-     * Ensure that a FittingAction is available.
-     *
-     * @see FittingFixture#getFittingAction()
-     */
-    @Test
-    public void shouldGetFittingAction() {
-        FittingAction action = fixture.getFittingAction();
-
-        assertNotNull("No FittingAction returned.", action);
-        assertSame("Different FittingAction returned as expected.", this.action, action);
     }
 
     /**

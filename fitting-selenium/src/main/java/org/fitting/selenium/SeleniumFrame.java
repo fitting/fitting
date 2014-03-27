@@ -21,10 +21,7 @@ package org.fitting.selenium;
 
 import java.util.List;
 
-import org.fitting.Dimension;
-import org.fitting.Element;
-import org.fitting.ElementContainer;
-import org.fitting.Selector;
+import org.fitting.*;
 import org.openqa.selenium.SearchContext;
 
 /** {@link org.fitting.ElementContainer} implementation for Selenium based HTML (i)frames. */
@@ -47,6 +44,11 @@ public class SeleniumFrame implements ElementContainer, SeleniumSearchContext {
     @Override
     public Dimension getSize() {
         return null;
+    }
+
+    @Override
+    public void setSize(final Dimension size) throws FittingException {
+
     }
 
     @Override
@@ -87,6 +89,16 @@ public class SeleniumFrame implements ElementContainer, SeleniumSearchContext {
     }
 
     @Override
+    public void wait(final int milliseconds) {
+
+    }
+
+    @Override
+    public boolean isTextPresent(final String text) {
+        return false;
+    }
+
+    @Override
     public List<Element> findElementsBy(final Selector selector) {
         return null;
     }
@@ -94,6 +106,11 @@ public class SeleniumFrame implements ElementContainer, SeleniumSearchContext {
     @Override
     public Element findElementBy(final Selector selector) {
         return null;
+    }
+
+    @Override
+    public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException {
+
     }
 
     @Override

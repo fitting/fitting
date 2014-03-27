@@ -19,11 +19,11 @@
 
 package org.fitting;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -78,11 +78,6 @@ public class FittingConfigurationTest {
         }
 
         @Override
-        public FittingAction getFittingAction() {
-            return null;
-        }
-
-        @Override
         public ElementContainerProvider getElementContainerProvider() {
             return null;
         }
@@ -106,11 +101,6 @@ public class FittingConfigurationTest {
 
         @Override
         public SelectorProvider getSelectorProvider() {
-            return null;
-        }
-
-        @Override
-        public FittingAction getFittingAction() {
             return null;
         }
 

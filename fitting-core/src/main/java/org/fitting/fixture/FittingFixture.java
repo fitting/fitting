@@ -71,15 +71,6 @@ public abstract class FittingFixture {
     }
 
     /**
-     * Get the currently active {@link org.fitting.FittingAction} implementation.
-     *
-     * @return The {@link org.fitting.FittingAction}.
-     */
-    protected final FittingAction getFittingAction() {
-        return getConnector().getFittingAction();
-    }
-
-    /**
      * Get the {@link ElementContainerProvider} for this connection.
      *
      * @return The {@link ElementContainerProvider}.

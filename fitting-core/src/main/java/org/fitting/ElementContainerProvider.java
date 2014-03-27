@@ -19,15 +19,15 @@
 
 package org.fitting;
 
-import org.fitting.event.ContainerClosedEvent;
-import org.fitting.event.ContainerCreatedEvent;
-import org.fitting.event.ContainerListener;
-import org.fitting.event.LocationChangedEvent;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.fitting.event.ContainerClosedEvent;
+import org.fitting.event.ContainerCreatedEvent;
+import org.fitting.event.ContainerListener;
+import org.fitting.event.LocationChangedEvent;
 
 import static java.lang.String.format;
 import static org.apache.commons.lang.StringUtils.isEmpty;
@@ -224,9 +224,9 @@ public abstract class ElementContainerProvider {
     }
 
     /**
-     * Navigate the currently active element container to the provided URI.
+     * Navigate an element container to the provided URI.
      *
-     * @param id  The id.
+     * @param id  The id of the container to navigate.
      * @param uri The URI to navigate to.
      *
      * @throws org.fitting.FittingException When no container was found with the given id or if the URI was invalid.

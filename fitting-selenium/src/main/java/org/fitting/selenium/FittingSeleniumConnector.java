@@ -51,11 +51,6 @@ public class FittingSeleniumConnector implements FittingConnector {
     }
 
     @Override
-    public FittingAction getFittingAction() {
-        return new SeleniumAction(browser.getWebDriver());
-    }
-
-    @Override
     public ElementContainerProvider getElementContainerProvider() {
         return new SeleniumWindowProvider(browser);
     }

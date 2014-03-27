@@ -19,19 +19,17 @@
 
 package org.fitting.selenium;
 
-import org.fitting.Selector;
-import org.fitting.Dimension;
-import org.fitting.Element;
-import org.fitting.Point;
+import java.util.List;
+
+import org.fitting.*;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
 /**
  * {@link org.fitting.Element} Selenium implementation for Selenium HTML elements.
+ *
  * @author Barre Dijkstra
  * @since 1.0
  */
@@ -41,6 +39,7 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
 
     /**
      * Create a new SeleniumElement.
+     *
      * @param element The implementing Selenium WebElement.
      */
     public SeleniumElement(WebElement element) {
@@ -51,6 +50,16 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
     @Override
     public String getName() {
         return element.getTagName();
+    }
+
+    @Override
+    public String getType() {
+        return element.getTagName();
+    }
+
+    @Override
+    public String getText() {
+        return element.getText();
     }
 
     /** {@inheritDoc} */
@@ -69,6 +78,16 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
     @Override
     public void sendKeys(final CharSequence... characters) {
         element.sendKeys(characters);
+    }
+
+    @Override
+    public void setValue(final String value) throws FittingException {
+        // TODO Implement me!
+    }
+
+    @Override
+    public void setValueWithText(final String value) throws FittingException {
+        // TODO Implement me!
     }
 
     /** {@inheritDoc} */
@@ -107,6 +126,12 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
         return convert(element.getSize());
     }
 
+    @Override
+    public boolean isInput() {
+        // TODO Implement me!
+        return false;
+    }
+
     /** {@inheritDoc} */
     @Override
     public List<Element> findElementsBy(final Selector selector) {
@@ -117,6 +142,11 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
     @Override
     public Element findElementBy(final Selector selector) {
         return convert(element.findElement(convert(selector)));
+    }
+
+    @Override
+    public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException {
+        // TODO Implement me!
     }
 
     /** {@inheritDoc} */
