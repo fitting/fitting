@@ -46,6 +46,7 @@ public class ContainerFixture extends FittingFixture {
 
     /**
      * Navigate the currently active container to the provided URI.
+     *
      * <p>
      * FitNesse usage:
      * <pre>| navigate to | [uri] |</pre>
@@ -57,6 +58,22 @@ public class ContainerFixture extends FittingFixture {
      */
     public void navigateTo(String uri) throws FittingException {
         getElementContainerProvider().navigateElementContainerTo(uri);
+    }
+
+    /**
+     * Get the URI of the current location of the active container.
+     *
+     * <p>
+     * FitNesse usage:
+     * <pre>| current location |</pre>
+     * </p>
+     *
+     * @return The URI of the current location.
+     *
+     * @throws FittingException When no container was active or there was a problem retrieving the current location.
+     */
+    public String currentLocation() throws FittingException {
+        return getElementContainerProvider().getActiveElementContainer().currentLocation();
     }
 
     /**
