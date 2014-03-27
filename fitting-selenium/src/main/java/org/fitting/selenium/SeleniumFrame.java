@@ -19,13 +19,13 @@
 
 package org.fitting.selenium;
 
-import org.fitting.Selector;
+import java.util.List;
+
 import org.fitting.Dimension;
 import org.fitting.Element;
 import org.fitting.ElementContainer;
+import org.fitting.Selector;
 import org.openqa.selenium.SearchContext;
-
-import java.util.List;
 
 /** {@link org.fitting.ElementContainer} implementation for Selenium based HTML (i)frames. */
 public class SeleniumFrame implements ElementContainer, SeleniumSearchContext {
@@ -78,6 +78,11 @@ public class SeleniumFrame implements ElementContainer, SeleniumSearchContext {
 
     @Override
     public String currentLocation() {
+        return null;
+    }
+
+    @Override
+    public String getTitle() {
         return null;
     }
 

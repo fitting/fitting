@@ -33,49 +33,49 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 public class SeleniumSelectorProvider implements SelectorProvider {
     /** The selectors provided by this provider. */
     private static final Map<String, SeleniumByFactory> BY_CLAUSES = new HashMap<String, SeleniumByFactory>() {{
-        put(SeleniumSelector.NAME_CLASS_NAME, new SeleniumByFactory() {
+        put(SeleniumSelector.CLASS_NAME, new SeleniumByFactory() {
             @Override
             public SeleniumSelector create(String query) {
                 return SeleniumSelector.byClassName(query);
             }
         });
-        put(SeleniumSelector.NAME_XPATH, new SeleniumByFactory() {
+        put(SeleniumSelector.XPATH, new SeleniumByFactory() {
             @Override
             public SeleniumSelector create(String query) {
                 return SeleniumSelector.byXPath(query);
             }
         });
-        put(SeleniumSelector.NAME_CSS_SELECTOR, new SeleniumByFactory() {
+        put(SeleniumSelector.CSS_SELECTOR, new SeleniumByFactory() {
             @Override
             public SeleniumSelector create(String query) {
                 return SeleniumSelector.byCssSelector(query);
             }
         });
-        put(SeleniumSelector.NAME_ID, new SeleniumByFactory() {
+        put(SeleniumSelector.ID, new SeleniumByFactory() {
             @Override
             public SeleniumSelector create(String query) {
                 return SeleniumSelector.byId(query);
             }
         });
-        put(SeleniumSelector.NAME_LINK_TEXT, new SeleniumByFactory() {
+        put(SeleniumSelector.LINK_TEXT, new SeleniumByFactory() {
             @Override
             public SeleniumSelector create(String query) {
                 return SeleniumSelector.byLinkText(query);
             }
         });
-        put(SeleniumSelector.NAME_NAME, new SeleniumByFactory() {
+        put(SeleniumSelector.NAME, new SeleniumByFactory() {
             @Override
             public SeleniumSelector create(String query) {
                 return SeleniumSelector.byName(query);
             }
         });
-        put(SeleniumSelector.NAME_PARTIAL_LINK_TEXT, new SeleniumByFactory() {
+        put(SeleniumSelector.PARTIAL_LINK_TEXT, new SeleniumByFactory() {
             @Override
             public SeleniumSelector create(String query) {
                 return SeleniumSelector.byPartialLinkText(query);
             }
         });
-        put(SeleniumSelector.NAME_TAG_NAME, new SeleniumByFactory() {
+        put(SeleniumSelector.TAG_NAME, new SeleniumByFactory() {
             @Override
             public SeleniumSelector create(String query) {
                 return SeleniumSelector.selectorName(query);

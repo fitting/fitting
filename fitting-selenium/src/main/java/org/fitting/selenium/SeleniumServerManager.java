@@ -96,6 +96,28 @@ public class SeleniumServerManager {
     }
 
     /**
+     * Start the server on the first available port, starting at {@link org.fitting.selenium.SeleniumServerManager#DEFAULT_PORT}.
+     *
+     * @param tries The number of ports to try before giving up.
+     *
+     * @return The port the server was started on or <code>-1</code> when no server was started.
+     *
+     * @throws Exception When starting failed.
+     */
+    public int startServerOnFirstAvailablePort(int tries) throws Exception {
+        int port = DEFAULT_PORT;
+        int assignedPort = -1;
+        while (port != assignedPort && port < DEFAULT_PORT + tries) {
+            if ((!isServerRunning(port)) && getSeleniumServerInstanceForPort(port).isPortAvailable() && startServer(port)) {
+                assignedPort = port;
+            } else {
+                port++;
+            }
+        }
+        return assignedPort;
+    }
+
+    /**
      * Check if a server is running on the default port.
      *
      * @return <code>true</code> if a server is running on the given port.

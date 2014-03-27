@@ -96,7 +96,6 @@ public interface ElementContainer extends SearchContext {
      */
     void close();
 
-
     /**
      * Navigate the element container to the provided URI.
      *
@@ -110,4 +109,11 @@ public interface ElementContainer extends SearchContext {
      * @return The current URI of the container.
      */
     String currentLocation();
+
+    /**
+     * Get the title of the element container.
+     *
+     * @return The title of the container or <code>null</code> if the container has none.
+     */
+    String getTitle();
 }

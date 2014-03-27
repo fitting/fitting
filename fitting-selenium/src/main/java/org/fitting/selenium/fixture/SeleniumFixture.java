@@ -19,26 +19,41 @@
 
 package org.fitting.selenium.fixture;
 
+import org.fitting.FittingConnector;
 import org.fitting.FittingContainer;
-import org.fitting.selenium.BrowserConnector;
+import org.fitting.FittingException;
+import org.fitting.fixture.FittingFixture;
 import org.fitting.selenium.FittingSeleniumConnector;
+import org.openqa.selenium.WebDriver;
 
 /**
- * Fixture for initialising the Selenium coupling.
+ * Base class for selenium fitting fixtures, providing all functionality of the {@link org.fitting.fixture.FittingFixture} as well.
  */
-public class SeleniumFixture {
+public abstract class SeleniumFixture extends FittingFixture {
 
-    public void openBrowserOnHostWithPort(String browser, String host, int port) {
-        FittingContainer.set(new FittingSeleniumConnector(BrowserConnector.builder().withBrowser(browser).onHost(host, port).build()));
+    /**
+     * Get the active WebDriver instance.
+     * @return The WebDriver instance.
+     */
+    protected final WebDriver getWebDriver() {
+        return getSeleniumConnector().getWebDriver();
     }
 
-    public void openUrl(final String url) {
-        String uri;
-        if(url.startsWith("<") && url.endsWith("</a>")) {
-            uri = url.split(">", 2)[1].split("<", 2)[0];
+    /**
+     * Get the active {@link SeleniumFixture} instance.
+     * @return The instance.
+     * @throws org.fitting.FittingException When the current {@link org.fitting.FittingConnector} is not available or not a {@link org.fitting.selenium.FittingSeleniumConnector}.
+     */
+    protected final FittingSeleniumConnector getSeleniumConnector() {
+        FittingSeleniumConnector seleniumConnector;
+        FittingConnector connector = FittingContainer.get();
+
+
+        if (FittingSeleniumConnector.class.isAssignableFrom(connector.getClass())) {
+            seleniumConnector = (FittingSeleniumConnector) connector;
         } else {
-            uri = url;
+            throw new FittingException(String.format("The connector %s (%s) is not a valid SeleniumConnector.", connector.getName(), connector.getClass().getName()));
         }
-        FittingContainer.get().getElementContainerProvider().navigateElementContainerTo(uri);
+        return seleniumConnector;
     }
 }

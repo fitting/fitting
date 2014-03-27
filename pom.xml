@@ -61,7 +61,6 @@
         <module>fitting-util</module>
         <module>fitting-core</module>
         <module>fitting-selenium</module>
-        <module>fitting-instance</module>
     </modules>
 
     <properties>

@@ -142,6 +142,23 @@ public class SeleniumServerManagerTest {
     }
 
     /**
+     * Given that a server is running on the default and the 1st port after is not available. <br/>
+     * When calling {@link org.fitting.selenium.SeleniumServerManager#startServerOnFirstAvailablePort(int)}.<br/>
+     * The server should be started on the default port + 2.
+     *
+     * @throws Exception When execution failed.
+     */
+    @Test
+    public void shouldStartServerOnFirstAvailablePort() throws Exception {
+        when(serverInstance.start()).thenReturn(true);
+        when(serverInstance.isPortAvailable()).thenReturn(false).thenReturn(false).thenReturn(true);
+        instance.startServer();
+
+        assertEquals(SeleniumServerManager.DEFAULT_PORT + 2, instance.startServerOnFirstAvailablePort(20));
+    }
+
+
+    /**
      * Given a custom port number and that a server is running on that port.<br/>
      * When {@link SeleniumServerManager#isServerRunning(int)} is called with the port.<br/>
      * Then ensure that the server is reported to be running.
