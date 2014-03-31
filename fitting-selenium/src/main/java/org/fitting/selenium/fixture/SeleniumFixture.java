@@ -22,8 +22,10 @@ package org.fitting.selenium.fixture;
 import org.fitting.FittingConnector;
 import org.fitting.FittingContainer;
 import org.fitting.FittingException;
+import org.fitting.FormattedFittingException;
 import org.fitting.fixture.FittingFixture;
 import org.fitting.selenium.FittingSeleniumConnector;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -33,6 +35,7 @@ public abstract class SeleniumFixture extends FittingFixture {
 
     /**
      * Get the active WebDriver instance.
+     *
      * @return The WebDriver instance.
      */
     protected final WebDriver getWebDriver() {
@@ -40,8 +43,32 @@ public abstract class SeleniumFixture extends FittingFixture {
     }
 
     /**
+     * Execute a JavaScript script in the current browser.
+     *
+     * @param script The script to execute.
+     * @param args   Optional script arguments.
+     *
+     * @return The result value or <code>null</code> when there was no return value of the JavaScript.
+     *
+     * @throws FittingException When execution failed or the underlying WebDriver doesn't support JavaScript.
+     */
+    protected final Object executeJavascript(String script, String... args) throws FittingException {
+        Object result;
+        WebDriver driver = getWebDriver();
+        if (driver instanceof JavascriptExecutor) {
+            result = ((JavascriptExecutor) driver).executeScript(script, args);
+        } else {
+            throw new FormattedFittingException("The underlying WebDriver does not support execution of JavaScript.");
+        }
+        return result;
+
+    }
+
+    /**
      * Get the active {@link SeleniumFixture} instance.
+     *
      * @return The instance.
+     *
      * @throws org.fitting.FittingException When the current {@link org.fitting.FittingConnector} is not available or not a {@link org.fitting.selenium.FittingSeleniumConnector}.
      */
     protected final FittingSeleniumConnector getSeleniumConnector() {
