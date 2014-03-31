@@ -32,24 +32,31 @@ public abstract class UpdatableSearchContextProvider implements SearchContextPro
     private Selector selector;
 
     /**
-     * Constructor.
+     * Create a new {@link UpdatableSearchContextProvider}.
+     *
      * @param selector The selector used to locate the root element.
      */
-    public UpdatableSearchContextProvider(final Selector selector) {
-        this.selector = selector;
+    public UpdatableSearchContextProvider(Selector selector) {
+        updateSelector(selector);
     }
 
     /**
      * Update the selector.
+     *
      * @param selector The selector used to locate elements.
      */
-    public void updateSelector(final Selector selector) {
+    public void updateSelector(Selector selector) {
+        if (selector == null) {
+            throw new IllegalArgumentException("Can't set a null selector.");
+        }
         this.selector = selector;
     }
 
     @Override
-    public SearchContext getSearchContext() {
-        // TODO Implement me!
-        return null;
+    public SearchContext getSearchContext(SearchContext searchContext, SelectorProvider provider) {
+        if (searchContext == null) {
+            throw new FormattedFittingException("No root search context provided.");
+        }
+        return searchContext.findElementBy(selector);
     }
 }

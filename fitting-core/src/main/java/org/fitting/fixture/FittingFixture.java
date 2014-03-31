@@ -71,6 +71,17 @@ public abstract class FittingFixture {
     }
 
     /**
+     * Get the {@link SelectorProvider} for this connection.
+     *
+     * @return The {@link SelectorProvider}.
+     *
+     * @see FittingFixture#getSelector(String, String)
+     */
+    protected final SelectorProvider getSelectorProvider() {
+        return getConnector().getSelectorProvider();
+    }
+
+    /**
      * Get the {@link ElementContainerProvider} for this connection.
      *
      * @return The {@link ElementContainerProvider}.
@@ -116,7 +127,7 @@ public abstract class FittingFixture {
         SearchContext context = null;
         if (providers.get().isSearchContextProviderKnown(id)) {
             final SearchContextProvider provider = providers.get().getSearchContextProvider(id);
-            context = provider.getSearchContext();
+            context = provider.getSearchContext(FittingContainer.get().getDefaultSearchContext(), getSelectorProvider());
         }
         return context;
     }

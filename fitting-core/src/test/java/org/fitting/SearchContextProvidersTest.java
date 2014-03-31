@@ -19,9 +19,6 @@
 
 package org.fitting;
 
-import org.fitting.SearchContext;
-import org.fitting.SearchContextProvider;
-import org.fitting.SearchContextProviders;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -56,18 +53,20 @@ public class SearchContextProvidersTest {
     private class TestSearchContextProvider implements SearchContextProvider {
         private final String id;
         private final SearchContext searchContext;
+
         public TestSearchContextProvider(final String id, final SearchContext searchContext) {
             this.id = id;
             this.searchContext = searchContext;
         }
+
         @Override
         public String getId() {
             return this.id;
         }
+
         @Override
-        public SearchContext getSearchContext() {
+        public SearchContext getSearchContext(final SearchContext root, final SelectorProvider provider) {
             return this.searchContext;
         }
     }
-
 }
