@@ -44,6 +44,7 @@ public class BrowserConnector {
 
     /**
      * Create a new Browser instance.
+     *
      * @param capabilities The desired browser capabilities.
      * @param url          The URL to connect to.
      */
@@ -54,6 +55,7 @@ public class BrowserConnector {
 
     /**
      * Get the underlying WebDriver implementation.
+     *
      * @return The WebDriver.
      */
     public final WebDriver getWebDriver() {
@@ -62,18 +64,20 @@ public class BrowserConnector {
 
     /**
      * Get the main window object, creating one if it doesn't exist.
+     *
      * @return The main window.
      */
 
     public synchronized final SeleniumWindow getWindow() {
         if (window == null) {
-            window = new SeleniumWindow("_MAIN", null, webDriver);
+            window = new SeleniumWindow(webDriver.getWindowHandle(), null, webDriver);
         }
         return window;
     }
 
     /**
      * Check if JavaScript is enabled.
+     *
      * @return <code>true</code> if javascript is enabled.
      */
     public final boolean isJavascriptEnabled() {
@@ -95,6 +99,7 @@ public class BrowserConnector {
 
     /**
      * Get a new builder for the Browser.
+     *
      * @return The builder.
      */
     public static Builder builder() {
@@ -124,7 +129,9 @@ public class BrowserConnector {
 
         /**
          * Set the platform the browser should run on.
+         *
          * @param platform The platform name.
+         *
          * @return The builder with the platform set.
          */
         public final Builder withPlatform(String platform) {
@@ -134,9 +141,12 @@ public class BrowserConnector {
 
         /**
          * Set the browser to use.
+         *
          * @param browser The name of the browser.
          * @param version The version of the browser.
+         *
          * @return The builder with the browser set.
+         *
          * @see Browser
          */
         public final Builder withBrowser(String browser, String version) {
@@ -147,8 +157,11 @@ public class BrowserConnector {
 
         /**
          * Set the browser to use.
+         *
          * @param browser The name of the browser.
+         *
          * @return The builder with the browser set.
+         *
          * @see Browser
          */
         public final Builder withBrowser(String browser) {
@@ -158,8 +171,10 @@ public class BrowserConnector {
 
         /**
          * Set the host the selenium server is running on.
+         *
          * @param host The host.
          * @param port The port.
+         *
          * @return The builder with the selenium server host set.
          */
         public final Builder onHost(String host, int port) {
@@ -170,7 +185,9 @@ public class BrowserConnector {
 
         /**
          * Set the platform the selenium server is running on.
+         *
          * @param platform The platform.
+         *
          * @return The builder with the selenium server platform set.
          */
         public final Builder onPlatform(String platform) {
@@ -180,7 +197,9 @@ public class BrowserConnector {
 
         /**
          * Set javascript support.
+         *
          * @param javascriptEnabled Flag indicating javascript support.
+         *
          * @return The builder with javascript support set.
          */
         public final Builder withJavascriptEnabled(boolean javascriptEnabled) {
@@ -190,8 +209,10 @@ public class BrowserConnector {
 
         /**
          * Add a custom capability.
+         *
          * @param capability The capability.
          * @param value      The capability value.
+         *
          * @return The builder with the added capability.
          */
         public final Builder withCapabilities(String capability, Object value) {
@@ -203,7 +224,9 @@ public class BrowserConnector {
 
         /**
          * Build the {@link org.fitting.selenium.BrowserConnector} with the set properties.
+         *
          * @return The build browser connector.
+         *
          * @throws IllegalArgumentException When invalid data was provided.
          */
         public BrowserConnector build() throws IllegalArgumentException {
@@ -212,7 +235,9 @@ public class BrowserConnector {
 
         /**
          * Create the desired capabilities for the set properties.
+         *
          * @return The created desired capabilities.
+         *
          * @throws IllegalArgumentException When invalid data was provided.
          */
         protected final DesiredCapabilities createDesiredCapabilities() throws IllegalArgumentException {
@@ -233,7 +258,9 @@ public class BrowserConnector {
 
         /**
          * Create the URL for the selenium server.
+         *
          * @return The URL.
+         *
          * @throws IllegalArgumentException When the URL is not valid.
          */
         protected final URL createSeleniumUrl() throws IllegalArgumentException {
