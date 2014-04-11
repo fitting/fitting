@@ -82,12 +82,12 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
 
     @Override
     public void setValue(final String value) throws FittingException {
-        // TODO Implement me!
+        sendKeys(value);
     }
 
     @Override
     public void setValueWithText(final String value) throws FittingException {
-        // TODO Implement me!
+        sendKeys(value);
     }
 
     /** {@inheritDoc} */
