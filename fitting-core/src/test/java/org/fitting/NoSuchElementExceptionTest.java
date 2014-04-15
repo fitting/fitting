@@ -16,61 +16,66 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package org.fitting;
 
-import java.util.List;
-
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import static java.lang.String.format;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
+/**
+ * Unit tests for {@link NoSuchElementException}.
+ *
+ * @author Barre Dijkstra
+ * @since 1.0
+ */
+@RunWith(MockitoJUnitRunner.class)
 public class NoSuchElementExceptionTest {
+    /**
+     * The value to return as the toString representation of the SearchContext.
+     */
+    private static final String SEARCHCONTEXT_TOSTRING = "searchContextToString";
+    /**
+     * The value to return as the toString representation of the selector.
+     */
+    private static final String SELECTOR_TOSTRING = "selectorToString";
+    /**
+     * Mock search context.
+     */
+    @Mock
+    private SearchContext searchContext;
+    /**
+     * Mock selector.
+     */
+    @Mock
+    private Selector selector;
 
-    private static final String SEARCH_CONTEXT_TO_STRING = "SEARCH_CONTEXT_TO_STRING";
-    private static final String BY_TO_STRING = "BY_TO_STRING";
-
-    @Test
-    public void testException() {
-        SearchContext searchContext = new SearchContext() {
-            @Override
-            public List<Element> findElementsBy(final Selector selector) throws FittingException {
-                return null;
-            }
-            @Override
-            public Element findElementBy(final Selector selector) throws FittingException {
-                return null;
-            }
-
-            @Override
-            public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException {
-            }
-
-            @Override
-            public void waitForElementWithContent(final Selector selector, final String content, final int timeout) {
-
-            }
-
-            @Override
-            public String toString() {
-                return SEARCH_CONTEXT_TO_STRING;
-            }
-        };
-        Selector selector = new Selector() {
-            @Override
-            public Element findElement(final SearchContext context) {
-                return null;
-            }
-            @Override
-            public List<Element> findElements(final SearchContext context) {
-                return null;
-            }
-            @Override
-            public String toString() {
-                return BY_TO_STRING;
-            }
-        };
-        NoSuchElementException fittingException = new NoSuchElementException(searchContext, selector);
-        Assert.assertEquals("message:<<FITTING_ERROR No element found on search context SEARCH_CONTEXT_TO_STRING matching selector BY_TO_STRING>>", fittingException.getMessage());
+    /**
+     * Set up the environment, called before every test execution.
+     */
+    @Before
+    public void setUp() {
+        when(searchContext.toString()).thenReturn(SEARCHCONTEXT_TOSTRING);
+        when(selector.toString()).thenReturn(SELECTOR_TOSTRING);
     }
 
+    /**
+     * Given a NoSuchElementException with a search context and selector. <br/>
+     * When {@link NoSuchElementException#getMessage()} is called. <br/>
+     * Then a formatted exception message should be returned, referencing the search context and selector.
+     *
+     * @see NoSuchElementException#getMessage()
+     */
+    @Test
+    public void shouldCreateFormattedExceptionMessage() {
+        String errorMessage = format("message:<<FITTING_ERROR No element found on search context %s matching selector %s>>", SEARCHCONTEXT_TOSTRING, SELECTOR_TOSTRING);
+        NoSuchElementException exception = new NoSuchElementException(searchContext, selector);
+
+        assertEquals(errorMessage, exception.getMessage());
+    }
 }

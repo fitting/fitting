@@ -19,22 +19,21 @@
 
 package org.fitting;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.fitting.event.ContainerClosedEvent;
 import org.fitting.event.ContainerCreatedEvent;
 import org.fitting.event.ContainerListener;
 import org.fitting.event.LocationChangedEvent;
 
-import static java.lang.String.format;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
 /**
- * This class allows for implementation specific primary manipulation of multiple containers as well as management for multiple containers
- * Event hooks are provided for primary container events (like location changes, creation and destruction).
+ * Provider that provides {@link org.fitting.ElementContainer} management functionality as well as management for multiple containers.
+ * Event hooks are provided for various container events (like location changes, creation and destruction).
  *
  * @see org.fitting.event.ContainerListener
  * @see org.fitting.event.ContainerCreatedEvent
@@ -44,14 +43,16 @@ import static org.apache.commons.lang.StringUtils.isEmpty;
 public abstract class ElementContainerProvider {
     /** The element containers, indexed by their id. */
     private final Map<String, ElementContainer> elementContainers;
+    /** The registered {@link org.fitting.event.ContainerListener} implementations for events. */
+    private final List<ContainerListener> containerListeners;
     /** The id of the main element container, like for example the main window. */
     private String mainElementContainerId;
     /** The id of the currently active element container. */
     private String activeElementContainerId;
-    /** The registered {@link org.fitting.event.ContainerListener} implementations for events. */
-    private final List<ContainerListener> containerListeners;
 
-    /** Create a new {@link org.fitting.ElementContainerProvider}. */
+    /**
+     * Create a new {@link org.fitting.ElementContainerProvider} instance.
+     */
     public ElementContainerProvider() {
         elementContainers = new HashMap<String, ElementContainer>();
         containerListeners = new ArrayList<ContainerListener>();
@@ -86,9 +87,9 @@ public abstract class ElementContainerProvider {
      *
      * @return The activated container.
      *
-     * @throws org.fitting.FittingException When no container was found with the given id.
+     * @throws NoSuchContainerException When no container was found with the given id.
      */
-    public final ElementContainer activateElementContainer(String id) throws FittingException {
+    public final ElementContainer activateElementContainer(String id) throws NoSuchContainerException {
         ElementContainer elementContainer = getElementContainer(id);
         elementContainer.activate();
         activeElementContainerId = id;
@@ -102,23 +103,28 @@ public abstract class ElementContainerProvider {
      *
      * @return The container.
      *
-     * @throws org.fitting.FittingException When no container was found with the given id.
+     * @throws NoSuchContainerException When no container was found with the given id.
      */
 
-    public final ElementContainer getElementContainer(String id) throws FittingException {
+    public final ElementContainer getElementContainer(String id) throws NoSuchContainerException {
         ElementContainer elementContainer = null;
         if (!isEmpty(id) && elementContainers.containsKey(id)) {
             elementContainer = elementContainers.get(id);
         } else {
-            throw new FormattedFittingException(format("Can't activate container with id %s, no container registered with that id.", id));
+            throw new NoSuchContainerException(id);
         }
         return elementContainer;
     }
 
     /**
      * Get the currently active element container.
+     * <p>
+     * If no container is active, the first registered container will be activated.
+     * </p>
      *
-     * @return The element container.
+     * @return The active element container.
+     *
+     * @throws NoSuchContainerException When no container is active and no containers are registered.
      */
     public final ElementContainer getActiveElementContainer() {
         if (activeElementContainerId == null && !elementContainers.isEmpty()) {
@@ -130,6 +136,7 @@ public abstract class ElementContainerProvider {
     /**
      * Close the currently active element container.
      *
+     * @throws NoSuchContainerException When no container was active.
      * @see org.fitting.ElementContainerProvider#closeElementContainer(String)
      */
     public final void closeActiveElementContainer() {
@@ -149,10 +156,11 @@ public abstract class ElementContainerProvider {
      *
      * @param id The id of the container to close.
      *
-     * @throws org.fitting.FittingException When no container was found with the given id.
+     * @throws NoSuchContainerException When no container was found with the given id.
      */
-    public final void closeElementContainer(String id) throws FittingException {
-        ElementContainer container = elementContainers.remove(id);
+    public final void closeElementContainer(String id) throws NoSuchContainerException {
+        ElementContainer container = getElementContainer(id);
+        elementContainers.remove(id);
         container.close();
         if (isElementContainerActive(id)) {
             if (!id.equals(mainElementContainerId)) {
@@ -166,9 +174,9 @@ public abstract class ElementContainerProvider {
     }
 
     /**
-     * Get the id's of all root containers.
+     * Get the ids of all root containers.
      *
-     * @return The id's.
+     * @return The ids.
      */
     public final List<String> getRootContainerIds() {
         List<String> rootContainers = new ArrayList<String>();
@@ -194,9 +202,9 @@ public abstract class ElementContainerProvider {
      *
      * @param id The id.
      *
-     * @throws org.fitting.FittingException When there is no container registered with the given id.
+     * @throws NoSuchContainerException When there is no container registered with the given id.
      */
-    public final void setMainElementContainer(String id) throws FittingException {
+    public final void setMainElementContainer(String id) throws NoSuchContainerException {
         ElementContainer container = getElementContainer(id);
         mainElementContainerId = id;
     }
@@ -205,8 +213,10 @@ public abstract class ElementContainerProvider {
      * Activate the main element container.
      *
      * @return The main element container.
+     *
+     * @throws NoSuchContainerException When no main element container id was set.
      */
-    public final ElementContainer activateMainElementContainer() {
+    public final ElementContainer activateMainElementContainer() throws NoSuchContainerException {
         return activateElementContainer(mainElementContainerId);
     }
 
@@ -217,9 +227,9 @@ public abstract class ElementContainerProvider {
      *
      * @return <code>true</code> if the container is active.
      *
-     * @throws org.fitting.FittingException When no container was found with the given id.
+     * @throws NoSuchContainerException When no container was found with the given id.
      */
-    public boolean isElementContainerActive(String id) throws FittingException {
+    public boolean isElementContainerActive(String id) throws NoSuchContainerException {
         return activeElementContainerId != null && activeElementContainerId.equals(id) && getElementContainer(id).isActive();
     }
 
@@ -229,9 +239,10 @@ public abstract class ElementContainerProvider {
      * @param id  The id of the container to navigate.
      * @param uri The URI to navigate to.
      *
-     * @throws org.fitting.FittingException When no container was found with the given id or if the URI was invalid.
+     * @throws NoSuchContainerException When no container was found with the given id.
+     * @throws FittingException         When When the URI was invalid.
      */
-    public final void navigateElementContainerTo(String id, String uri) throws FittingException {
+    public final void navigateElementContainerTo(String id, String uri) throws NoSuchContainerException, FittingException {
         navigateElementContainerTo(uri, getElementContainer(id));
     }
 
@@ -240,9 +251,10 @@ public abstract class ElementContainerProvider {
      *
      * @param uri The URI to navigate to.
      *
-     * @throws org.fitting.FittingException When no container was active or if the URI was invalid.
+     * @throws NoSuchContainerException When no active container was found.
+     * @throws FittingException         When When the URI was invalid.
      */
-    public final void navigateElementContainerTo(String uri) throws FittingException {
+    public final void navigateElementContainerTo(String uri) throws NoSuchContainerException, FittingException {
         navigateElementContainerTo(uri, getActiveElementContainer());
     }
 

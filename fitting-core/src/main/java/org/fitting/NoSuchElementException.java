@@ -21,13 +21,19 @@ package org.fitting;
 
 import static java.lang.String.format;
 
-/** Exception for when an element could not been found. */
+/**
+ * Exception for when an {@link org.fitting.Element} could not been found.
+ *
+ * @author Barre Dijkstra
+ * @since 1.0
+ */
 public class NoSuchElementException extends FormattedFittingException {
     /** The default message. */
     private static final String NO_ELEMENT_MESSAGE = "No element found on search context %s matching selector %s";
 
     /**
      * Create a new NoSuchElementException.
+     *
      * @param searchContext The search context where the element was searched on.
      * @param selector      The selector used.
      */
