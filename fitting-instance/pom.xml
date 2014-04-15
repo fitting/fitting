@@ -33,7 +33,7 @@
     <packaging>jar</packaging>
 
     <name>Fitting Instance</name>
-    <description>Fitting Instance</description>
+    <description>Fitting Instance and Acceptance Tests</description>
 
     <properties>
         <fitnesse.version>20140201</fitnesse.version>
@@ -63,7 +63,7 @@
                         <phase>test</phase>
                         <configuration>
                             <target name="fitnesse">
-                                <echo taskname="fitnesse" message="Starting FitNesse ${fitnesse.version}..."/>
+                                <echo taskname="fitnesse" message="Starting FitNesse ${fitnesse.version} on http://localhost:${fitnesse.port}/"/>
                                 <java classname="fitnesseMain.FitNesseMain" classpathref="maven.test.classpath"
                                       fork="true">
                                     <arg line="-p ${fitnesse.port}"/>

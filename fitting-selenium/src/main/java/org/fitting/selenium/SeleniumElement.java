@@ -19,11 +19,12 @@
 
 package org.fitting.selenium;
 
-import java.util.List;
-
 import org.fitting.*;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
@@ -144,19 +145,39 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
         return convert(element.findElement(convert(selector)));
     }
 
+    /** {@inheritDoc} */
     @Override
     public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException {
-        // TODO Implement me!
+        SeleniumUtil.waitForElement(getDriver(), this, selector, timeout);
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void waitForElementWithContent(final Selector selector, final String content, final int timeout) {
-        // TODO Implement me!
+    public void waitForElementWithContent(final Selector selector, final String content, final int timeout) throws NoSuchElementException {
+        SeleniumUtil.waitForElementWithContent(getDriver(), this, selector, content, timeout);
     }
 
     /** {@inheritDoc} */
     @Override
     public SearchContext getImplementation() {
         return element;
+    }
+
+    /**
+     * Get the WebDriver instance for the current thread.
+     *
+     * @return The WebDriver.
+     *
+     * @throw IllegalArgumentException When no WebDriver was available for the current thread.
+     */
+    private WebDriver getDriver() throws IllegalArgumentException {
+        WebDriver driver;
+        FittingConnector connector = FittingContainer.get();
+        if (FittingSeleniumConnector.class.isAssignableFrom(connector.getClass())) {
+            driver = ((FittingSeleniumConnector) connector).getWebDriver();
+        } else {
+            throw new IllegalArgumentException("No WebDriver instance available for current thread.");
+        }
+        return driver;
     }
 }

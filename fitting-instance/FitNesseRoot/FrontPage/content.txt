@@ -1,0 +1,23 @@
+|'''The Fitting framework'''                                                                                   |
+|[[Fitting][FittingProject]]                   |''A more in depth introduction to the Fitting framework.''     |
+|[[Release Notes][FittingProject.ReleaseNotes]]|''List of all the changes in the Fitting project per release.''|
+
+|'''Using Fitting'''                                                                         |
+|[[Quick start guide][FittingProject.QuickStart]]|''Quick start guide for Fitting.''         |
+|[[Examples][FittingProject.UsageExamples]]      |''Some examples.''                         |
+|[[User Manual][FittingProject.UserManual]]      |''The main Fitting user manual.''          |
+|[[Fixtures][FittingProject.ApiDocumentation]]   |''The full API and fixture documentation.''|
+
+|'''Developing Fitting'''                                                                                                                    |
+|[[Developing Connectors][FittingProject.DevelopingFitting.DevelopingConnectors]]|''Starting point for developing new connectors.''          |
+|[[Developing Fitting][FittingProject.DevelopingFitting.DevelopingFitting]]      |''Starting point for contributing to the Fitting project.''|
+|[[Acceptance Tests][FittingProject.AcceptanceTests]]                            |''The Fitting project acceptance tests.''                  |
+|http://www.github.com/fitting/fitting                                           |''The home of the Fitting code''                           |
+
+|'''About !-FitNesse-!'''                                                          |
+|[[User Guide][FitNesse.UserGuide]]      |''The original !-FitNesse-! user guide.''|
+|[[Release Notes][FitNesse.ReleaseNotes]]|''The !-FitNesse-! release notes''       |
+|http://www.fitnesse.org/                |''The !-FitNesse-! website''             |
+|http://www.github.com/unclebob/fitnesse |''The home of the !-FitNesse-! code''    |
+
+!note Running on !-FitNesse-! ${FITNESSE_VERSION} - http://www.fitnesse.org/

@@ -54,13 +54,26 @@ public class CachedSearchContextProvider implements SearchContextProvider {
         this.selectorQuery = selectorQuery;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getId() {
         return id;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * When no matching element is found on the provided root context, an exception is thrown. Subsequent calls will attempt to find the element again.
+     * </p>
+     *
+     * @throws NoSuchElementException   When no matching element was found on the provided root search context.
+     * @throws IllegalArgumentException When an invalid {@link SearchContext} or {@link SelectorProvider} are provided.
+     */
     @Override
-    public SearchContext getSearchContext(SearchContext root, SelectorProvider provider) {
+    public SearchContext getSearchContext(SearchContext root, SelectorProvider provider) throws IllegalArgumentException, NoSuchElementException {
         if (root == null) {
             throw new IllegalArgumentException("No root search context provided.");
         }
