@@ -44,8 +44,17 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({FittingContainer.class, SeleniumUtil.class})
 public class SeleniumElementTest {
+    private static final String TEXTELEMENT_TAG = "p";
+    private static final String TEXTELEMENT_TEXT = "text";
+    private static final String INPUT_TAG = "input";
+    private static final String INPUT_TYPE = "checkbox";
+    private static final String INPUT_VALUE = "checkboxValue";
+    private static final String INPUT_TEXT = "checkboxText";
+
     @Mock
-    private WebElement element;
+    private WebElement textElement;
+    @Mock
+    private WebElement inputElement;
     @Mock
     private FittingSeleniumConnector fittingSeleniumConnector;
     @Mock
@@ -64,47 +73,61 @@ public class SeleniumElementTest {
         mockStatic(SeleniumUtil.class);
         mockStatic(FittingContainer.class);
 
+        when(textElement.getTagName()).thenReturn(TEXTELEMENT_TAG);
+        when(textElement.getText()).thenReturn(TEXTELEMENT_TEXT);
+
+        when(inputElement.getTagName()).thenReturn(INPUT_TAG);
+
         when(fittingSeleniumConnector.getWebDriver()).thenReturn(webDriver);
         when(fittingSeleniumConnector.getDefaultSearchContext()).thenReturn(new WebDriverSearchContext(webDriver));
 
         when(FittingContainer.get()).thenReturn(fittingSeleniumConnector);
     }
 
+    /**
+     * Given a new SeleniumElement wrapping a Selenium web element.<br/>
+     * When {@link SeleniumElement#getImplementation()} is called.<br/>
+     * Then the returned web element should be the same object instance (<code>==</code>) as the provided web element.
+     *
+     * @see SeleniumElement#SeleniumElement(WebElement)
+     * @see SeleniumElement#getImplementation()
+     */
     @Test
     public void shouldStoreUnderlyingImplementation() {
-        SeleniumElement instance = new SeleniumElement(element);
+        SeleniumElement instance = new SeleniumElement(textElement);
 
-        assertSame(element, instance.getImplementation());
+        assertSame(textElement, instance.getImplementation());
     }
 
+    /**
+     * Given a SeleniumElement wrapping a Selenium web element.<br/>
+     * When {@link SeleniumElement#getName()} is called.<br/>
+     * Then the returned name should be the HTML tag of the web element.
+     *
+     * @see SeleniumElement#getName()
+     */
     @Test
-    public void shouldGetElementName() {
-        when(element.getTagName()).thenReturn("name");
-        SeleniumElement instance = new SeleniumElement(element);
+    public void shouldGetElementTagNameAsName() {
+        when(textElement.getTagName()).thenReturn("tagName");
+        SeleniumElement instance = new SeleniumElement(textElement);
 
-        assertEquals("name", instance.getName());
-        verify(element).getTagName();
+        assertEquals("tagName", instance.getName());
+        verify(textElement).getTagName();
     }
 
-    // public String getName()
-    // public String getType()
-    // public String getText()
-    // public String getValue()
-    // public void click()
-    // public void sendKeys(final CharSequence... characters)
-    // public void setValue(final String value) throws FittingException
-    // public void setValueWithText(final String value) throws FittingException
-    // public void clear()
-    // public String getAttributeValue(String attributeName)
-    // public boolean isActive()
-    // public boolean isDisplayed()
-    // public Point getLocation()
-    // public Dimension getSize()
-    // public boolean isInput()
-    // public List<Element> findElementsBy(final Selector selector)
-    // public Element findElementBy(final Selector selector)
-    // public void waitForElement(final Selector selector, final int timeout) throws NoSuchElementException
-    // public void waitForElementWithContent(final Selector selector, final String content, final int timeout) throws NoSuchElementException
-    // private WebDriver getDriver() throws IllegalArgumentException
+    /**
+     * Given a SeleniumElement wrapping a Selenium web element.<br/>
+     * When {@link SeleniumElement#getType()} is called.<br/>
+     * Then the returned type should be the HTML tag of the web element.
+     *
+     * @see SeleniumElement#getType()
+     */
+    @Test
+    public void shouldGetElementTagAsType() {
+        when(textElement.getTagName()).thenReturn("tagName");
+        SeleniumElement instance = new SeleniumElement(textElement);
 
+        assertEquals("tagName", instance.getType());
+        verify(textElement).getTagName();
+    }
 }

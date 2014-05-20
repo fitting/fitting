@@ -51,7 +51,7 @@ public abstract class SeleniumFixture extends FittingFixture {
      *
      * @return The WebDriver instance.
      */
-    protected final WebDriver getWebDriver() {
+    protected WebDriver getWebDriver() {
         return getSeleniumConnector().getWebDriver();
     }
 

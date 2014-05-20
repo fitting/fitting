@@ -34,6 +34,8 @@ import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
 
 /** {@link org.fitting.ElementContainer} for Selenium based browser windows. */
 public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
+    /** The name of the default frame name. */
+    private static final String FRAME_NAME_DEFAULT = "_top";
     /** The id of an (highly likely to be) unknown element. */
     private static final String UNKNOWN_ELEMENT_ID = "unknown_element_id_x3asdf4hd462345";
     /** The id of the window. */
@@ -126,7 +128,8 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
      */
     public void selectMainFrame(final WebDriver driver) {
         driver.switchTo().defaultContent();
-        currentFrameSelector = org.openqa.selenium.By.name("_top");
+        WebElement element = driver.switchTo().activeElement();
+        currentFrameSelector = org.openqa.selenium.By.name(FRAME_NAME_DEFAULT);
     }
 
     /**
@@ -136,52 +139,6 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
      */
     public org.openqa.selenium.By getSelectedFrameSelectClause() {
         return this.currentFrameSelector;
-    }
-
-    /**
-     * Create a new window.
-     *
-     * @param location  The location.
-     * @param webDriver The WebDriver.
-     *
-     * @return window The newly created window.
-     */
-    public static SeleniumWindow createNewWindow(final String location, final WebDriver webDriver) {
-        // TODO Revisit this code and probably rewrite. Let window creation/destruction be handled by the ElementContainerProvider.
-        if (!JavascriptExecutor.class.isAssignableFrom(webDriver.getClass())) {
-            throw new FittingException("The provided Selenium web driver does not support javascript execution, a new window can not be created.");
-        }
-        final Set<String> currentHandles = webDriver.getWindowHandles();
-        final String currentWindowHandle = webDriver.getWindowHandle();
-        final JavascriptExecutor executor = (JavascriptExecutor) webDriver;
-        executor.executeScript("window.open('" + location + "')");
-
-        final List<String> newHandles = new ArrayList<String>(webDriver.getWindowHandles());
-        newHandles.removeAll(currentHandles);
-        if (newHandles.size() != 1) {
-            throw new FittingException("There were " + newHandles.size() + " windows created, while 1 was expected.");
-        }
-        final String newWindowHandle = newHandles.get(0);
-        return new SeleniumWindow(newWindowHandle, currentWindowHandle, webDriver);
-    }
-
-    /**
-     * Switch to another window.
-     *
-     * @param handle    The id of the window.
-     * @param webDriver The Selenium web driver to use.
-     *
-     * @return The window.
-     */
-    public static SeleniumWindow switchToWindow(final String handle, final WebDriver webDriver) {
-        // TODO Revisit this code and probably rewrite. Let window creation/destruction be handled by the ElementContainerProvider.
-        final String currentWindowHandle = webDriver.getWindowHandle();
-        try {
-            webDriver.switchTo().window(handle);
-        } catch (NoSuchWindowException e) {
-            throw new FittingException(String.format("There is no window with the current id[%s] present.", handle));
-        }
-        return new SeleniumWindow(webDriver.getWindowHandle(), currentWindowHandle, webDriver);
     }
 
     @Override
@@ -260,6 +217,7 @@ public class SeleniumWindow implements ElementContainer, SeleniumSearchContext {
         SeleniumUtil.waitForElementWithContent(driver, this, selector, content, timeout);
     }
 
+    /** {@inheritDoc} */
     @Override
     public SearchContext getImplementation() {
         return driver;

@@ -24,6 +24,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
@@ -35,6 +36,8 @@ import static org.fitting.selenium.SeleniumDataTypeConverter.convert;
  * @since 1.0
  */
 public class SeleniumElement implements Element, SeleniumSearchContext {
+    /** The tags of input elements. */
+    private final static List<String> INPUT_TAGS = Arrays.asList("textarea", "input", "select");
     /** The underlying implementing Selenium WebElement. */
     private final WebElement element;
 
@@ -66,7 +69,13 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
     /** {@inheritDoc} */
     @Override
     public String getValue() {
-        return element.getText();
+        String value;
+        if (element.getAttribute("value") != null) {
+            value = element.getAttribute("value");
+        } else {
+            value = element.getText();
+        }
+        return value;
     }
 
     /** {@inheritDoc} */
@@ -129,8 +138,7 @@ public class SeleniumElement implements Element, SeleniumSearchContext {
 
     @Override
     public boolean isInput() {
-        // TODO Implement me!
-        return false;
+        return INPUT_TAGS.contains(getName());
     }
 
     /** {@inheritDoc} */
