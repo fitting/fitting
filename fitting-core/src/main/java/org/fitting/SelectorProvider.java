@@ -23,19 +23,15 @@ package org.fitting;
 public interface SelectorProvider {
     /**
      * Get the selector with a given tag.
-     *
      * @param selector The selector tag.
-     * @param query    The query for the selector.
-     *
+     * @param query The query for the selector.
      * @return The selector.
-     *
      * @throws org.fitting.FittingException When no matching selector could be found.
      */
-    Selector getSelector(String selector, String query) throws FittingException;
+    Selector getSelector(final String selector, final String query) throws FittingException;
 
     /**
      * Get the selector tags available via the provider.
-     *
      * @return The available tags.
      */
     String[] getAvailableTags();

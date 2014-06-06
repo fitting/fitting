@@ -124,7 +124,7 @@ public class FittingConfiguration {
         }
 
         // @TODO Determine if it's worth loading to class every time to allow injection/alteration of configurations or that we need to lazy load it.
-        String className = configuration.getString(KEY_SYSTEM_DEFAULT);
+        final String className = configuration.getString(KEY_SYSTEM_DEFAULT);
         Class<? extends FittingConnector> cls;
         try {
             cls = FittingConfiguration.class.getClassLoader().loadClass(className).asSubclass(FittingConnector.class);

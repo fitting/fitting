@@ -21,12 +21,10 @@ package org.fitting;
 
 /**
  * {@link SearchContextProvider} implementation that caches the search context, updating only when the root changes.
- *
  * <p>
  * The search context is looked up only once, at time of first call given the provided context.
  * Subsequent calls will always return the same context.
  * </p>
- *
  * <p>
  * This class is inherently thread <em>unsafe</em>, expecting to be used in a single-thread (or thread-bound) context.
  * </p>
@@ -43,20 +41,17 @@ public class CachedSearchContextProvider implements SearchContextProvider {
 
     /**
      * Create a new CachedSearchContextProvider.
-     *
-     * @param id                 The id of the SearchContextProvider.
+     * @param id The id of the SearchContextProvider.
      * @param selectorIdentifier The identifier for the selector.
-     * @param selectorQuery      The query for the selector.
+     * @param selectorQuery The query for the selector.
      */
-    public CachedSearchContextProvider(String id, String selectorIdentifier, String selectorQuery) {
+    public CachedSearchContextProvider(final String id, final String selectorIdentifier, final String selectorQuery) {
         this.id = id;
         this.selectorIdentifier = selectorIdentifier;
         this.selectorQuery = selectorQuery;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getId() {
         return id;
@@ -64,16 +59,14 @@ public class CachedSearchContextProvider implements SearchContextProvider {
 
     /**
      * {@inheritDoc}
-     *
      * <p>
      * When no matching element is found on the provided root context, an exception is thrown. Subsequent calls will attempt to find the element again.
      * </p>
-     *
-     * @throws NoSuchElementException   When no matching element was found on the provided root search context.
+     * @throws NoSuchElementException When no matching element was found on the provided root search context.
      * @throws IllegalArgumentException When an invalid {@link SearchContext} or {@link SelectorProvider} are provided.
      */
     @Override
-    public SearchContext getSearchContext(SearchContext root, SelectorProvider provider) throws IllegalArgumentException, NoSuchElementException {
+    public SearchContext getSearchContext(final SearchContext root, final SelectorProvider provider) throws IllegalArgumentException, NoSuchElementException {
         if (root == null) {
             throw new IllegalArgumentException("No root search context provided.");
         }

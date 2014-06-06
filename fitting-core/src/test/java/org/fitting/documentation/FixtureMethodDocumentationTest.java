@@ -45,22 +45,26 @@ public class FixtureMethodDocumentationTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testFixtureDocumentationIncorrect() throws NoSuchMethodException {
-        new FixtureMethodDocumentation(this.getClass().getMethod("incorrect", new Class[] {String.class}));
+        new FixtureMethodDocumentation(this.getClass().getMethod("incorrect", new Class[]{String.class}));
     }
 
     @Test
     public void testFixtureDocumentation() throws NoSuchMethodException {
-        FixtureMethodDocumentation fixtureMethodDocumentation = new FixtureMethodDocumentation(this.getClass().getMethod("correct", new Class[] {String.class}));
+        FixtureMethodDocumentation fixtureMethodDocumentation = new FixtureMethodDocumentation(this.getClass().getMethod("correct", new Class[]{String.class}));
         Assert.assertEquals("correct", fixtureMethodDocumentation.getName());
         Assert.assertEquals(DESCRIPTION, fixtureMethodDocumentation.getDescription());
-        Assert.assertArrayEquals(new String[] {SIGNATURE_PART1, SIGNATURE_PART2}, fixtureMethodDocumentation.getSignature());
+        Assert.assertArrayEquals(new String[]{SIGNATURE_PART1, SIGNATURE_PART2}, fixtureMethodDocumentation.getSignature());
         Assert.assertEquals(1, fixtureMethodDocumentation.getParameters().size());
         Assert.assertEquals(Object.class, fixtureMethodDocumentation.getReturnType());
     }
 
     @FixtureMethod(description = DESCRIPTION, signature = {SIGNATURE_PART1, SIGNATURE_PART2})
-    public Object correct(@WebParam @FixtureParameter(description = DESCRIPTION, name = "s") final String s) { return null; }
+    public Object correct(@WebParam @FixtureParameter(description = DESCRIPTION, name = "s") final String s) {
+        return null;
+    }
 
     @FixtureMethod(description = DESCRIPTION, signature = {SIGNATURE_PART1, SIGNATURE_PART2})
-    public Object incorrect(final String s) { return null; }
+    public Object incorrect(final String s) {
+        return null;
+    }
 }

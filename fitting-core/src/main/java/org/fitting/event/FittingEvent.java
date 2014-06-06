@@ -40,7 +40,7 @@ public abstract class FittingEvent {
      * Create a new event.
      * @param source The object creating/firing the event.
      */
-    public FittingEvent(Object source) {
+    public FittingEvent(final Object source) {
         this.source = new WeakReference<Object>(source);
         timeStamp = System.currentTimeMillis();
     }

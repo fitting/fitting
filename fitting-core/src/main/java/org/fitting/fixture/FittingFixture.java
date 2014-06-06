@@ -23,9 +23,7 @@ import org.fitting.*;
 
 import static java.lang.String.format;
 
-/**
- * Base fixture for all fitting fixtures, allowing access to the managed resources.
- */
+/** Base fixture for all fitting fixtures, allowing access to the managed resources. */
 public abstract class FittingFixture {
     /** The search context providers to use. */
     private final ThreadLocal<SearchContextProviders> providers = new ThreadLocal<SearchContextProviders>();
@@ -35,7 +33,6 @@ public abstract class FittingFixture {
 
     /**
      * Create a fixture, using a custom search context provider for providing the search context.
-     *
      * @param searchContextProviders The SearchContextProviders.
      */
     public FittingFixture(final SearchContextProvider... searchContextProviders) {
@@ -44,7 +41,6 @@ public abstract class FittingFixture {
 
     /**
      * Get the currently active {@link org.fitting.FittingConnector}.
-     *
      * @return The {@link org.fitting.FittingConnector} instance.
      */
     protected final FittingConnector getConnector() {
@@ -53,17 +49,14 @@ public abstract class FittingFixture {
 
     /**
      * Create a {@link org.fitting.Selector}-clause based on the tag and query.
-     *
      * @param selector The tag of the selector.
-     * @param query    The query.
-     *
+     * @param query The query.
      * @return The {@link org.fitting.Selector} instance.
-     *
      * @throws FittingException When the selector could not be created.
      */
-    protected final Selector getSelector(String selector, String query) throws FittingException {
-        SelectorProvider provider = getConnector().getSelectorProvider();
-        Selector select = provider.getSelector(selector, query);
+    protected final Selector getSelector(final String selector, final String query) throws FittingException {
+        final SelectorProvider provider = getConnector().getSelectorProvider();
+        final Selector select = provider.getSelector(selector, query);
         if (select == null) {
             throw new FormattedFittingException(format("No selector was available for tag [%s] with query [%s].", selector, query));
         }
@@ -72,9 +65,7 @@ public abstract class FittingFixture {
 
     /**
      * Get the {@link SelectorProvider} for this connection.
-     *
      * @return The {@link SelectorProvider}.
-     *
      * @see FittingFixture#getSelector(String, String)
      */
     protected final SelectorProvider getSelectorProvider() {
@@ -83,7 +74,6 @@ public abstract class FittingFixture {
 
     /**
      * Get the {@link ElementContainerProvider} for this connection.
-     *
      * @return The {@link ElementContainerProvider}.
      */
     protected final ElementContainerProvider getElementContainerProvider() {
@@ -92,9 +82,7 @@ public abstract class FittingFixture {
 
     /**
      * Get the search context by its id.
-     * <p/>
      * The search context is either a WebElement or the WebDriver.
-     *
      * @return The search context or null if there is no search context for the given id.
      */
     protected final SearchContext getSearchContext() {
@@ -104,10 +92,7 @@ public abstract class FittingFixture {
 
     /**
      * Get the search context provider by its id.
-     * <p/>
-     *
      * @param id The id of the search context.
-     *
      * @return The search context provider  or null if there is no search context provider for the given id.
      */
     protected final SearchContextProvider getSearchContextProvider(final String id) {
@@ -116,11 +101,8 @@ public abstract class FittingFixture {
 
     /**
      * Get the search context by its id.
-     * <p/>
      * The search context is either a WebElement or the WebDriver.
-     *
      * @param id The id of the search context.
-     *
      * @return The search context or null if there is no search context for the given id.
      */
     protected final SearchContext getSearchContext(final String id) {

@@ -29,12 +29,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Unit test for {@link FittingConfiguration}.
- *
- * @author barre
- * @since 1.0
- */
+/** Unit test for {@link FittingConfiguration}. */
 public class FittingConfigurationTest {
     /** The class under test. */
     private FittingConfiguration configuration;

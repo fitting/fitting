@@ -34,12 +34,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Unit tests for {@link org.fitting.CachedSearchContextProvider}.
- *
- * @author Barre Dijkstra
- * @since 1.0
- */
+/** Unit tests for {@link org.fitting.CachedSearchContextProvider}. */
 @RunWith(MockitoJUnitRunner.class)
 public class CachedSearchContextProviderTest {
     /** The id for the search context. */
@@ -66,7 +61,6 @@ public class CachedSearchContextProviderTest {
 
     /**
      * Set up the mock behaviour, executed before each test.
-     *
      * @throws Exception When initialization fails.
      */
     @Before
@@ -79,7 +73,6 @@ public class CachedSearchContextProviderTest {
 
     /**
      * Ensure the ID of the context is set at creation.
-     *
      * @see org.fitting.CachedSearchContextProvider#getId()
      */
     @Test
@@ -89,7 +82,6 @@ public class CachedSearchContextProviderTest {
 
     /**
      * Ensure the selector id and query are set at creation.
-     *
      * @see org.fitting.CachedSearchContextProvider#getSearchContext(SearchContext, SelectorProvider)
      */
     @Test
@@ -101,7 +93,6 @@ public class CachedSearchContextProviderTest {
 
     /**
      * Ensure the right element is looked up when retrieving the search context.
-     *
      * @see org.fitting.CachedSearchContextProvider#getSearchContext(SearchContext, SelectorProvider)
      */
     @Test
@@ -113,7 +104,6 @@ public class CachedSearchContextProviderTest {
 
     /**
      * Ensure an exception is thrown, originating from the root search context, when the element was not found.
-     *
      * @see org.fitting.CachedSearchContextProvider#getSearchContext(SearchContext, SelectorProvider)
      */
     @Test(expected = NoSuchElementException.class)
@@ -130,7 +120,6 @@ public class CachedSearchContextProviderTest {
 
     /**
      * Ensure an exception is thrown if an invalid root search context was provided.
-     *
      * @see org.fitting.CachedSearchContextProvider#getSearchContext(SearchContext, SelectorProvider)
      */
     @Test(expected = IllegalArgumentException.class)
@@ -140,7 +129,6 @@ public class CachedSearchContextProviderTest {
 
     /**
      * Ensure an exception is thrown if an invalid selector provider was provided.
-     *
      * @see org.fitting.CachedSearchContextProvider#getSearchContext(SearchContext, SelectorProvider)
      */
     @Test(expected = IllegalArgumentException.class)
@@ -150,7 +138,6 @@ public class CachedSearchContextProviderTest {
 
     /**
      * Ensure a search context is only looked up once once it has been found.
-     *
      * @see org.fitting.CachedSearchContextProvider#getSearchContext(SearchContext, SelectorProvider)
      */
     @Test

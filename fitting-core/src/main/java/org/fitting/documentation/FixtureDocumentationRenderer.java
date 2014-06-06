@@ -27,5 +27,5 @@ public interface FixtureDocumentationRenderer {
      * @return The rendered result.
      * @throws org.fitting.documentation.FittingRenderingException When rendering failed.
      */
-    String render(FixtureDocumentation documentation) throws FittingRenderingException;
+    String render(final FixtureDocumentation documentation) throws FittingRenderingException;
 }

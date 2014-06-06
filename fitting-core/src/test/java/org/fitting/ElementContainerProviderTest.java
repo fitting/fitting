@@ -34,12 +34,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/**
- * Unit tests for {@link ElementContainerProvider}.
- *
- * @author Barre Dijkstra
- * @since 1.0
- */
+/** Unit tests for {@link ElementContainerProvider}. */
 @RunWith(MockitoJUnitRunner.class)
 public class ElementContainerProviderTest {
 
@@ -57,9 +52,7 @@ public class ElementContainerProviderTest {
     /** Base implementation of the class under test. */
     private ElementContainerProvider provider;
 
-    /**
-     * Set up the environment for the unit tests, called before every test.
-     */
+    /** Set up the environment for the unit tests, called before every test. */
     @Before
     public void setUp() {
         when(elementContainer.getId()).thenReturn(ELEMENTCONTAINER_ID);
@@ -81,7 +74,6 @@ public class ElementContainerProviderTest {
      * Given a new ElementContainerProvider.<br/>
      * When the number of registered listeners is checked.<br/>
      * Then there should be none registered.
-     *
      * @see ElementContainerProvider#ElementContainerProvider()
      */
     @Test
@@ -95,7 +87,6 @@ public class ElementContainerProviderTest {
      * Given a new ElementContainerProvider.<br/>
      * When the number of registered element containers is checked.<br/>
      * Then there should be none registered.
-     *
      * @see ElementContainerProvider#ElementContainerProvider()
      */
     @Test
@@ -109,7 +100,6 @@ public class ElementContainerProviderTest {
      * Given an unregistered {@link ContainerListener}.<br/>
      * When the listener is registered.<br/>
      * Then it should be available in the provider.
-     *
      * @see ElementContainerProvider#register(ContainerListener)
      */
     @Test
@@ -124,7 +114,6 @@ public class ElementContainerProviderTest {
     /**
      * When a null object is registered as container listener.<br/>
      * Then no listeners should be added to the provider.
-     *
      * @see ElementContainerProvider#register(ContainerListener)
      */
     @Test
@@ -141,7 +130,6 @@ public class ElementContainerProviderTest {
      * Given a registered container listener.<br/>
      * When the listener is unregistered from the provider via {@link ElementContainerProvider#remove(ContainerListener)}.<br/>
      * Then the listener should be removed.
-     *
      * @see ElementContainerProvider#remove(ContainerListener)
      */
     @Test
@@ -158,7 +146,6 @@ public class ElementContainerProviderTest {
      * Given a provider with a registered container listener.<br/>
      * When a null object is unregistered from the provider via {@link ElementContainerProvider#remove(ContainerListener)}.<br/>
      * Then nothing should be unregistered.
-     *
      * @see ElementContainerProvider#remove(ContainerListener)
      */
     @Test
@@ -175,7 +162,6 @@ public class ElementContainerProviderTest {
      * Given a provider with a registered container listener.<br/>
      * When a non registered listener is unregistered from the provider via {@link ElementContainerProvider#remove(ContainerListener)}.<br/>
      * Then nothing should be unregistered.
-     *
      * @see ElementContainerProvider#remove(ContainerListener)
      */
     @Test
@@ -194,7 +180,6 @@ public class ElementContainerProviderTest {
      * Given an ID of a container, which is not registered.<br/>
      * When a container is retrieved with the ID.<br/>
      * Then a {@link NoSuchContainerException} should be thrown.
-     *
      * @see ElementContainerProvider#getElementContainer(String)
      */
     @Test(expected = NoSuchContainerException.class)
@@ -206,7 +191,6 @@ public class ElementContainerProviderTest {
      * Given a registered container.<br/>
      * When the container is retrieved via its ID.<br/>
      * Then the same container should be returned.
-     *
      * @see ElementContainerProvider#getElementContainer(String)
      */
     @Test
@@ -236,7 +220,6 @@ public class ElementContainerProviderTest {
      * Given a container provider without any registered containers.<br/>
      * When a new container is created but not activated.<br/>
      * It should be registered and be activated after all.
-     *
      * @see ElementContainerProvider#createNewElementContainer(String, boolean)
      */
     public void shouldRegisterNewContainer() {
@@ -245,9 +228,7 @@ public class ElementContainerProviderTest {
 
     /**
      * Get the content of the private {@link org.fitting.ElementContainerProvider#containerListeners}.
-     *
      * @param provider The ElementContainerProvider to get the values from.
-     *
      * @return The content of the field.
      */
     private List<ContainerListener> getListeners(ElementContainerProvider provider) {
@@ -256,9 +237,7 @@ public class ElementContainerProviderTest {
 
     /**
      * Get the content of the private {@link org.fitting.ElementContainerProvider#elementContainers}.
-     *
      * @param provider The ElementContainerProvider to get the values from.
-     *
      * @return The content of the field.
      */
     private Map<String, ElementContainer> getElementContainers(ElementContainerProvider provider) {

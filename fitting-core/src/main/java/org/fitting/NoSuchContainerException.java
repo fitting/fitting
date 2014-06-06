@@ -2,12 +2,7 @@ package org.fitting;
 
 import static java.lang.String.format;
 
-/**
- * Exception for when an {@link org.fitting.ElementContainer} could not been found.
- *
- * @author Barre Dijkstra
- * @since 1.0
- */
+/** Exception for when an {@link org.fitting.ElementContainer} could not been found. */
 public class NoSuchContainerException extends FormattedFittingException {
     /** The message for when no container has been registered with the given ID. */
     private static final String NO_CONTAINER_MESSAGE = "No container has been registered with the ID %s";
@@ -16,20 +11,18 @@ public class NoSuchContainerException extends FormattedFittingException {
 
     /**
      * Create a new NoSuchContainerException.
-     *
      * @param id The ID of the element container that was attempted to be retrieved.
      */
-    public NoSuchContainerException(String id) {
+    public NoSuchContainerException(final String id) {
         super(format(NO_CONTAINER_MESSAGE, id));
     }
 
     /**
      * Create a new NoSuchContainerException for a failed lookup on a container with a specific parent container.
-     *
-     * @param id       The ID of the element container that was attempted to be retrieved.
+     * @param id The ID of the element container that was attempted to be retrieved.
      * @param parentId The ID of the parent container.
      */
-    public NoSuchContainerException(String id, String parentId) {
+    public NoSuchContainerException(final String id, final String parentId) {
         super(format(NO_CONTAINER_WITH_PARENT_MESSAGE, id, parentId));
     }
 

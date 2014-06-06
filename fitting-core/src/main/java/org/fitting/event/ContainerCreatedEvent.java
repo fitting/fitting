@@ -35,16 +35,16 @@ public class ContainerCreatedEvent extends FittingEvent {
      * Create a new ContainerCreatedEvent.
      * @param container The created container.
      */
-    public ContainerCreatedEvent(ElementContainer container) {
+    public ContainerCreatedEvent(final ElementContainer container) {
         this.container = new WeakReference<ElementContainer>(container);
     }
 
     /**
      * Create a new ContainerCreatedEvent.
      * @param container The created container.
-     * @param source    The object firing the event.
+     * @param source The object firing the event.
      */
-    public ContainerCreatedEvent(ElementContainer container, Object source) {
+    public ContainerCreatedEvent(final ElementContainer container, final Object source) {
         super(source);
         this.container = new WeakReference<ElementContainer>(container);
     }

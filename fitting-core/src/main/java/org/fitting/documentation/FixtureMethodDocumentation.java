@@ -44,7 +44,7 @@ public class FixtureMethodDocumentation {
      * @param method The method to create the documentation for.
      * @throws IllegalArgumentException When invalid information was provided and the documentation could not be created.
      */
-    public FixtureMethodDocumentation(Method method) throws IllegalArgumentException {
+    public FixtureMethodDocumentation(final Method method) throws IllegalArgumentException {
         this.method = method;
         if (method == null) {
             throw new IllegalArgumentException("Cannot create documentation for a null method.");
@@ -65,7 +65,7 @@ public class FixtureMethodDocumentation {
      * @throws IllegalArgumentException When one of the parameters couldn't be parsed.
      */
     private List<FixtureParameterDocumentation> parseParameters() throws IllegalArgumentException {
-        List<FixtureParameterDocumentation> parameters = new ArrayList<FixtureParameterDocumentation>();
+        final List<FixtureParameterDocumentation> parameters = new ArrayList<FixtureParameterDocumentation>();
         for (int i = 0; i < method.getParameterTypes().length; i++) {
             // This might throw an IllegalArgumentException which will propagate through.
             parameters.add(new FixtureParameterDocumentation(method.getParameterTypes()[i], getParameterAnnotation(i)));
@@ -78,9 +78,9 @@ public class FixtureMethodDocumentation {
      * @param parameterIndex The index of the parameter.
      * @return The {@link org.fitting.documentation.FixtureParameter} or <code>null</code> if none was present.
      */
-    private FixtureParameter getParameterAnnotation(int parameterIndex) {
+    private FixtureParameter getParameterAnnotation(final int parameterIndex) {
         FixtureParameter parameter = null;
-        for (Annotation a : method.getParameterAnnotations()[parameterIndex]) {
+        for (final Annotation a : method.getParameterAnnotations()[parameterIndex]) {
             if (a instanceof FixtureParameter) {
                 parameter = (FixtureParameter) a;
                 break;

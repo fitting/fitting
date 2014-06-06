@@ -28,36 +28,21 @@ import static java.lang.String.format;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-/**
- * Unit tests for {@link NoSuchElementException}.
- *
- * @author Barre Dijkstra
- * @since 1.0
- */
+/** Unit tests for {@link NoSuchElementException}. */
 @RunWith(MockitoJUnitRunner.class)
 public class NoSuchElementExceptionTest {
-    /**
-     * The value to return as the toString representation of the SearchContext.
-     */
+    /** The value to return as the toString representation of the SearchContext. */
     private static final String SEARCHCONTEXT_TOSTRING = "searchContextToString";
-    /**
-     * The value to return as the toString representation of the selector.
-     */
+    /** The value to return as the toString representation of the selector. */
     private static final String SELECTOR_TOSTRING = "selectorToString";
-    /**
-     * Mock search context.
-     */
+    /** Mock search context. */
     @Mock
     private SearchContext searchContext;
-    /**
-     * Mock selector.
-     */
+    /** Mock selector. */
     @Mock
     private Selector selector;
 
-    /**
-     * Set up the environment, called before every test execution.
-     */
+    /** Set up the environment, called before every test execution. */
     @Before
     public void setUp() {
         when(searchContext.toString()).thenReturn(SEARCHCONTEXT_TOSTRING);
@@ -68,7 +53,6 @@ public class NoSuchElementExceptionTest {
      * Given a NoSuchElementException with a search context and selector. <br/>
      * When {@link NoSuchElementException#getMessage()} is called. <br/>
      * Then a formatted exception message should be returned, referencing the search context and selector.
-     *
      * @see NoSuchElementException#getMessage()
      */
     @Test

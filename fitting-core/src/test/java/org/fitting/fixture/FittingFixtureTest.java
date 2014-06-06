@@ -35,11 +35,9 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-/**
- * Unit tests for {@link FittingFixture}.
- */
+/** Unit tests for {@link FittingFixture}. */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ FittingContainer.class, ElementContainerProvider.class })
+@PrepareForTest({FittingContainer.class, ElementContainerProvider.class})
 public class FittingFixtureTest {
     @Mock
     private FittingConnector connector;
@@ -52,14 +50,11 @@ public class FittingFixtureTest {
     @Mock
     private ElementContainerProvider containerProvider;
 
-    /**
-     * The class under test.
-     */
+    /** The class under test. */
     private FittingFixture fixture;
 
     /**
      * Set up the test.
-     *
      * <p>
      * This method is called before every test method.
      * </p>
@@ -81,7 +76,6 @@ public class FittingFixtureTest {
 
     /**
      * Ensure that the correct default search context provider is set upon creation.
-     *
      * @see FittingFixture#FittingFixture()
      */
     @Test
@@ -91,7 +85,6 @@ public class FittingFixtureTest {
 
     /**
      * Ensure that a single search context provider is set on creation.
-     *
      * @see FittingFixture#FittingFixture(org.fitting.SearchContextProvider...)
      */
     @Test
@@ -101,7 +94,6 @@ public class FittingFixtureTest {
 
     /**
      * Ensure that multiple search context providers are set on creation.
-     *
      * @see FittingFixture#FittingFixture(org.fitting.SearchContextProvider...)
      */
     @Test
@@ -111,7 +103,6 @@ public class FittingFixtureTest {
 
     /**
      * Ensure that providing a null value as a search context provider is not allowed.
-     *
      * @see FittingFixture#FittingFixture(org.fitting.SearchContextProvider...)
      */
     @Test(expected = NullPointerException.class)
@@ -124,12 +115,11 @@ public class FittingFixtureTest {
 
     /**
      * Ensure that providing an empty array as search context providers is not allowed.
-     *
      * @see FittingFixture#FittingFixture(org.fitting.SearchContextProvider...)
      */
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailWhenProvidingNoSearchContextProvider() {
-        new FittingFixture(new SearchContextProvider[] { }) {
+        new FittingFixture(new SearchContextProvider[]{}) {
         };
 
         fail("Managed to create a new fixture with no search context providers.");
@@ -137,7 +127,6 @@ public class FittingFixtureTest {
 
     /**
      * Ensure that a connector is available.
-     *
      * @see FittingFixture#getConnector()
      */
     @Test
@@ -150,7 +139,6 @@ public class FittingFixtureTest {
 
     /**
      * Ensure that a selector is created for an existing tag.
-     *
      * @see FittingFixture#getSelector(String, String)
      */
     @Test
@@ -165,7 +153,6 @@ public class FittingFixtureTest {
 
     /**
      * Ensure that an exception is thrown when a By clause is created for a non-existing tag.
-     *
      * @see FittingFixture#getSelector(String, String)
      */
     @SuppressWarnings("unchecked")
@@ -180,7 +167,6 @@ public class FittingFixtureTest {
 
     /**
      * Ensure the element container provider is retrieved.
-     *
      * @see FittingFixture#getElementContainerProvider()
      */
     @Test

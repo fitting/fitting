@@ -35,7 +35,7 @@ public class Point {
      * Create a new Point with the coordinates of the given point.
      * @param p The point to copy.
      */
-    public Point(Point p) {
+    public Point(final Point p) {
         this(p.x, p.y);
     }
 
@@ -44,7 +44,7 @@ public class Point {
      * @param x The X-coordinate.
      * @param y The Y-coordinate.
      */
-    public Point(int x, int y) {
+    public Point(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
@@ -77,7 +77,7 @@ public class Point {
      * Set the location based on the values of the given point.
      * @param p The point to copy.
      */
-    public void setLocation(Point p) {
+    public void setLocation(final Point p) {
         setLocation(p.x, p.y);
     }
 
@@ -86,7 +86,7 @@ public class Point {
      * @param x The X-coordinate.
      * @param y The Y-coordinate.
      */
-    public void setLocation(int x, int y) {
+    public void setLocation(final int x, final int y) {
         move(x, y);
     }
 
@@ -95,7 +95,7 @@ public class Point {
      * @param x The X-coordinate.
      * @param y The Y-coordinate.
      */
-    public void setLocation(double x, double y) {
+    public void setLocation(final double x, final double y) {
         this.x = (int) Math.floor(x + 0.5);
         this.y = (int) Math.floor(y + 0.5);
     }
@@ -105,7 +105,7 @@ public class Point {
      * @param x The new X-coordinate.
      * @param y The new Y-coordinate.
      */
-    public void move(int x, int y) {
+    public void move(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
@@ -116,13 +116,13 @@ public class Point {
      * @param dx The units to move the X-coordinate.
      * @param dy The units to move the Y-coordinate.
      */
-    public void translate(int dx, int dy) {
+    public void translate(final int dx, final int dy) {
         this.x += dx;
         this.y += dy;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj instanceof Point) {
             Point pt = (Point) obj;
             return (x == pt.x) && (y == pt.y);

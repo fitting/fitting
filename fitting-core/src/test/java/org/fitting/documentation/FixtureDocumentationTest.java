@@ -74,6 +74,7 @@ public class FixtureDocumentationTest {
     @Fixture(description = DESCRIPTION)
     private class TestFittingFixture extends FittingFixture {
         @FixtureMethod(description = DESCRIPTION, signature = {})
-        public void dummy() { }
+        public void dummy() {
+        }
     }
 }

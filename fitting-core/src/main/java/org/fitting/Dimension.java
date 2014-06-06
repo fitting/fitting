@@ -37,16 +37,16 @@ public class Dimension {
      * Create a new dimension with the width and height from the provided dimension.
      * @param dimension The dimension to copy.
      */
-    public Dimension(Dimension dimension) {
+    public Dimension(final Dimension dimension) {
         this(dimension.width, dimension.height);
     }
 
     /**
      * Create a new dimension with a specified height and width.
-     * @param width  The width.
+     * @param width The width.
      * @param height The height.
      */
-    public Dimension(int width, int height) {
+    public Dimension(final int width, final int height) {
         this.width = width;
         this.height = height;
     }
@@ -79,34 +79,34 @@ public class Dimension {
      * Set the size of the dimension to that of another dimension.
      * @param dimension The dimension to copy the size of.
      */
-    public void setSize(Dimension dimension) {
+    public void setSize(final Dimension dimension) {
         setSize(dimension.width, dimension.height);
     }
 
     /**
      * Set the size of the dimension using Math.ceil for rounding .
-     * @param width  The width.
+     * @param width The width.
      * @param height The height.
      */
-    public void setSize(double width, double height) {
+    public void setSize(final double width, final double height) {
         setSize((int) Math.ceil(width), (int) Math.ceil(height));
     }
 
     /**
      * Set the size of the dimension.
-     * @param width  The width.
+     * @param width The width.
      * @param height The height.
      */
-    public void setSize(int width, int height) {
+    public void setSize(final int width, final int height) {
         this.width = width;
         this.height = height;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         boolean eq = false;
         if (obj != null && obj instanceof Dimension) {
-            Dimension d = (Dimension) obj;
+            final Dimension d = (Dimension) obj;
             eq = (width == d.width) && (height == d.height);
         }
         return eq;

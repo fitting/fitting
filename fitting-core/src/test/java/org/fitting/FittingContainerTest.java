@@ -33,19 +33,14 @@ import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link org.fitting.FittingContainer}.
- *
  * <p>
  * Note for developers, most of these tests involve ensuring
  * </p>
- *
- * @author Barre Dijkstra
  * @see FittingContainer
- * @since 1.0
  */
 public class FittingContainerTest {
     /**
      * Set up method that gets executed before each unit test.
-     *
      * @throws Exception When initialization fails.
      */
     @Before
@@ -58,9 +53,8 @@ public class FittingContainerTest {
      * Given the FittingContainer class.
      * When trying to instantiate it.
      * Then ensure that it can't be instantiated.
-     *
      * @throws IllegalAccessException Expected outcome due to trying to instantiate the class.
-     * @throws Exception              When the execution fails.
+     * @throws Exception When the execution fails.
      */
     @Test(expected = IllegalAccessException.class)
     public void shouldHavePrivateConstructor() throws IllegalAccessException, Exception {
@@ -73,7 +67,6 @@ public class FittingContainerTest {
      * Given a container without a connector set.<br/>
      * When {@link org.fitting.FittingContainer#get()} is called.<br/>
      * Then ensure it returns <code>null</code>.
-     *
      * @throws Exception When execution fails.
      */
     @Test
@@ -85,7 +78,6 @@ public class FittingContainerTest {
      * Given a container with a connector set.<br/>
      * When {@link org.fitting.FittingContainer#get()} is called.<br/>
      * Then ensure it returns the same connector.
-     *
      * @throws Exception When execution fails.
      */
     @Test
@@ -100,7 +92,6 @@ public class FittingContainerTest {
      * Given a container without a connector set.<br/>
      * When {@link org.fitting.FittingContainer#isInitialised()} is called.<br/>
      * Then ensure it reports false.
-     *
      * @throws Exception When execution fails.
      */
     @Test
@@ -112,7 +103,6 @@ public class FittingContainerTest {
      * Given a container with a connector set.
      * When {@link org.fitting.FittingContainer#isInitialised()} is called.<br/>
      * Then ensure it reports true.
-     *
      * @throws Exception When execution fails.
      */
     @Test
@@ -126,7 +116,6 @@ public class FittingContainerTest {
      * Given a container with a connector set.
      * When {@link org.fitting.FittingContainer#unset()} is called.<br/>
      * Then ensure the connector is unset.
-     *
      * @throws Exception When execution fails.
      */
     @Test
@@ -142,7 +131,6 @@ public class FittingContainerTest {
      * Given multiple connectors with different names.<br/>
      * When the connectors are set by the same thread.<br/>
      * Then ensure that the connector gets overwritten in the container.
-     *
      * @throws Exception When execution fails.
      */
     @Test
@@ -161,7 +149,6 @@ public class FittingContainerTest {
      * Given multiple connectors with different names.<br/>
      * When the connectors are set simultaneously by different threads.<br/>
      * Then ensure that all the different names are set and that no threads overwrite the connector of another thread.
-     *
      * @throws Exception When execution fails.
      */
     @Test(timeout = 1000)
@@ -184,9 +171,7 @@ public class FittingContainerTest {
         assertTrue(names.containsAll(connectorNames));
     }
 
-    /**
-     * Support class for {@link org.fitting.FittingContainerTest#shouldSetDifferentInstancesPerThread()} that adds a given name to a list after a random time (< 1 sec).
-     */
+    /** Support class for {@link org.fitting.FittingContainerTest#shouldSetDifferentInstancesPerThread()} that adds a given name to a list after a random time (< 1 sec). */
     private static class ConnectorNameExecutor implements Runnable {
         /** Pseudo Random (yay for System.currentTimeMillis() seeds) for generating random wait times. */
         private static final Random rng = new Random(System.currentTimeMillis());
@@ -199,9 +184,8 @@ public class FittingContainerTest {
 
         /**
          * Create a new instance.
-         *
-         * @param name           The name of the connector.
-         * @param names          The list of names to add the name to.
+         * @param name The name of the connector.
+         * @param names The list of names to add the name to.
          * @param nameAddedLatch The countdown latch to use to signal a name has been added.
          */
         public ConnectorNameExecutor(String name, List<String> names, CountDownLatch nameAddedLatch) {

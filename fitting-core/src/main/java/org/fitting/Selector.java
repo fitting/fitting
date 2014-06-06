@@ -28,12 +28,12 @@ public interface Selector {
      * @param context The search context to search on.
      * @return The found elements.
      */
-    List<Element> findElements(SearchContext context);
+    List<Element> findElements(final SearchContext context);
 
     /**
      * Find a single element on the given search context using the selector.
      * @param context The search context to search on.
      * @return The element.
      */
-    Element findElement(SearchContext context);
+    Element findElement(final SearchContext context);
 }

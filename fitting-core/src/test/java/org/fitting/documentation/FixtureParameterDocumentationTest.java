@@ -43,7 +43,7 @@ public class FixtureParameterDocumentationTest {
 
     @Test
     public void testFixtureDocumentation() throws NoSuchMethodException {
-        FixtureParameter annotation = (FixtureParameter) this.getClass().getMethod("correct", new Class[] {String.class}).getParameterAnnotations()[0][0];
+        FixtureParameter annotation = (FixtureParameter) this.getClass().getMethod("correct", new Class[]{String.class}).getParameterAnnotations()[0][0];
         FixtureParameterDocumentation fixtureParameterDocumentation = new FixtureParameterDocumentation(this.getClass(), annotation);
         Assert.assertEquals("s", fixtureParameterDocumentation.getName());
         Assert.assertEquals(DESCRIPTION, fixtureParameterDocumentation.getDescription());
@@ -51,5 +51,7 @@ public class FixtureParameterDocumentationTest {
     }
 
     @FixtureMethod(description = DESCRIPTION, signature = {SIGNATURE_PART1, SIGNATURE_PART2})
-    public Object correct(@FixtureParameter(description = DESCRIPTION, name = "s") final String s) { return null; }
+    public Object correct(@FixtureParameter(description = DESCRIPTION, name = "s") final String s) {
+        return null;
+    }
 }

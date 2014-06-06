@@ -35,16 +35,16 @@ public class ContainerClosedEvent extends FittingEvent {
      * Create a new ContainerClosedEvent.
      * @param container The closed container.
      */
-    public ContainerClosedEvent(ElementContainer container) {
+    public ContainerClosedEvent(final ElementContainer container) {
         this.container = new WeakReference<ElementContainer>(container);
     }
 
     /**
      * Create a new ContainerClosedEvent.
      * @param container The closed container.
-     * @param source    The object firing the event.
+     * @param source The object firing the event.
      */
-    public ContainerClosedEvent(ElementContainer container, Object source) {
+    public ContainerClosedEvent(final ElementContainer container, final Object source) {
         super(source);
         this.container = new WeakReference<ElementContainer>(container);
     }

@@ -19,6 +19,7 @@
 
 package org.fitting.selenium.fixture;
 
+import org.fitting.FittingConnector;
 import org.fitting.FittingContainer;
 import org.fitting.selenium.BrowserConnector;
 import org.fitting.selenium.FittingSeleniumConnector;
@@ -61,6 +62,11 @@ public class BrowserFixture {
     public void openBrowserOnHostWithPortFor(String browser, String host, int port, String url) {
         FittingContainer.set(new FittingSeleniumConnector(BrowserConnector.builder().withBrowser(browser).onHost(host, port).build()));
         openUrl(url);
+    }
+
+    public void closeBrowser() {
+        FittingConnector connector = FittingContainer.get();
+        connector.destroy();
     }
 
     /**

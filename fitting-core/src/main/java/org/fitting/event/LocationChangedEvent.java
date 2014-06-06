@@ -37,11 +37,11 @@ public class LocationChangedEvent extends FittingEvent {
 
     /**
      * Create a new LocationChangedEvent.
-     * @param container   The container of which the location was changed.
+     * @param container The container of which the location was changed.
      * @param oldLocation The old location.
      * @param newLocation The new location.
      */
-    public LocationChangedEvent(ElementContainer container, String oldLocation, String newLocation) {
+    public LocationChangedEvent(final ElementContainer container, final String oldLocation, final String newLocation) {
         this.container = new WeakReference<ElementContainer>(container);
         this.oldLocation = oldLocation;
         this.newLocation = newLocation;
@@ -49,12 +49,12 @@ public class LocationChangedEvent extends FittingEvent {
 
     /**
      * Create a new LocationChangedEvent.
-     * @param container   The container of which the location was changed.
+     * @param container The container of which the location was changed.
      * @param oldLocation The old location.
      * @param newLocation The new location.
-     * @param source      The object that created/fired the event.
+     * @param source The object that created/fired the event.
      */
-    public LocationChangedEvent(ElementContainer container, String oldLocation, String newLocation, Object source) {
+    public LocationChangedEvent(final ElementContainer container, final String oldLocation, final String newLocation, final Object source) {
         super(source);
         this.container = new WeakReference<ElementContainer>(container);
         this.oldLocation = oldLocation;

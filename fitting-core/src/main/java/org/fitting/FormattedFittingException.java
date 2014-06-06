@@ -37,7 +37,7 @@ public class FormattedFittingException extends FittingException {
     /**
      * Constructor.
      * @param message The message.
-     * @param cause   The cause.
+     * @param cause The cause.
      */
     public FormattedFittingException(final String message, final Throwable cause) {
         super(format(MESSAGE_WRAPPER, message), cause);

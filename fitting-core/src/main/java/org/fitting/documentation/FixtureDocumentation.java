@@ -44,7 +44,7 @@ public class FixtureDocumentation {
      * @param fixture The class of the fixture to create the documentation for.
      * @throws IllegalArgumentException When the fixture does not contain any documentation.
      */
-    public FixtureDocumentation(Class<? extends FittingFixture> fixture) throws IllegalArgumentException {
+    public FixtureDocumentation(final Class<? extends FittingFixture> fixture) throws IllegalArgumentException {
         this.fixture = fixture;
         if (fixture == null) {
             throw new IllegalArgumentException("Cannot create documentation for a null class.");
@@ -64,8 +64,8 @@ public class FixtureDocumentation {
      * @return The parsed methods.
      */
     private List<FixtureMethodDocumentation> parseMethods() {
-        List<FixtureMethodDocumentation> methods = new ArrayList<FixtureMethodDocumentation>();
-        for (Method m : fixture.getMethods()) {
+        final List<FixtureMethodDocumentation> methods = new ArrayList<FixtureMethodDocumentation>();
+        for (final Method m : fixture.getMethods()) {
             try {
                 methods.add(new FixtureMethodDocumentation(m));
             } catch (IllegalArgumentException e) {
@@ -113,7 +113,7 @@ public class FixtureDocumentation {
      * @return The rendered documentation.
      * @throws FittingRenderingException When rendering failed.
      */
-    public String render(FixtureDocumentationRenderer renderer) throws FittingRenderingException {
+    public String render(final FixtureDocumentationRenderer renderer) throws FittingRenderingException {
         if (renderer == null) {
             throw new FittingRenderingException("Cannot render documentation for fixture " + fixture.getName() + " with a null renderer");
         }

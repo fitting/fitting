@@ -29,7 +29,6 @@ import static org.junit.Assert.assertNotSame;
 
 /**
  * Unit tests for {@link Dimension}
- *
  * @since 1.0
  */
 public class DimensionTest {
@@ -40,7 +39,6 @@ public class DimensionTest {
 
     /**
      * Check if the default dimension size of 0 is set with a no-argument constructor.
-     *
      * @see Dimension#Dimension()
      */
     @Test
@@ -53,7 +51,6 @@ public class DimensionTest {
 
     /**
      * Check if the size of a provided dimension is copied at creation.
-     *
      * @see Dimension#Dimension(Dimension)
      */
     @Test
@@ -68,7 +65,6 @@ public class DimensionTest {
 
     /**
      * Check if the provided size is set at creation.
-     *
      * @see Dimension#Dimension(Dimension)
      */
     @Test
@@ -81,7 +77,6 @@ public class DimensionTest {
 
     /**
      * Check if the returned Dimension for a size is a deep copy.
-     *
      * @see Dimension#getSize()
      */
     @Test
@@ -95,7 +90,6 @@ public class DimensionTest {
 
     /**
      * Check if the values from a dimension are copied when setting the size.
-     *
      * @see Dimension#setSize(Dimension)
      */
     @Test

@@ -19,12 +19,7 @@
 
 package org.fitting;
 
-/**
- * Mock {@link FittingConnector}.
- *
- * @author Barre Dijkstra
- * @since 1.0
- */
+/** Mock {@link FittingConnector}. */
 public class MockFittingConnector implements FittingConnector {
     public static final String NAME = "mock-fitting-connector";
     private final SelectorProvider selectorProvider;

@@ -26,26 +26,22 @@ package org.fitting;
  * </p>
  */
 public abstract class UpdatableSearchContextProvider implements SearchContextProvider {
-    /**
-     * The selector.
-     */
+    /** The selector. */
     private Selector selector;
 
     /**
      * Create a new {@link UpdatableSearchContextProvider}.
-     *
      * @param selector The selector used to locate the root element.
      */
-    public UpdatableSearchContextProvider(Selector selector) {
+    public UpdatableSearchContextProvider(final Selector selector) {
         updateSelector(selector);
     }
 
     /**
      * Update the selector.
-     *
      * @param selector The selector used to locate elements.
      */
-    public void updateSelector(Selector selector) {
+    public void updateSelector(final Selector selector) {
         if (selector == null) {
             throw new IllegalArgumentException("Can't set a null selector.");
         }
@@ -53,7 +49,7 @@ public abstract class UpdatableSearchContextProvider implements SearchContextPro
     }
 
     @Override
-    public SearchContext getSearchContext(SearchContext searchContext, SelectorProvider provider) {
+    public SearchContext getSearchContext(final SearchContext searchContext, final SelectorProvider provider) {
         if (searchContext == null) {
             throw new FormattedFittingException("No root search context provided.");
         }

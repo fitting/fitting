@@ -21,24 +21,20 @@ package org.fitting;
 
 /**
  * Provider for providing a {@link org.fitting.SearchContext} for the {@link SearchContextProviders}.
- *
  * @see SearchContextProviders
  */
 public interface SearchContextProvider {
     /**
      * Get the id of the search context.
-     *
      * @return The id.
      */
     String getId();
 
     /**
      * Get the search context.
-     *
-     * @param root     The {@link SearchContext} to apply the search context on.
+     * @param root The {@link SearchContext} to apply the search context on.
      * @param provider The {@link SelectorProvider} to use.
-     *
      * @return The search context.
      */
-    SearchContext getSearchContext(SearchContext root, SelectorProvider provider);
+    SearchContext getSearchContext(final SearchContext root, SelectorProvider provider);
 }

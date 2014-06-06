@@ -19,41 +19,33 @@
 
 package org.fitting;
 
-/**
- * Connector for connecting Fitting implementation modules to Fitting.
- */
+/** Connector for connecting Fitting implementation modules to Fitting. */
 public interface FittingConnector {
 
     /**
      * The name of the implementation.
-     *
      * @return The name.
      */
     String getName();
 
     /**
      * Get the {@link SelectorProvider} implementation for the implementation.
-     *
      * @return The {@link SelectorProvider}.
      */
     SelectorProvider getSelectorProvider();
 
     /**
      * Get the {@link ElementContainerProvider} implementation for the implementation.
-     *
      * @return The {@link ElementContainerProvider}.
      */
     ElementContainerProvider getElementContainerProvider();
 
     /**
      * Get the default {@link org.fitting.SearchContext}, generally providing the root as search context.
-     *
      * @return The default search context.
      */
     SearchContext getDefaultSearchContext();
 
-    /**
-     * Destroy/tear-down the current connector implementation.
-     */
+    /** Destroy/tear-down the current connector implementation. */
     void destroy();
 }

@@ -33,10 +33,10 @@ public class FixtureParameterDocumentation {
     /**
      * Create a new instance.
      * @param parameterType The parameter type.
-     * @param annotation    The annotation.
+     * @param annotation The annotation.
      * @throws IllegalArgumentException When invalid information was provided and the documentation could not be created.
      */
-    public FixtureParameterDocumentation(Class<?> parameterType, FixtureParameter annotation) throws IllegalArgumentException {
+    public FixtureParameterDocumentation(final Class<?> parameterType, final FixtureParameter annotation) throws IllegalArgumentException {
         this.parameterType = parameterType;
         if (parameterType == null) {
             throw new IllegalArgumentException("Cannot create parameter documentation with a null type.");

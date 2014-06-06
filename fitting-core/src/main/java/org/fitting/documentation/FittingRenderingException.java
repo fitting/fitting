@@ -27,16 +27,16 @@ public class FittingRenderingException extends FittingException {
      * Create a new exception.
      * @param message The exception message.
      */
-    public FittingRenderingException(String message) {
+    public FittingRenderingException(final String message) {
         super(message);
     }
 
     /**
      * Create a new exception.
      * @param message The exception message.
-     * @param cause   The cause-exception.
+     * @param cause The cause-exception.
      */
-    public FittingRenderingException(String message, Throwable cause) {
+    public FittingRenderingException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -44,7 +44,7 @@ public class FittingRenderingException extends FittingException {
      * Create a new exception.
      * @param cause The cause-exception.
      */
-    public FittingRenderingException(Throwable cause) {
+    public FittingRenderingException(final Throwable cause) {
         super(cause);
     }
 }
