@@ -1,0 +1,18 @@
+!3 Verify title scenario:
+''It takes care of verifying if the title in the '''README.md''' file is `'''Fitting'''`''
+
+''It uses the ''
+
+ * '''''waitSecondsForElementWithBeing '''fixture method''
+ * '''''textForElementWithBeingContains''' fixture method ''
+!| scenario | the title should be `Fitting` |
+| wait | 5 | seconds for element with | id | being | readme |
+| ensure | text for element with | xpath | being | //div[@id='readme']/article/h1 | contains | Fitting |
+
+!3 Verify keyword present  scenario:
+''It takes care of verifying if the given keyword is present in the '''README.md''' file ''
+''It uses the ''
+
+'''''textForElementWithBeingContains''' fixture method ''
+!| scenario | the keyword _ should be present | keyword |
+| ensure | text for element with | xpath | being | //div[@id='readme']/article | contains | @keyword |

@@ -1,0 +1,10 @@
+!3 Scenario we want to test:
+ * navigate to the '''LICENSE.txt '''page
+ * check the license
+
+!3 Written out script that matches the scenario defined above
+![ script
+navigate to blob/master/LICENSE.txt
+
+the license should be `Apache License, Version 2.0`
+]!

@@ -1,0 +1,4 @@
+!|scenario|the license should be `Apache License, Version 2.0`                                                                        |
+|wait     |5                    |seconds for element with|className  |being                            |code-body                           |
+|ensure   |text for element with|xpath                   |being|//div[contains(@class,'code-body')]|contains|Apache License, Version 2.0|
+

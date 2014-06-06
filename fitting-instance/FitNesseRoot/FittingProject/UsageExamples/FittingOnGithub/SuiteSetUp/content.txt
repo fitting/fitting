@@ -1,0 +1,5 @@
+!3 include the suite setup which contains the library and fixture setup.
+!include .FittingProject.UsageExamples.SuiteSetup
+!3 open a browser for the suite.
+| script |
+| open browser | firefox | on host | !-127.0.0.1-! | with port | 4444 | for | ${BASE_URL} |

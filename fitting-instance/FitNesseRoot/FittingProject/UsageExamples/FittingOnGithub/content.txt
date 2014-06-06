@@ -1,0 +1,8 @@
+!3 This is a suite page.
+It is an example page that runs some tests against the `Fitting` project hosted on `Github`.
+
+!***< '''Fitting on Github variables defined'''
+
+!define BASE_URL {https://github.com/fitting/fitting}
+*!
+!contents -R1 -g -p -f -h

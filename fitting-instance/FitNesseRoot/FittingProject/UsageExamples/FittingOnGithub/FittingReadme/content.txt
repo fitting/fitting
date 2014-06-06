@@ -1,0 +1,15 @@
+!3 Scenario we want to test:
+ * navigate to the '''README.md '''page
+ * check the title
+ * check the keywords
+
+!3 Written out script that matches the scenario defined above
+![ script
+navigate to blob/master/README.md
+the title should be `Fitting`
+the keyword framework should be present
+the keyword DSL should be present
+the keyword web interface should be present
+the keyword desktop client should be present
+the keyword mobile application should be present
+]!

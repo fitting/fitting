@@ -4,7 +4,7 @@
 *!
 
 !*> '''Variables Defined'''
-
+!define REMOTE_DEBUG_COMMAND {}
 !define TEST_SYSTEM {slim}
 !define COLLAPSE_SETUP {true}
 !define COLLAPSE_TEARDOWN {true}

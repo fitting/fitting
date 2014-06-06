@@ -1,0 +1,9 @@
+It contains the import and libraries used in the tests underneath
+
+| import |
+| org.fitting.fixture |
+| org.fitting.selenium.fixture |
+
+| Library |
+| element fixture |
+| browser fixture |

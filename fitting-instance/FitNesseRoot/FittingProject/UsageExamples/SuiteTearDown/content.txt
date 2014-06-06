@@ -1,0 +1,4 @@
+It contains the closing of the browser.
+
+|script|
+|close browser|
